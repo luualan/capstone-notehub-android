@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">NoteHub</string>
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="action_sign_up">Don\'t have an account? Sign Up</string>
+    <string name="name_text">Name</string>
+    <string name="age_text">Age</string>
+    <string name="school_text">School</string>
+    <string name="email_text">Email</string>
+    <string name="action_account">Create Account</string>
+    <string name="log_in_text">Log In</string>
+    <string name="create_account_text">Create An Account</string>
+    <string name="action_password_reset">Forgot Password?</string>
+    <string name="title">NoteHub</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="favorite">Favorite Notes</string>
+    <string name="sign_out">Sign Out</string>
+</resources>
