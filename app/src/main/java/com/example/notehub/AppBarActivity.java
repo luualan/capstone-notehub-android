@@ -1,40 +1,31 @@
 package com.example.notehub;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class HomeActivity extends AppCompatActivity {
-
-    private FloatingActionButton floatingActionButton;
-    private BottomAppBar bottomAppBar;
-    private DialogFragment dialog;
+public class AppBarActivity extends AppCompatActivity {
+    FloatingActionButton floatingActionButton;
+    BottomAppBar bottomAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.search_view);
 
+        floatingActionButton = findViewById(R.id.fab);
         bottomAppBar = findViewById(R.id.bottomAppBar);
         // main line for setting menu in bottom app bar
         setSupportActionBar(bottomAppBar);
 
-        // Click home icon to go to home screen
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,23 +33,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        floatingActionButton = findViewById(R.id.fab);
-
-        // Click floating action button opens full screen dialog screen
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                dialog = UploadActivity.newInstance();
-                dialog.show(ft, "dialog");
+                Snackbar.make(view, "Fab is clicked", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", null)
+                        .show();
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        dialog.onActivityResult(requestCode, requestCode, data);
     }
 
     // Adds the tool bar to bottom navigation bar
@@ -73,20 +55,15 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.nav_search:
-                //floatingActionButton.hide();
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
                 item.expandActionView();
                 return true;
             case R.id.nav_groups:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 Toast.makeText(this, "groups selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_settings:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 Toast.makeText(this, "settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_sign_out:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 signOut();
                 return true;
         }
@@ -94,12 +71,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void home(View v) {
-        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+        Intent intent = new Intent(AppBarActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
     public void signOut() {
-        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        Intent intent = new Intent(AppBarActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }

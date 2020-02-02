@@ -2,12 +2,15 @@ package com.example.notehub;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import models.Login;
 import models.Token;
@@ -30,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         apiService = MainActivity.buildHTTP();
 
          button = (Button) findViewById(R.id.sign_in);
-        signUpText = (TextView) findViewById(R.id.sign_up);
+         signUpText = (TextView) findViewById(R.id.sign_up);
          button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,30 +60,33 @@ public class LoginActivity extends AppCompatActivity {
         login.setUsername(username);
         login.setPassword(password);
         Call<Token> call = apiService.loginUser(login);
+
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                TextView output = (TextView)findViewById(R.id.output_error);
+
                 if (response.errorBody() == null) {
                     startActivity(intent);
-                    output.setText("");
+
+                    //Save token here
+                    Token bodyToken = response.body();
+                    String token =  bodyToken.getToken();
+                    SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+                    savePreferences.edit().putString("TOKEN",token).apply();
                 }
                 else {
-                    output.setText("Error, wrong information.");
+                    Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
-
             }
         });
     }
 
     public void signUp(View v) {
-        TextView output = (TextView)findViewById(R.id.output_error);
-        output.setText("");
         Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
         startActivity(intent);
     }

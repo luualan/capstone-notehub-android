@@ -1,10 +1,8 @@
 package com.example.notehub;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,16 +17,15 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class HomeActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
-    private FloatingActionButton floatingActionButton;
-    private BottomAppBar bottomAppBar;
-    private DialogFragment dialog;
+    FloatingActionButton floatingActionButton;
+    BottomAppBar bottomAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_search);
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         // main line for setting menu in bottom app bar
@@ -48,17 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                dialog = UploadActivity.newInstance();
-                dialog.show(ft, "dialog");
+                DialogFragment dialog = FullscreenDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), "tag");
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        dialog.onActivityResult(requestCode, requestCode, data);
     }
 
     // Adds the tool bar to bottom navigation bar
@@ -94,12 +84,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void home(View v) {
-        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
     public void signOut() {
-        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        Intent intent = new Intent(SearchActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }
