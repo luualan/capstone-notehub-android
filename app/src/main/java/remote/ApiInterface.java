@@ -9,6 +9,8 @@ import models.NoteFile;
 import models.Token;
 import models.University;
 import models.User;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,7 +18,9 @@ import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -51,10 +55,14 @@ public interface ApiInterface {
     public Call<NoteFile> getNoteFile(@Path("id") int id, @Path("index") int index);
 
     // api/notes/<int:note_id>/files
+    /*@Multipart
     @POST("api/notes/{id}/files/")
-    public Call<NoteFile> uploadNoteFile(@Header("Authorization") String authKey, @Path("id") int id, @Body NoteFile noteFile);
+    public Call<NoteFile> uploadNoteFile(@Header("Authorization") String authKey, @Path("id") int id, @Part("index") RequestBody index, @Part MultipartBody.Part file);*/
 
-    @GET("api/universities")
+    @POST("api/notes/{id}/files")
+    public Call<NoteFile> uploadNoteFile(@Header("Authorization") String authKey, @Path("id") int id, @Body RequestBody file);
+
+    @GET("api/universities/")
     Call<List<University>> getUniversities(@Query("starts_with") String starts_with, @Query("contains") String contains, @Query("order_by") String order_by);
 
     // api/universities/<str:name>/

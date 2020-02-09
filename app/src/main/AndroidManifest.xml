@@ -3,8 +3,12 @@
     package="com.example.notehub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="NoteHub"
@@ -12,12 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AccountActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomeActivity"
             android:label="NoteHub">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".UploadActivity">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
@@ -89,6 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:selectAllOnFocus="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,6 +106,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:selectAllOnFocus="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,8 +124,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
                     android:selectAllOnFocus="true" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/show_file_path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000000"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/permanent_marker" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -146,16 +161,6 @@
                     android:layout_toLeftOf="@id/upload_image_button"
                     android:text="Choose File" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/show_file_path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:fontFamily="@font/permanent_marker" />
 
         </LinearLayout>
 
