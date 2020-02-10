@@ -15,6 +15,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -27,16 +28,22 @@ import retrofit2.http.Url;
 
 public interface ApiInterface {
     @GET("api/user/")
+    Call<User> getUser(@Header("Authorization") String authKey);
+
+    @GET("api/user/files/")
+    Call<List<Note>> getUserFiles(@Header("Authorization") String authKey);
+
+    @GET("api/users/")
     Call<List<User>> getUsers();
 
-    @POST("api/user/")
+    @POST("api/users/")
     Call<User> createUser(@Body CreateUser user);
 
     @POST("api/login/")
     Call<Token> loginUser(@Body Login login);
 
     @GET("api/notes/")
-    Call<List<Note>> getNotes(@Query("username") String username, @Query("title") String title, @Query("university") int university,
+    Call<List<Note>> getNotes(@Query("username") String username, @Query("title") String title, @Query("university") String university,
                               @Query("course") String course, @Query("order_by") String order_by);
 
     @POST("api/notes/")
@@ -45,6 +52,9 @@ public interface ApiInterface {
     // api/notes/<int:pk>/
     @GET("api/notes/{id}/")
     public Call<Note> getNote(@Path("id") int id);
+
+    @DELETE("api/notes/{id}/")
+    public Call<Note> deleteNote(@Header("Authorization") String authKey, @Path("id") int id);
 
     // api/notes/<int:note_id>/files
     @GET("api/notes/{id}/files/")

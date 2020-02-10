@@ -19,6 +19,29 @@
             android:textSize="30dp"
             app:fontFamily="@font/permanentmarker" />
 
+    <ImageView
+        android:id="@+id/image_activity2"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/text1_activity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/text2_activity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/list_of_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
     <include
         android:id="@+id/appBar"
         layout="@layout/appbar" />

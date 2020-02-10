@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +21,52 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class HomeActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class HomeActivity extends AppCompatActivity  {
 
     private FloatingActionButton floatingActionButton;
     private BottomAppBar bottomAppBar;
     private DialogFragment dialog;
+
+    private ArrayList<CardView> cards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Get card data
+        Intent intent = getIntent();
+        CardView cardData = intent.getParcelableExtra("Example item");
+
+        // Set card data on home page
+        if(cardData != null) {
+            int imageRes = cardData.getimageFavorite();
+            String line1 = cardData.getTitle();
+            String line2 = cardData.getUniversity();
+
+            ImageView imageView = findViewById(R.id.image_activity2);
+            imageView.setImageResource(imageRes);
+
+            TextView textView1 = findViewById(R.id.text1_activity2);
+            textView1.setText(line1);
+
+            TextView textView2 = findViewById(R.id.text2_activity2);
+            textView2.setText(line2);
+
+            cards.add(cardData);
+            TextView listOfText = findViewById(R.id.list_of_text);
+
+ /*       String concat = "";
+        for(CardView card : cards) {
+            concat += card.getText1() + "\n";
+            concat += card.getText2() + "\n";
+        }
+        listOfText.setText(concat);*/
+        }
+
+        // Bottom App bar
         bottomAppBar = findViewById(R.id.bottomAppBar);
         // main line for setting menu in bottom app bar
         setSupportActionBar(bottomAppBar);
@@ -74,9 +110,11 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.nav_search:
+                Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                startActivity(intent);
                 //floatingActionButton.hide();
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                item.expandActionView();
+               // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+               // item.expandActionView();
                 return true;
             case R.id.nav_groups:
                 bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);

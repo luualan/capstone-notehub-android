@@ -25,6 +25,7 @@
         android:clickable="true"
         app:fabSize="normal"
         app:backgroundTint="#000000"
+        app:tint="@null"
         android:src="@drawable/ic_add_black_24dp"
         app:layout_anchor="@+id/bottomAppBar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,12 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".AccountActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="NoteHub">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

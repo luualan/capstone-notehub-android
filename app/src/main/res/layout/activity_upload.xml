@@ -86,11 +86,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/note_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
                     android:imeOptions="actionNext"
-                    android:selectAllOnFocus="true" />
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -104,11 +106,13 @@
                 <AutoCompleteTextView
                     android:id="@+id/school"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/open_sans"
                     android:imeOptions="actionNext"
-                    android:selectAllOnFocus="true" />
+                    android:inputType="text"
+                    android:paddingHorizontal="10dp"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -122,11 +126,12 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/course"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:inputType="text"
+                    android:layout_height="match_parent"
                     android:imeOptions="actionDone"
-                    android:selectAllOnFocus="true" />
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true"
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -149,7 +154,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="Upload" />
+                    android:backgroundTint="#104C91"
+                    android:fontFamily="@font/permanentmarker"
+                    android:text="Upload"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/choose_image_button"
@@ -159,7 +167,10 @@
                     android:layout_marginRight="12dp"
                     android:layout_toStartOf="@id/upload_image_button"
                     android:layout_toLeftOf="@id/upload_image_button"
-                    android:text="Choose File" />
+                    android:backgroundTint="#104C91"
+                    android:fontFamily="@font/permanentmarker"
+                    android:text="Choose File"
+                    android:textSize="16sp" />
             </RelativeLayout>
 
         </LinearLayout>
