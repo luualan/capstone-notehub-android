@@ -59,7 +59,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
             android:ellipsize="end"
-            android:maxEms="12"
+            android:maxEms="10"
             android:maxLines="1"
             android:text="Title"
             android:textColor="@android:color/black"
@@ -95,7 +95,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_course"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="-2dp"
             android:ellipsize="end"
             android:maxEms="15"
@@ -118,7 +117,7 @@
             android:scaleX=".7"
             android:scaleY=".7"
             android:theme="@style/RatingBar"
-            android:transformPivotX="240dp"
+            android:transformPivotX="255dp"
             android:transformPivotY="0dp" />
 
         <!-- <ImageView

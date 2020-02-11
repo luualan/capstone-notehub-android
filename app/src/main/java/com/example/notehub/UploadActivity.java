@@ -17,6 +17,8 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -87,7 +89,7 @@ public class UploadActivity extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullscreenDialogTheme);
-        uris = new ArrayList<Uri>();
+        uris = new ArrayList<>();
     }
 
     @Override
@@ -120,9 +122,9 @@ public class UploadActivity extends DialogFragment {
         //textViewShowUploads = view.findViewById(R.id.show_image_button);
         imageView = view.findViewById(R.id.image_view);
         // progessBar = view.findViewById(R.id.progress_bar);
-        schoolDropDown = view.findViewById(R.id.school);
-        title = view.findViewById(R.id.note_title);
-        course = view.findViewById(R.id.course);
+        schoolDropDown = view.findViewById(R.id.upload_school);
+        title = view.findViewById(R.id.upload_title);
+        course = view.findViewById(R.id.upload_course);
         showFileName = view.findViewById(R.id.show_file_path);
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
 
@@ -282,6 +284,17 @@ public class UploadActivity extends DialogFragment {
         final SharedPreferences savePreferences = getContext().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
 
         Call<University> callUniversity = apiService.getUniversity(schoolDropDown.getText().toString());
+
+        if(title.getText().toString().trim().isEmpty()) {
+            title.setError("Please fill out this field.");
+        }
+        if(schoolDropDown.getText().toString().trim().isEmpty()) {
+            schoolDropDown.setError("Please fill out this field.");
+        }
+        if(course.getText().toString().trim().isEmpty()) {
+            course.setError("Please fill out this field.");
+        }
+
         callUniversity.enqueue(new Callback<University>() {
             @Override
             public void onResponse(Call<University> call, Response<University> response) {
@@ -367,7 +380,8 @@ public class UploadActivity extends DialogFragment {
                                 }
                                 Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
                                 dismiss();
-                            } else {
+                            }
+                            else {
 
                             }
                         }
@@ -378,8 +392,9 @@ public class UploadActivity extends DialogFragment {
                         }
                     });
 
-                } else {
-
+                }
+                else {
+                    Toast.makeText(getContext(), "Enter a valid university.", Toast.LENGTH_SHORT).show();
                 }
             }
 

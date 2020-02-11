@@ -36,12 +36,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="8dp"
+                android:layout_margin="70dp"
                 android:layout_toRightOf="@id/fullscreen_dialog_close"
                 android:fontFamily="@font/permanentmarker"
                 android:text="Upload Notes"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <ImageButton
                 android:id="@+id/fullscreen_dialog_history"
@@ -59,7 +59,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="602dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:scaleType="fitXY"
                 android:layout_marginTop="5dp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -81,14 +82,14 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
+                android:hint="Title"
                 app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                android:hint="Title">
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/note_title"
+                    android:id="@+id/upload_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
@@ -101,18 +102,18 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopStart="8dp"
                 android:layout_width="280dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:hint="School">
+                android:hint="University"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/school"
+                    android:id="@+id/upload_school"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
@@ -125,18 +126,18 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopStart="8dp"
                 android:layout_width="280dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:hint="Course">
+                android:hint="Course"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/course"
+                    android:id="@+id/upload_course"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionDone"

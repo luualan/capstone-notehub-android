@@ -1,33 +1,19 @@
 package com.example.notehub;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -207,6 +193,8 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.top_navigation, menu);
+        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
 
         // display back button
         assert getSupportActionBar() != null;   //null check
@@ -248,32 +236,6 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         finish();
         return true;
     }
-
-    public void customizeAppFont(androidx.appcompat.app.ActionBar ab) {
-        ab = getSupportActionBar();
-        if(ab != null) {
-            TextView tv = new TextView(getApplicationContext());
-
-            // Set text to display in TextView
-            tv.setText(ab.getTitle()); // ActionBar title text
-
-            // Set the text color of TextView to black
-            tv.setTextColor(Color.BLACK);
-
-            // Set the monospace font for TextView text
-            // This will change ActionBar title text font
-            tv.setTypeface(Typeface.MONOSPACE);
-
-            //tv.setTextSize(15);
-
-            // Set the ActionBar display option
-            ab.setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-
-            // Finally, set the newly created TextView as ActionBar custom view
-            ab.setCustomView(tv);
-        }
-    }
-
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
         for (int i = 0; i < menu.size(); i++) {
