@@ -194,8 +194,11 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.top_navigation, menu);
+
+        // Style title for top app bar and hide it
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        getSupportActionBar().getCustomView().setVisibility(View.GONE);
 
         // display back button
         assert getSupportActionBar() != null;   //null check
@@ -210,17 +213,33 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         searchView.clearFocus();
         searchView.requestFocus();
 
-        getSupportActionBar().setTitle("Search Notes");
-        // Used for filter search
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
+        // Expand Search hide title
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportActionBar().getCustomView().setVisibility(View.GONE);
+            }
+        });
+
+        // Close Search show title
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                getSupportActionBar().getCustomView().setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+        // Used for filter search
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
-            // Whatever we type will go to newText
+            // What ever we type will filter search
             @Override
             public boolean onQueryTextChange(String newText) {
                 // NewText then goes to our filter
