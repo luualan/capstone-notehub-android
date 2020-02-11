@@ -44,5 +44,5 @@
 
     <include
         android:id="@+id/appBar"
-        layout="@layout/appbar" />
+        layout="@layout/app_bar" />
 </LinearLayout>

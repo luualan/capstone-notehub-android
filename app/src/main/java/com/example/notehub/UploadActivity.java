@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.muddzdev.styleabletoast.StyleableToast;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -211,20 +213,16 @@ public class UploadActivity extends DialogFragment {
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
+                // If request is cancelled, the result arrays are empty. Permission was granted.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     uploadFile();
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                }
+                // permission denied
+                else {
+
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
@@ -342,13 +340,13 @@ public class UploadActivity extends DialogFragment {
                                         e.printStackTrace();
                                     }
 
-                                    RequestBody requestfile = RequestBody.create(MediaType.parse(getContext().getContentResolver().getType(uris.get(i))), tempFile);
+                                    RequestBody requestFile = RequestBody.create(MediaType.parse(getContext().getContentResolver().getType(uris.get(i))), tempFile);
 
                                     MultipartBody.Builder builder = new MultipartBody.Builder();
                                     builder.setType(MultipartBody.FORM);
 
                                     builder.addFormDataPart("index", Integer.toString(i));
-                                    builder.addFormDataPart("file", queryName(getContext().getContentResolver(), uris.get(i)), requestfile);
+                                    builder.addFormDataPart("file", queryName(getContext().getContentResolver(), uris.get(i)), requestFile);
 
                                     Call<NoteFile> callNoteFile = apiService.uploadNoteFile("Token " + savePreferences.getString("TOKEN", null), note.getId(), builder.build());
 
@@ -359,26 +357,20 @@ public class UploadActivity extends DialogFragment {
                                             if (response.errorBody() == null) {
 
                                             } else {
-                                                Toast.makeText(getContext(), "Upload failed.", Toast.LENGTH_SHORT).show();
+                                                showToastMessage("Upload failed.");
+                                                // Toast.makeText(getContext(), "Upload failed.", Toast.LENGTH_SHORT).show();
                                             }
                                             tempFile.delete();
                                         }
 
                                         @Override
                                         public void onFailure(Call<NoteFile> call, Throwable t) {
-                                            if (t instanceof IOException) {
-                                                t.printStackTrace();
-                                                Toast.makeText(getContext(), t.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                // logging probably not necessary
-                                            } else {
-                                                Toast.makeText(getContext(), "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
-                                                // todo log to some central bug tracking service
-                                            }
                                             tempFile.delete();
                                         }
                                     });
                                 }
-                                Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
+                                showToastMessage("Upload successful!");
+                                //Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
                             else {
@@ -394,7 +386,7 @@ public class UploadActivity extends DialogFragment {
 
                 }
                 else {
-                    Toast.makeText(getContext(), "Enter a valid university.", Toast.LENGTH_SHORT).show();
+                    showToastMessage("Enter a valid university.");
                 }
             }
 
@@ -403,7 +395,11 @@ public class UploadActivity extends DialogFragment {
 
             }
         });
+    }
 
-
+    private void showToastMessage(String text) {
+        Toast toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 }

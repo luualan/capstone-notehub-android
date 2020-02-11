@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -102,7 +103,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                                 notes.get(i).getCourse(), notes.get(i).getAuthorUsername(), R.drawable.ic_favorite));
                     buildRecyclerView();
                 } else {
-                    Toast.makeText(SearchActivity.this, "Could not load notes to recycler view.", Toast.LENGTH_SHORT).show();
+                    showToastMessage("Could not load notes to recycler view.");
                 }
             }
 
@@ -167,7 +168,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                     adapter.removeItem(position);
                 }
                 else {
-                    Toast.makeText(SearchActivity.this, "Could not delete note.", Toast.LENGTH_SHORT).show();
+                    showToastMessage("Cannot delete other user's note.");
                 }
             }
 
@@ -254,5 +255,11 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     public void signOut() {
         Intent intent = new Intent(SearchActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void showToastMessage(String text) {
+        Toast toast = Toast.makeText(SearchActivity.this, text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 }

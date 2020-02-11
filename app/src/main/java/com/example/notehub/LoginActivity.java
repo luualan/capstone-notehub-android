@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -133,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
                     savePreferences.edit().putString("TOKEN", token).apply();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
+                    showToastMessage("Incorrect username or password.");
                 }
             }
 
@@ -193,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.errorBody() == null)
                             startActivity(intent);
                         else
-                            Toast.makeText(LoginActivity.this, "Email does not exist.", Toast.LENGTH_SHORT).show();
+                            showToastMessage("Email does not exist.");
                     }
 
                     @Override
@@ -210,5 +211,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void showToastMessage(String text) {
+        Toast toast = Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
+    }
 
 }
