@@ -119,7 +119,7 @@ public class UploadActivity extends DialogFragment {
         buttonUpload = view.findViewById(R.id.upload_image_button);
         //textViewShowUploads = view.findViewById(R.id.show_image_button);
         imageView = view.findViewById(R.id.image_view);
-        progessBar = view.findViewById(R.id.progress_bar);
+        // progessBar = view.findViewById(R.id.progress_bar);
         schoolDropDown = view.findViewById(R.id.school);
         title = view.findViewById(R.id.note_title);
         course = view.findViewById(R.id.course);

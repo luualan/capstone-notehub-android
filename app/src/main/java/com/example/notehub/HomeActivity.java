@@ -108,10 +108,8 @@ public class HomeActivity extends AppCompatActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.bottom_navigation, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.nav_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.clearFocus();
-        enableSearchView(searchView, false);
+
+       // enableSearchView(searchView, false);
         return true;
     }
 

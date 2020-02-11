@@ -3,23 +3,31 @@ package com.example.notehub;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -34,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
+
 public class SearchActivity extends AppCompatActivity implements UploadActivity.CardHolder {
 
     private FloatingActionButton floatingActionButton;
@@ -44,9 +54,6 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter; // bridge from recycle view to data; provides as many items as we currently need. (can use custom adapter)
     private RecyclerView.LayoutManager layoutManager; // aligning single items on list
-    private ImageView xIcon;
-
-    private Menu menu;
 
     private ApiInterface apiService;
 
@@ -94,6 +101,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     }
 
     public void createCardsList() {
+        // Create Cards
         cards = new ArrayList<>();
 
         Call<List<Note>> call = apiService.getNotes(null, null, null, null, null);
@@ -139,7 +147,6 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             // Card clicked on gets sent to home
             @Override
             public void onFavoriteClick(int position) {
-                Log.e("dude", Integer.toString(cards.size()));
                 Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
                 intent.putExtra("Example item", cards.get(position));
                 startActivity(intent);
@@ -199,12 +206,21 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     // Adds the tool bar icons to bottom navigation bar
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+        getMenuInflater().inflate(R.menu.top_navigation, menu);
 
+        // display back button
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Search
         final MenuItem searchItem = menu.findItem(R.id.nav_search);
+
         SearchView searchView = (SearchView) searchItem.getActionView();
 
-        setItemsVisibility(menu, searchItem, false);
+        searchView.setIconified(false);
+        searchView.clearFocus();
+        searchView.requestFocus();
+
         getSupportActionBar().setTitle("Search Notes");
         // Used for filter search
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -223,50 +239,41 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                 return false;
             }
         });
-
-    /*    searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                setItemsVisibility(menu, item, false);
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                setItemsVisibility(menu, item, true);
-                return true;
-            }
-        });
-*/
         return true;
     }
 
-/*
-    // Clicks for icons located on toolbar
+    // Back Button on app bar
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_search:
-                floatingActionButton.hide();
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                item.expandActionView();
-                return true;
-            case R.id.nav_groups:
-                //bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                Toast.makeText(this, "groups selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.nav_settings:
-               // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                Toast.makeText(this, "settings selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.nav_sign_out:
-              //  bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                signOut();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
-*/
+
+    public void customizeAppFont(androidx.appcompat.app.ActionBar ab) {
+        ab = getSupportActionBar();
+        if(ab != null) {
+            TextView tv = new TextView(getApplicationContext());
+
+            // Set text to display in TextView
+            tv.setText(ab.getTitle()); // ActionBar title text
+
+            // Set the text color of TextView to black
+            tv.setTextColor(Color.BLACK);
+
+            // Set the monospace font for TextView text
+            // This will change ActionBar title text font
+            tv.setTypeface(Typeface.MONOSPACE);
+
+            //tv.setTextSize(15);
+
+            // Set the ActionBar display option
+            ab.setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+
+            // Finally, set the newly created TextView as ActionBar custom view
+            ab.setCustomView(tv);
+        }
+    }
+
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
         for (int i = 0; i < menu.size(); i++) {

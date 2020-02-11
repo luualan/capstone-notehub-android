@@ -1,13 +1,17 @@
 package com.example.notehub;
 
 import android.media.Image;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView course;
         public TextView name;
         public ImageView deleteImage;
+        public RatingBar ratingBar;
 
         public ViewHolder(View itemView, final onItemClickListener listener) {
             super(itemView);
@@ -55,6 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             course = itemView.findViewById(R.id.text_course);
             name = itemView.findViewById(R.id.text_name);
             deleteImage = itemView.findViewById(R.id.image_delete);
+            ratingBar = itemView.findViewById(R.id.star_rating);
 
             // when users click on whole card
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
 
+            // when users click on favorite icon
             favorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,9 +90,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
 
-
-
-            // When users click deleteImage
+            // When users click on delete icon
             deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,6 +104,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
 
+            // When users click on rating
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    // send to api and save in server
+                    Log.e("dsadasdasd", "dsada");
+                }
+            });
         }
     }
 
@@ -138,7 +151,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void addItem(int position, CardView card) {
-      if (list != null)
+        if (list != null)
             list.add(position, card);
 
         if (filteredList != null)

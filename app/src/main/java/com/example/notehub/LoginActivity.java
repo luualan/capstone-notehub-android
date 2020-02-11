@@ -58,11 +58,11 @@ public class LoginActivity extends AppCompatActivity {
 
         apiService = MainActivity.buildHTTP();
 
-         signInButton = findViewById(R.id.sign_in);
-         signUpText = findViewById(R.id.sign_up);
-         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
+        signInButton = findViewById(R.id.sign_in);
+        signUpText = findViewById(R.id.sign_up);
+        signUpText.setMovementMethod(LinkMovementMethod.getInstance());
 
-         signInButton.setOnClickListener(new View.OnClickListener() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn(v);
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Animation
         frameLayout = findViewById(R.id.frame);
-        animationDrawable =(AnimationDrawable)frameLayout.getBackground();
+        animationDrawable = (AnimationDrawable) frameLayout.getBackground();
 
         //Time changes
         animationDrawable.setEnterFadeDuration(5000);
@@ -115,27 +115,25 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                if (usernameLoginEdit.getText().toString().trim().isEmpty())
+                    usernameLoginEdit.setError("Please fill out this field.");
+
+                if (passwordLoginEdit.getText().toString().trim().isEmpty()) {
+                    txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(false);
+                    passwordLoginEdit.setError("Please fill out this field.");
+                } else
+                    txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(true);
 
                 if (response.errorBody() == null) {
                     startActivity(intent);
 
                     //Save token here
                     Token bodyToken = response.body();
-                    String token =  bodyToken.getToken();
+                    String token = bodyToken.getToken();
                     SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
-                    savePreferences.edit().putString("TOKEN",token).apply();
-                }
-                else {
-                    if (usernameLoginEdit.getText().toString().trim().isEmpty()) {
-                        usernameLoginEdit.setError("Please fill out this field.");
-                    }
-                    if (passwordLoginEdit.getText().toString().trim().isEmpty()) {
-                        txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(false);
-                        passwordLoginEdit.setError("Please fill out this field.");
-                    }
-                    else
-                        txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(true);
-                   // Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
+                    savePreferences.edit().putString("TOKEN", token).apply();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -176,24 +174,26 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-                        if (response.errorBody() == null) {
+
+                        if (firstEdit.getText().toString().trim().isEmpty())
+                            firstEdit.setError("Please fill out this field.");
+
+                        if (lastEdit.getText().toString().trim().isEmpty())
+                            lastEdit.setError("Please fill out this field.");
+
+                        if (emailEdit.getText().toString().trim().isEmpty())
+                            emailEdit.setError("Please fill out this field.");
+
+                        if (usernameEdit.getText().toString().trim().isEmpty())
+                            usernameEdit.setError("Please fill out this field.");
+
+                        if (passwordEdit.getText().toString().trim().isEmpty())
+                            passwordEdit.setError("Please fill out this field.");
+
+                        if (response.errorBody() == null)
                             startActivity(intent);
-                        }
-                        else {
-                            if (firstEdit.getText().toString().trim().isEmpty())
-                                firstEdit.setError("Please fill out this field.");
-                            if (lastEdit.getText().toString().trim().isEmpty())
-                                lastEdit.setError("Please fill out this field.");
-                            if (emailEdit.getText().toString().trim().isEmpty())
-                                emailEdit.setError("Please fill out this field.");
-                            if (usernameEdit.getText().toString().trim().isEmpty())
-                                usernameEdit.setError("Please fill out this field.");
-                            if (passwordEdit.getText().toString().trim().isEmpty()) {
-                               // txtInLayoutRegPassword.setPasswordVisibilityToggleEnabled(false);
-                                passwordEdit.setError("Please fill out this field.");
-                            }
-                            // Toast.makeText(LoginActivity.this, "Email does not exist.", Toast.LENGTH_SHORT).show();
-                        }
+                        else
+                            Toast.makeText(LoginActivity.this, "Email does not exist.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
