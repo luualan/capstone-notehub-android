@@ -1,19 +1,29 @@
 package com.example.notehub;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import models.CreateUser;
 import models.Login;
 import models.Token;
+import models.User;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,9 +31,25 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button signInButton;
     private TextView signUpText;
+    private ImageView icon;
+    private Button registerButton;
     ApiInterface apiService;
+
+    AnimationDrawable animationDrawable;
+    FrameLayout frameLayout;
+
+    private EditText usernameLoginEdit;
+    private EditText passwordLoginEdit;
+
+    private EditText firstEdit;
+    private EditText lastEdit;
+    private EditText emailEdit;
+    private EditText usernameEdit;
+    private EditText passwordEdit;
+
+    TextInputLayout txtInLayoutLoginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
 
         apiService = MainActivity.buildHTTP();
 
-         button = (Button) findViewById(R.id.sign_in);
-         signUpText = (TextView) findViewById(R.id.sign_up);
-         button.setOnClickListener(new View.OnClickListener() {
+         signInButton = findViewById(R.id.sign_in);
+         signUpText = findViewById(R.id.sign_up);
+         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
+
+         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn(v);
@@ -44,18 +72,40 @@ public class LoginActivity extends AppCompatActivity {
         signUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp(v);
+                //Toast.makeText(LoginActivity.this, "Email does not exist.", Toast.LENGTH_SHORT).show();
+                signUp();
             }
         });
+
+        // Animation
+        frameLayout = findViewById(R.id.frame);
+        animationDrawable =(AnimationDrawable)frameLayout.getBackground();
+
+        //Time changes
+        animationDrawable.setEnterFadeDuration(5000);
+        animationDrawable.setExitFadeDuration(2000);
+
+        animationDrawable.start();
+
+
+        //icon = (ImageView) findViewById(R.id.back_arrow);
+
+  /*      icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack(v);
+            }
+        });*/
     }
 
     public void signIn(View v) {
-        EditText usernameEdit = (EditText)findViewById(R.id.username);
-        EditText passwordEdit = (EditText)findViewById(R.id.password);
-        Login login = new Login();
+        usernameLoginEdit = findViewById(R.id.username);
+        passwordLoginEdit = findViewById(R.id.password);
+        txtInLayoutLoginPassword = findViewById(R.id.txtInLayoutLoginPassword);
 
-        String username = usernameEdit.getText().toString();
-        String password = passwordEdit.getText().toString();
+        Login login = new Login();
+        String username = usernameLoginEdit.getText().toString();
+        String password = passwordLoginEdit.getText().toString();
 
         login.setUsername(username);
         login.setPassword(password);
@@ -76,7 +126,16 @@ public class LoginActivity extends AppCompatActivity {
                     savePreferences.edit().putString("TOKEN",token).apply();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
+                    if (usernameLoginEdit.getText().toString().trim().isEmpty()) {
+                        usernameLoginEdit.setError("Please fill out this field.");
+                    }
+                    if (passwordLoginEdit.getText().toString().trim().isEmpty()) {
+                        txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(false);
+                        passwordLoginEdit.setError("Please fill out this field.");
+                    }
+                    else
+                        txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(true);
+                   // Toast.makeText(LoginActivity.this, "Incorrect username or password.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -86,8 +145,70 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void signUp(View v) {
-        Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
+    // Pop up create account
+    public void signUp() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.register, null);
+        dialog.setView(dialogView);
+
+        firstEdit = dialogView.findViewById(R.id.reg_first_name);
+        lastEdit = dialogView.findViewById(R.id.reg_last_name);
+        emailEdit = dialogView.findViewById(R.id.reg_email);
+        usernameEdit = dialogView.findViewById(R.id.reg_username);
+        passwordEdit = dialogView.findViewById(R.id.reg_password);
+
+        //Register Section
+        registerButton = dialogView.findViewById(R.id.reg_register);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateUser user = new CreateUser();
+                user.setFirstName(firstEdit.getText().toString());
+                user.setLastName(lastEdit.getText().toString());
+                user.setEmail(emailEdit.getText().toString());
+                user.setUsername(usernameEdit.getText().toString());
+                user.setPassword(passwordEdit.getText().toString());
+
+                Call<User> call = apiService.createUser(user);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                        if (response.errorBody() == null) {
+                            startActivity(intent);
+                        }
+                        else {
+                            if (firstEdit.getText().toString().trim().isEmpty())
+                                firstEdit.setError("Please fill out this field.");
+                            if (lastEdit.getText().toString().trim().isEmpty())
+                                lastEdit.setError("Please fill out this field.");
+                            if (emailEdit.getText().toString().trim().isEmpty())
+                                emailEdit.setError("Please fill out this field.");
+                            if (usernameEdit.getText().toString().trim().isEmpty())
+                                usernameEdit.setError("Please fill out this field.");
+                            if (passwordEdit.getText().toString().trim().isEmpty()) {
+                               // txtInLayoutRegPassword.setPasswordVisibilityToggleEnabled(false);
+                                passwordEdit.setError("Please fill out this field.");
+                            }
+                            // Toast.makeText(LoginActivity.this, "Email does not exist.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                    }
+                });
+            }
+        });
+        dialog.show();
+    }
+
+    public void goBack(View v) {
+        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
+
 }

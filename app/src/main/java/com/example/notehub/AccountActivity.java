@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private Button button;
+   /* private Button button;
     private ImageView icon;
 
     ApiInterface apiService;
@@ -89,5 +89,5 @@ public class AccountActivity extends AppCompatActivity {
     public void goBack(View v) {
         Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
         startActivity(intent);
-    }
+    }*/
 }

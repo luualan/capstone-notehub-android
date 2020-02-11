@@ -3,15 +3,18 @@ package com.example.notehub;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+
+import static android.util.TypedValue.TYPE_NULL;
 
 public class HomeActivity extends AppCompatActivity  {
 
@@ -102,6 +107,11 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.nav_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.clearFocus();
+        enableSearchView(searchView, false);
         return true;
     }
 
@@ -112,6 +122,7 @@ public class HomeActivity extends AppCompatActivity  {
             case R.id.nav_search:
                 Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                 startActivity(intent);
+
                 //floatingActionButton.hide();
                // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
                // item.expandActionView();
@@ -130,6 +141,17 @@ public class HomeActivity extends AppCompatActivity  {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enableSearchView(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                enableSearchView(child, enabled);
+            }
+        }
     }
 
     public void home(View v) {

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -43,12 +44,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter; // bridge from recycle view to data; provides as many items as we currently need. (can use custom adapter)
     private RecyclerView.LayoutManager layoutManager; // aligning single items on list
-
-    private Button buttonInsert;
-    private Button buttonRemove;
-
-    private EditText editTextInsert;
-    private EditText editTextRemove;
+    private ImageView xIcon;
 
     private Menu menu;
 
@@ -62,9 +58,17 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         apiService = MainActivity.buildHTTP();
 
         createCardsList();
-        setButtons();
 
-        bottomAppBar = findViewById(R.id.bottomAppBar);
+/*        xIcon = findViewById(R.id.fullscreen_dialog_close);
+
+        xIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //dialog.dismiss();
+            }
+        });*/
+
+ /*       bottomAppBar = findViewById(R.id.bottomAppBar);
         // main line for setting menu in bottom app bar
         setSupportActionBar(bottomAppBar);
 
@@ -86,13 +90,12 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                 dialog = UploadActivity.newInstance();
                 dialog.show(ft, "dialog");
             }
-        });
+        });*/
     }
 
     public void createCardsList() {
         cards = new ArrayList<>();
 
-        //cards.add(new CardView(R.drawable.ic_favorite, "2", "4", "5", "4", null));
         Call<List<Note>> call = apiService.getNotes(null, null, null, null, null);
 
         call.enqueue(new Callback<List<Note>>() {
@@ -104,7 +107,6 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                         cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), notes.get(i).getUniversityName(),
                                 notes.get(i).getCourse(), notes.get(i).getAuthorUsername(), R.drawable.ic_favorite));
                     buildRecyclerView();
-                    Log.e("dude", Integer.toString(cards.size()));
                 } else {
                     Toast.makeText(SearchActivity.this, "Could not load notes to recycler view.", Toast.LENGTH_SHORT).show();
                 }
@@ -151,36 +153,9 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         });
     }
 
-    // Set up the buttons' functionality
-    public void setButtons() {
-        buttonInsert = findViewById(R.id.button_insert);
-        buttonRemove = findViewById(R.id.button_remove);
-        editTextInsert = findViewById(R.id.text_insert);
-        editTextRemove = findViewById(R.id.text_remove);
-
- /*       // Click insert
-        buttonInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(editTextInsert.getText().toString());
-                insertItem(1, new CardView());
-            }
-        });*/
-
-        // Click remove
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(editTextRemove.getText().toString());
-                removeItem(position);
-            }
-        });
-    }
-
     // Insert item in recycle view
     public void insertItem(int position, CardView card) {
         adapter.addItem(position, card);
-
         //adapter.notifyDataSetChanged(); // don't use this because will refresh the list and not show animation
     }
 
@@ -225,11 +200,12 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.bottom_navigation, menu);
-        this.menu = menu;
 
         final MenuItem searchItem = menu.findItem(R.id.nav_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
+        setItemsVisibility(menu, searchItem, false);
+        getSupportActionBar().setTitle("Search Notes");
         // Used for filter search
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
@@ -265,32 +241,32 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         return true;
     }
 
+/*
     // Clicks for icons located on toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id.nav_search:
+            case R.id.nav_search:
                 floatingActionButton.hide();
                 bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
                 item.expandActionView();
-                setItemsVisibility(menu, item, false);
-                return true;*/
+                return true;
             case R.id.nav_groups:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+                //bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 Toast.makeText(this, "groups selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_settings:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+               // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 Toast.makeText(this, "settings selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_sign_out:
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+              //  bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
                 signOut();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
         for (int i = 0; i < menu.size(); i++) {
