@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
 import models.CreateUser;
@@ -134,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
                     savePreferences.edit().putString("TOKEN", token).apply();
                 } else {
-                    showToastMessage("Incorrect username or password.");
+                    showAlertMessage("Incorrect username or password.");
                 }
             }
 
@@ -194,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.errorBody() == null)
                             startActivity(intent);
                         else
-                            showToastMessage("Email does not exist.");
+                            showAlertMessage("Email does not exist.");
                     }
 
                     @Override
@@ -211,10 +212,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showToastMessage(String text) {
-        Toast toast = Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
+    private void showAlertMessage(String message) {
+        new MaterialAlertDialogBuilder(LoginActivity.this)
+                .setMessage(message)
+                .setPositiveButton("Ok", null)
+                .show();
     }
 
 }

@@ -32,7 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.muddzdev.styleabletoast.StyleableToast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -357,7 +357,7 @@ public class UploadActivity extends DialogFragment {
                                             if (response.errorBody() == null) {
 
                                             } else {
-                                                showToastMessage("Upload failed.");
+                                                showAlertMessage("Upload failed.");
                                                 // Toast.makeText(getContext(), "Upload failed.", Toast.LENGTH_SHORT).show();
                                             }
                                             tempFile.delete();
@@ -369,7 +369,7 @@ public class UploadActivity extends DialogFragment {
                                         }
                                     });
                                 }
-                                showToastMessage("Upload successful!");
+                                showAlertMessage("Upload successful!");
                                 //Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
@@ -386,7 +386,7 @@ public class UploadActivity extends DialogFragment {
 
                 }
                 else {
-                    showToastMessage("Enter a valid university.");
+                    showAlertMessage("Enter a valid university.");
                 }
             }
 
@@ -397,9 +397,16 @@ public class UploadActivity extends DialogFragment {
         });
     }
 
-    private void showToastMessage(String text) {
+    private void showAlertMessage(String message) {
+        new MaterialAlertDialogBuilder(getContext())
+                .setMessage(message)
+                .setPositiveButton("Ok", null)
+                .show();
+    }
+
+  /*  private void showToastMessage(String text) {
         Toast toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.show();
-    }
+    }*/
 }

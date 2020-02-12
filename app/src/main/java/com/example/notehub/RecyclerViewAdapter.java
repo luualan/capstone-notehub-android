@@ -31,9 +31,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface onItemClickListener {
         void onItemClick(int position);
 
-        void onDeleteClick(int position);
-
         void onFavoriteClick(int position);
+
+        void onCommentClick();
+
+        void onReportClick();
+
+        void onDeleteClick(int position);
     }
 
     public void setOnItemCLickListener(onItemClickListener listener) {
@@ -41,21 +45,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView favorite;
         public TextView title;
         public TextView university;
         public TextView course;
         public TextView name;
+        public ImageView favorite;
+        public ImageView comment;
+        public ImageView report;
         public ImageView deleteImage;
         public RatingBar ratingBar;
 
         public ViewHolder(View itemView, final onItemClickListener listener) {
             super(itemView);
-            favorite = itemView.findViewById(R.id.image_favorite);
             title = itemView.findViewById(R.id.text_title);
             university = itemView.findViewById(R.id.text_university);
             course = itemView.findViewById(R.id.text_course);
             name = itemView.findViewById(R.id.text_name);
+            favorite = itemView.findViewById(R.id.image_favorite);
+            comment = itemView.findViewById(R.id.image_comment);
+            report = itemView.findViewById(R.id.image_report);
             deleteImage = itemView.findViewById(R.id.image_delete);
             ratingBar = itemView.findViewById(R.id.star_rating);
 
@@ -83,6 +91,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onFavoriteClick(position);
                         }
+                    }
+                }
+            });
+
+            // When users click on comment icon
+            comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onCommentClick();
+                    }
+                }
+            });
+
+            //  When users click on report icon
+            report.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onReportClick();
                     }
                 }
             });

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -103,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                                 notes.get(i).getCourse(), notes.get(i).getAuthorUsername(), R.drawable.ic_favorite));
                     buildRecyclerView();
                 } else {
-                    showToastMessage("Could not load notes to recycler view.");
+                    showAlertMessage("Could not load notes to recycler view.", "Ok");
                 }
             }
 
@@ -139,10 +141,42 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                 startActivity(intent);
             }
 
+            @Override
+            public void onCommentClick() {
+            }
+
+            @Override
+            public void onReportClick() {
+                new MaterialAlertDialogBuilder(SearchActivity.this)
+                        .setTitle("Report Note")
+                        .setMessage("Did you want to report this note?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new MaterialAlertDialogBuilder(SearchActivity.this)
+                                        .setMessage("Note successfully reported.")
+                                        .setPositiveButton("Done", null)
+                                        .show();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+
             // Click on delete image deletes card
             @Override
-            public void onDeleteClick(int position) {
-                removeItem(position);
+            public void onDeleteClick(final int position) {
+                new MaterialAlertDialogBuilder(SearchActivity.this)
+                        .setTitle("Delete Note")
+                        .setMessage("Did you want to delete this note?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeItem(position);
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
     }
@@ -164,11 +198,10 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         call.enqueue(new Callback<Note>() {
             @Override
             public void onResponse(Call<Note> call, Response<Note> response) {
-                if(response.errorBody() == null) {
+                if (response.errorBody() == null) {
                     adapter.removeItem(position);
-                }
-                else {
-                    showToastMessage("Cannot delete other user's note.");
+                } else {
+                    showAlertMessage("Cannot delete other user's note.", "Ok");
                 }
             }
 
@@ -252,7 +285,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
     // Back Button on app bar
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -276,9 +309,10 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         startActivity(intent);
     }
 
-    private void showToastMessage(String text) {
-        Toast toast = Toast.makeText(SearchActivity.this, text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
+    private void showAlertMessage(String message, String buttonText) {
+        new MaterialAlertDialogBuilder(SearchActivity.this)
+                .setMessage(message)
+                .setPositiveButton(buttonText, null)
+                .show();
     }
 }

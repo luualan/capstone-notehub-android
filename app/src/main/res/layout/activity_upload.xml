@@ -11,7 +11,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:cardBackgroundColor="#104C91"
+        app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="0dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:backgroundTint="#104C91"
+                    android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
                     android:text="Upload"
                     android:textSize="16sp" />
@@ -180,7 +180,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_toStartOf="@id/upload_image_button"
                     android:layout_toLeftOf="@id/upload_image_button"
-                    android:backgroundTint="#104C91"
+                    android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
                     android:text="Choose File"
                     android:textSize="16sp" />
