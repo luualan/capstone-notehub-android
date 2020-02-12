@@ -30,7 +30,6 @@ import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
 public class SearchActivity extends AppCompatActivity implements UploadActivity.CardHolder {
