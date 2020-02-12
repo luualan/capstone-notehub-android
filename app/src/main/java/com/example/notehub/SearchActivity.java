@@ -34,11 +34,6 @@ import retrofit2.Response;
 import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
 public class SearchActivity extends AppCompatActivity implements UploadActivity.CardHolder {
-
-    private FloatingActionButton floatingActionButton;
-    private BottomAppBar bottomAppBar;
-    private DialogFragment dialog;
-
     private ArrayList<CardView> cards;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter; // bridge from recycle view to data; provides as many items as we currently need. (can use custom adapter)
@@ -102,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                     List<Note> notes = response.body();
                     for (int i = 0; i < notes.size(); i++)
                         cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), notes.get(i).getUniversityName(),
-                                notes.get(i).getCourse(), notes.get(i).getAuthorUsername(), R.drawable.ic_favorite));
+                                notes.get(i).getCourse(), notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
                     buildRecyclerView();
                 } else {
                     showAlertMessage("Could not load notes to recycler view.", "Ok");
@@ -121,7 +116,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         recyclerView = findViewById(R.id.recyclerView);
         // recyclerView.setHasFixedSize(true); // need to remove later IMPORTANT
         layoutManager = new LinearLayoutManager(this);
-        adapter = new RecyclerViewAdapter(cards);
+        adapter = new RecyclerViewAdapter(SearchActivity.this, cards);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -149,7 +144,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             public void onReportClick() {
                 new MaterialAlertDialogBuilder(SearchActivity.this)
                         .setTitle("Report Note")
-                        .setMessage("Did you want to report this note?")
+                        .setMessage("Do you want to report this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -168,7 +163,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             public void onDeleteClick(final int position) {
                 new MaterialAlertDialogBuilder(SearchActivity.this)
                         .setTitle("Delete Note")
-                        .setMessage("Did you want to delete this note?")
+                        .setMessage("Do you want to delete this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

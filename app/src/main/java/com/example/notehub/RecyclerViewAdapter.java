@@ -1,13 +1,16 @@
 package com.example.notehub;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,17 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import remote.ApiInterface;
-import retrofit2.Call;
-
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements Filterable {
     private ArrayList<CardView> list;
     private ArrayList<CardView> listFull; // copy
     private List<CardView> filteredList;
     private onItemClickListener listener;
 
-    private ApiInterface apiService;
-    private Call call;
+    Context context;
 
     public interface onItemClickListener {
         void onItemClick(int position);
@@ -55,6 +54,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView deleteImage;
         public RatingBar ratingBar;
 
+        // Animation reference
+        RelativeLayout container;
+
         public ViewHolder(View itemView, final onItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.text_title);
@@ -66,6 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             report = itemView.findViewById(R.id.image_report);
             deleteImage = itemView.findViewById(R.id.image_delete);
             ratingBar = itemView.findViewById(R.id.star_rating);
+            container = itemView.findViewById(R.id.action_note);
 
             // when users click on whole card
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +144,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // Constructor with ArrayList
-    public RecyclerViewAdapter(ArrayList<CardView> list) {
+    public RecyclerViewAdapter(Context context, ArrayList<CardView> list) {
+        this.context = context;
         this.list = list;
         this.listFull = new ArrayList<>(list);
     }
@@ -156,6 +160,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Animation for Images and card
+        //holder.favorite.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        //holder.deleteImage.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+
+
         CardView currentItem = list.get(position);
 
         holder.favorite.setImageResource(currentItem.getimageFavorite());
@@ -163,6 +173,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.university.setText(currentItem.getUniversity());
         holder.course.setText(currentItem.getCourse());
         holder.name.setText(currentItem.getName());
+
+
     }
 
     @Override

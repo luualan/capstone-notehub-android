@@ -44,7 +44,7 @@
                 android:textSize="22sp" />
 
             <ImageButton
-                android:id="@+id/fullscreen_dialog_history"
+                android:id="@+id/fullscreen_dialog_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -52,7 +52,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp"
-                android:src="@drawable/ic_history_black_24dp"
+                android:src="@drawable/ic_refresh"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

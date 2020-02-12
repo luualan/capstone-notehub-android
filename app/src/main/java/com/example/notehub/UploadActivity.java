@@ -3,6 +3,7 @@ package com.example.notehub;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -64,8 +65,6 @@ public class UploadActivity extends DialogFragment {
     private University container;
     private Button buttonChooseImage;
     private Button buttonUpload;
-    private Button textViewShowUploads;
-    private EditText editTextFilename;
     private ImageView imageView;
     private ProgressBar progessBar;
     private AutoCompleteTextView schoolDropDown;
@@ -77,6 +76,7 @@ public class UploadActivity extends DialogFragment {
     private ApiInterface apiService;
     private Call call;
     private ImageButton xIcon;
+    private ImageButton refreshIcon;
     private CardHolder cardHolder;
 
     public interface CardHolder {
@@ -129,6 +129,7 @@ public class UploadActivity extends DialogFragment {
         course = view.findViewById(R.id.upload_course);
         showFileName = view.findViewById(R.id.show_file_path);
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
+        refreshIcon = view.findViewById(R.id.fullscreen_dialog_refresh);
 
         call = apiService.getUniversities(null, null, null);
         call.enqueue(new Callback<List<University>>() {
@@ -169,6 +170,19 @@ public class UploadActivity extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+
+        refreshIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title.getText().clear();
+                schoolDropDown.getText().clear();
+                course.getText().clear();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(UploadActivity.this);
+                ft.attach(UploadActivity.this);
+                ft.commit();
             }
         });
 
