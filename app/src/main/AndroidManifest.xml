@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeActivity"
+        <activity android:name=".NoteActivity"
             android:theme="@style/AppTheme.ActionBar"/>
         <activity
             android:name=".SearchActivity"
@@ -24,8 +24,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".AccountActivity" />
         <activity
-            android:name=".NoteActivity"
-            android:theme="@style/AppTheme.ActionBar"
+            android:name=".HomeActivity"
             android:label="NoteHub">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

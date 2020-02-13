@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
@@ -117,15 +118,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                if (usernameLoginEdit.getText().toString().trim().isEmpty())
-                    usernameLoginEdit.setError("Please fill out this field.");
 
-                if (passwordLoginEdit.getText().toString().trim().isEmpty()) {
-                    txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(false);
-                    passwordLoginEdit.setError("Please fill out this field.");
-                } else
-                    txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(true);
-
+                // Success
                 if (response.errorBody() == null) {
                     startActivity(intent);
 
@@ -134,8 +128,26 @@ public class LoginActivity extends AppCompatActivity {
                     String token = bodyToken.getToken();
                     SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
                     savePreferences.edit().putString("TOKEN", token).apply();
-                } else {
-                    showAlertMessage("Incorrect username or password.");
+                }
+
+                // Failed to log in
+                else {
+                    boolean usernameEmptyCheck = usernameLoginEdit.getText().toString().trim().isEmpty();
+                    boolean passwordEmptyCheck = passwordLoginEdit.getText().toString().trim().isEmpty();
+
+                    if (usernameEmptyCheck)
+                        usernameLoginEdit.setError("Please fill out this field.");
+
+                    if (passwordEmptyCheck) {
+                        txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(false);
+                        passwordLoginEdit.setError("Please fill out this field.");
+                    }
+                    else
+                    txtInLayoutLoginPassword.setPasswordVisibilityToggleEnabled(true);
+
+                    if (!usernameEmptyCheck && !passwordEmptyCheck) {
+                        showAlertMessage("Incorrect username or password.");
+                    }
                 }
             }
 
@@ -175,27 +187,51 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                        final Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
 
-                        if (firstEdit.getText().toString().trim().isEmpty())
-                            firstEdit.setError("Please fill out this field.");
+                        // Successfully sign up
+                        if (response.errorBody() == null) {
+                            new MaterialAlertDialogBuilder(LoginActivity.this)
+                                    .setMessage("Sign up successful!")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .show();
+                        }
 
-                        if (lastEdit.getText().toString().trim().isEmpty())
-                            lastEdit.setError("Please fill out this field.");
+                        // Failed to sign up
+                        else {
+                           // boolean firstNameEmptyCheck = firstEdit.getText().toString().trim().isEmpty();
+                           // boolean lastNameEmptyCheck = lastEdit.getText().toString().trim().isEmpty();
+                            boolean emailEmptyCheck = emailEdit.getText().toString().trim().isEmpty();
+                            boolean usernameEmptyCheck = usernameEdit.getText().toString().trim().isEmpty();
+                            boolean passwordEmptyCheck = passwordEdit.getText().toString().trim().isEmpty();
+                            boolean checkAllEmpty = !emailEmptyCheck && !usernameEmptyCheck && !passwordEmptyCheck;
 
-                        if (emailEdit.getText().toString().trim().isEmpty())
-                            emailEdit.setError("Please fill out this field.");
+                          /*  if (firstNameEmptyCheck)
+                                firstEdit.setError("Please fill out this field.");
 
-                        if (usernameEdit.getText().toString().trim().isEmpty())
-                            usernameEdit.setError("Please fill out this field.");
+                            if (lastNameEmptyCheck)
+                                lastEdit.setError("Please fill out this field.");*/
 
-                        if (passwordEdit.getText().toString().trim().isEmpty())
-                            passwordEdit.setError("Please fill out this field.");
+                            if (emailEmptyCheck)
+                                emailEdit.setError("Please fill out this field.");
 
-                        if (response.errorBody() == null)
-                            startActivity(intent);
-                        else
-                            showAlertMessage("Email does not exist.");
+                            if (usernameEmptyCheck)
+                                usernameEdit.setError("Please fill out this field.");
+
+                            if (passwordEmptyCheck)
+                                passwordEdit.setError("Please fill out this field.");
+
+                            if(checkAllEmpty)
+                                showAlertMessage("Username is not unique.");
+
+                            else if (checkAllEmpty && !emailEdit.getText().toString().contains("@"))
+                                showAlertMessage("Email does not exist.");
+                        }
                     }
 
                     @Override

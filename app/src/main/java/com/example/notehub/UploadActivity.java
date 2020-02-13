@@ -250,7 +250,7 @@ public class UploadActivity extends DialogFragment {
             // contains the uri of the image picked; will later upload to server
             imageURI = data.getData();
 
-           // Log.e("34", imageURI.getAuthority());
+            // Log.e("34", imageURI.getAuthority());
 
             //pass it like this
             //File file = new File(getRealPathFromURI(imageURI));
@@ -297,15 +297,18 @@ public class UploadActivity extends DialogFragment {
 
         Call<University> callUniversity = apiService.getUniversity(schoolDropDown.getText().toString());
 
-        if(title.getText().toString().trim().isEmpty()) {
+        final boolean titleCheckEmpty = title.getText().toString().trim().isEmpty();
+        final boolean schoolCheckEmpty = schoolDropDown.getText().toString().trim().isEmpty();
+        final boolean courseCheckEmpty = course.getText().toString().trim().isEmpty();
+
+        if (titleCheckEmpty)
             title.setError("Please fill out this field.");
-        }
-        if(schoolDropDown.getText().toString().trim().isEmpty()) {
+
+        if (schoolCheckEmpty)
             schoolDropDown.setError("Please fill out this field.");
-        }
-        if(course.getText().toString().trim().isEmpty()) {
+
+        if (courseCheckEmpty)
             course.setError("Please fill out this field.");
-        }
 
         callUniversity.enqueue(new Callback<University>() {
             @Override
@@ -333,8 +336,8 @@ public class UploadActivity extends DialogFragment {
                                 // card holder
                                 CardView cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(), R.drawable.ic_favorite);
 
-                                if(cardHolder != null)
-                                cardHolder.insertCard(cardView);
+                                if (cardHolder != null)
+                                    cardHolder.insertCard(cardView);
 
                                 for (int i = 0; i < uris.size(); i++) {
                                     // set file
@@ -386,8 +389,7 @@ public class UploadActivity extends DialogFragment {
                                 showAlertMessage("Upload successful!");
                                 //Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
                                 dismiss();
-                            }
-                            else {
+                            } else {
 
                             }
                         }
@@ -398,9 +400,9 @@ public class UploadActivity extends DialogFragment {
                         }
                     });
 
-                }
-                else {
-                    showAlertMessage("Enter a valid university.");
+                } else {
+                    if (!titleCheckEmpty && !schoolCheckEmpty && !courseCheckEmpty)
+                        showAlertMessage("Enter a valid university.");
                 }
             }
 
