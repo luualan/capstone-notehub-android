@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="26dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputOne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Input 01" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="120dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Input 02" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/createGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="createGroup"
+            android:text="Create Group"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/getGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="getGroup"
+            android:text="Get Group"
+            app:layout_constraintBottom_toTopOf="@+id/createGroup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/deleteGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="deleteGroup"
+            android:text="Delete Group"
+            app:layout_constraintBottom_toTopOf="@+id/getGroup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/updateGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="updateGroup"
+            android:text="Update Group"
+            app:layout_constraintBottom_toTopOf="@+id/deleteGroup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/uploadGroupNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="uploadGroupNote"
+            android:text="Upload Group Note"
+            app:layout_constraintBottom_toTopOf="@+id/updateGroup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/uploadInvitation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="uploadGroupInvitation"
+            android:text="Upload Invitation"
+            app:layout_constraintBottom_toTopOf="@+id/uploadGroupNote"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/getGroupInvitations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="getGroupInvitations"
+            android:text="Get Group Invites" />
+
+        <Button
+            android:id="@+id/getGroupMemberships"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="getGroupMemberships"
+            android:text="Get Group Members" />
+
+        <Button
+            android:id="@+id/getGroupNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="getGroupNotes"
+            android:text="Get Group Notes" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
