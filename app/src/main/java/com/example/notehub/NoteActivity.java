@@ -24,6 +24,7 @@ public class NoteActivity extends AppCompatActivity {
     private ViewPageAdapter adapter;
 
     private int noteID;
+    private String noteTitle;
 
 
     @Override
@@ -45,10 +46,11 @@ public class NoteActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         noteID = getIntent().getIntExtra("noteID", -1);
+        noteTitle = getIntent().getStringExtra("noteTitle");
 
         // Insert icons
-       // tabLayout.getTabAt(0).setIcon(R.drawable.ic_file);
-       // tabLayout.getTabAt(1).setIcon(R.drawable.ic_comment);
+       //tabLayout.getTabAt(0).setIcon(R.drawable.ic_file);
+       //tabLayout.getTabAt(1).setIcon(R.drawable.ic_comment);
 
         // Remove shadow from action bar
         ActionBar actionBar = getSupportActionBar();
@@ -64,7 +66,7 @@ public class NoteActivity extends AppCompatActivity {
 
         // Style title for top app bar and hide it
         TextView actionBarTitle = findViewById(R.id.action_bar_search_title);
-        actionBarTitle.setText("Note");
+        actionBarTitle.setText(noteTitle);
 
         // Display back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

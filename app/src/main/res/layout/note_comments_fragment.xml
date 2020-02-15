@@ -26,11 +26,11 @@
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:padding="2dp"
         android:src="@drawable/anime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/comment_text" />
 
     <TextView
         android:id="@+id/comment_text"
@@ -42,26 +42,27 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:fontFamily="@font/permanentmarker"
-        app:layout_constraintBottom_toTopOf="@+id/input_layout_comment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout_comment"
-        android:layout_width="245dp"
-        android:layout_height="36dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="253dp"
+        android:layout_height="50dp"
         android:layout_margin="5dp"
+        android:layout_marginTop="4dp"
         android:hint="Add a public comment..."
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
         app:layout_constraintStart_toEndOf="@+id/note_user_img"
-        app:layout_constraintTop_toTopOf="@+id/note_user_img">
+        app:layout_constraintTop_toBottomOf="@+id/comment_text">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_input_comment"
+            android:id="@+id/input_text_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/open_sans"
@@ -70,9 +71,8 @@
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/sign_in"
+        android:id="@+id/add_comment_button"
         android:layout_width="73dp"
         android:layout_height="47dp"
         android:layout_gravity="center_horizontal"
@@ -83,9 +83,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/note_comments_recycler"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toEndOf="@+id/input_layout_comment"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657"
+        app:layout_constraintVertical_bias="0.607"
         app:rippleColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
