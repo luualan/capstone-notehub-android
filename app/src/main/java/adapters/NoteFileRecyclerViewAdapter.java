@@ -38,7 +38,7 @@ public class NoteFileRecyclerViewAdapter extends RecyclerView.Adapter<NoteFileRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Picasso.with(holder.itemView.getContext()).load(noteFiles.get(position).getFile()).into(holder.fileImage)
+            Picasso.with(holder.itemView.getContext()).load(noteFiles.get(position).getFile()).fit().centerCrop().into(holder.fileImage);
     }
 
     @Override

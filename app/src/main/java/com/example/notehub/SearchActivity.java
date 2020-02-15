@@ -185,12 +185,13 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
-            // Click on card changes text
+            // Click on card redirects to NoteActivity and sends the data to it
             @Override
             public void onItemClick(int position) {
                 //changeItem(position, "Clicked");
                 Intent intent = new Intent(SearchActivity.this, NoteActivity.class)
-                        .putExtra("noteID", cards.get(position).getNoteId());
+                        .putExtra("noteID", cards.get(position).getNoteId())
+                        .putExtra("noteTitle", cards.get(position).getTitle());
                 startActivity(intent);
             }
 
