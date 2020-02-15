@@ -3,7 +3,7 @@ package models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Comment {
+public class Rating {
 
     @SerializedName("id")
     @Expose
@@ -11,9 +11,9 @@ public class Comment {
     @SerializedName("username")
     @Expose
     private String username;
-    @SerializedName("text")
+    @SerializedName("score")
     @Expose
-    private String text;
+    private int score;
 
     public int getId() {
         return id;
@@ -31,12 +31,12 @@ public class Comment {
         this.username = username;
     }
 
-    public String getText() {
-        return text;
+    public int getScore() {
+        return score;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setScore(int score) {
+        this.score = score;
     }
-  
+
 }

@@ -1,4 +1,5 @@
 package models;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -31,6 +32,9 @@ public class Note {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("group")
+    @Expose
+    private String group;
 
     public int getId() {
         return id;
@@ -95,5 +99,9 @@ public class Note {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public String getGroup() { return group; }
+
+    public void setGroup(String group) { this.group = group; }
 
 }
