@@ -91,7 +91,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/note_comments_recycler"
         android:layout_width="match_parent"
-        android:layout_height="590dp"
+        android:layout_height="560dp"
         android:layout_marginTop="20dp"
         android:background="@color/light_grey"
         app:layout_constraintTop_toBottomOf="@+id/input_layout_comment"

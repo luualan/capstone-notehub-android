@@ -38,7 +38,7 @@ public interface ApiInterface {
     Call<User> getUser(@Header("Authorization") String authKey);
 
     @GET("api/user/notes/")
-    Call<List<Note>> getUserFiles(@Header("Authorization") String authKey);
+    Call<List<Note>> getUserNotes(@Header("Authorization") String authKey);
 
     @GET("api/user/groups/")
     Call<List<Group>> getUserGroups(@Header("Authorization") String authKey);

@@ -5,6 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Comment {
 
+    public Comment(int id, String username, String text) {
+        this.id = id;
+        this.username = username;
+        this.text = text;
+    }
+
     @SerializedName("id")
     @Expose
     private int id;

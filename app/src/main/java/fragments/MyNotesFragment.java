@@ -33,6 +33,7 @@ import java.util.List;
 
 import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
+import models.Group;
 import models.Note;
 import remote.ApiInterface;
 import retrofit2.Call;
@@ -76,24 +77,23 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
         // Create Cards
         cards = new ArrayList<>();
 
-        Call<List<Note>> call = apiService.getNotes(null, null, null, null, null);
-
         final SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+        Call<List<Note>> call = apiService.getUserNotes("Token " + savePreferences.getString("TOKEN", null));
 
         call.enqueue(new Callback<List<Note>>() {
             @Override
             public void onResponse(Call<List<Note>> call, Response<List<Note>> response) {
-                if (response.errorBody() == null) {
-                    List<Note> notes = response.body();
-                    for (int i = 0; i < notes.size(); i++) {
 
-                        /*if (savePreferences.getString("TOKEN", null) == notes.get(i))*/
-                            cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), "School: " + notes.get(i).getUniversityName(),
-                                    "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
-                    }
+                if(response.errorBody() == null) {
+                    List<Note> notes =response.body();
+
+                    for (int i = 0; i < notes.size(); i++)
+                        cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), "School: " + notes.get(i).getUniversityName(),
+                                "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
 
                     buildRecyclerView();
-                } else {
+                }
+                else {
                     showAlertMessage("Could not load notes to recycler view.", "Ok");
                 }
             }
@@ -180,7 +180,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
 
     // Insert item in recycle view
     public void insertItem(int position, CardView card) {
-        adapter.addItem(position, card);
+        adapter.addItem(card);
         //adapter.notifyDataSetChanged(); // don't use this because will refresh the list and not show animation
     }
 

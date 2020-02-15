@@ -20,7 +20,11 @@ import models.CardView;
 import com.example.notehub.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 // An adapter for notes
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> implements Filterable {
@@ -57,6 +61,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         public ImageView report;
         public ImageView deleteImage;
         public RatingBar ratingBar;
+
 
         // Animation reference
         RelativeLayout container;
@@ -169,7 +174,6 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         //holder.deleteImage.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
         holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
 
-
         CardView currentItem = list.get(position);
 
         holder.favorite.setImageResource(currentItem.getimageFavorite());
@@ -189,17 +193,17 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         return listFilter;
     }
 
-    public void addItem(int position, CardView card) {
+    public void addItem(CardView card) {
         if (list != null)
-            list.add(position, card);
+            list.add(card);
 
         if (filteredList != null)
-            filteredList.add(position, card);
+            filteredList.add(card);
 
         if (listFull != null)
-            listFull.add(position, card);
+            listFull.add(card);
 
-        notifyItemInserted(position);
+        notifyItemInserted(list.size() - 1);
     }
 
     public void removeItem(int position) {

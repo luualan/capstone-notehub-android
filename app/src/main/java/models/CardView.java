@@ -57,6 +57,14 @@ public class CardView implements Parcelable {
         return this.imageFavorite;
     }
 
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
+    }
+
+    public void setImageFavorite(int imageFavorite) {
+        this.imageFavorite = imageFavorite;
+    }
+
     public String getTitle() {
         return this.title;
     }

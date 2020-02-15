@@ -36,20 +36,24 @@ public class NoteCommentsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         comments = new ArrayList<>();
-        comments.add(new Comment("Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
-                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada.", R.drawable.anime));
-        comments.add(new Comment("Dudedsadasdadadadadadadadadadadadadadadadadadaad", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
-        comments.add(new Comment("Dude", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks.", R.drawable.anime));
 
+        comments.add(new Comment(1, "dd", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
+        comments.add(new Comment(1, "Mom", "This project is taking forever holy sheep shit and now I got to write an long as description to check whether the padding looks good. This sucks." +
+                "blah, blah bla, blah bldffadadadadadadaddsadadadadaadaaddsdadadadadadadadadadadadadadadadadadadadaadadada."));
     }
 
     // Display xml page
