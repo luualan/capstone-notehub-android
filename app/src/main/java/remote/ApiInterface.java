@@ -123,7 +123,7 @@ public interface ApiInterface {
     public Call<Favorite> deleteNoteFavorite(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
 
     @POST("api/groups/")
-    public Call<Note> createGroup(@Header("Authorization") String authKey, @Body Group group);
+    public Call<Group> createGroup(@Header("Authorization") String authKey, @Body Group group);
 
     @GET("api/groups/{id}/")
     public Call<Group> getGroup(@Header("Authorization") String authKey, @Path("id") int id);
