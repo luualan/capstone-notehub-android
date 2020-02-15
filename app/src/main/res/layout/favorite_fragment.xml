@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background_fragment"
+    android:layout_height="match_parent">
+
+
+<!--    <TextView
+        android:id="@+id/title"
+        android:layout_width="226dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="76dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/favorite"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        app:fontFamily="@font/permanentmarker" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorite_recycler"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+ <!--   <include
+        android:id="@+id/appBar"
+        layout="@layout/app_bar" />-->
+</RelativeLayout>

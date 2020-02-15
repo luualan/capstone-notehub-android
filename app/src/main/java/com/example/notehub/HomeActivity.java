@@ -3,73 +3,73 @@ package com.example.notehub;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static android.util.TypedValue.TYPE_NULL;
+import adapters.NoteRecyclerViewAdapter;
+import adapters.ViewPageAdapter;
+import fragments.FavoriteFragment;
+import fragments.MyNotesFragment;
+import fragments.NoteCommentsFragment;
+import fragments.NoteFilesFragment;
+import models.CardView;
+import models.Note;
+import remote.ApiInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity  {
+    // Tabs
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPageAdapter adapter;
 
+    // Bottom Navigation Bar
     private FloatingActionButton floatingActionButton;
     private BottomAppBar bottomAppBar;
     private DialogFragment dialog;
-
-    private ArrayList<CardView> cards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Get card data
-        Intent intent = getIntent();
-        CardView cardData = intent.getParcelableExtra("Example item");
+        // Initialize
+        tabLayout = findViewById(R.id.home_tab_layout);
+        viewPager = findViewById(R.id.home_view_pager);
+        adapter = new ViewPageAdapter(getSupportFragmentManager());
 
-        // Set card data on home page
-        if(cardData != null) {
-            int imageRes = cardData.getimageFavorite();
-            String line1 = cardData.getTitle();
-            String line2 = cardData.getUniversity();
+        // Added Fragments are here
+        adapter.addFragment(new MyNotesFragment(), "Home");
+        adapter.addFragment(new FavoriteFragment(), "Favorite");
 
-            ImageView imageView = findViewById(R.id.image_activity2);
-            imageView.setImageResource(imageRes);
+        // Set up viewPager and tabLayout
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
 
-            TextView textView1 = findViewById(R.id.text1_activity2);
-            textView1.setText(line1);
-
-            TextView textView2 = findViewById(R.id.text2_activity2);
-            textView2.setText(line2);
-
-            cards.add(cardData);
-            TextView listOfText = findViewById(R.id.list_of_text);
-
- /*       String concat = "";
-        for(CardView card : cards) {
-            concat += card.getText1() + "\n";
-            concat += card.getText2() + "\n";
-        }
-        listOfText.setText(concat);*/
-        }
+        // Insert icons
+       //tabLayout.getTabAt(0).setIcon(R.drawable.ic_person);
+        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_favorite_star);
 
         // Bottom App bar
         bottomAppBar = findViewById(R.id.bottomAppBar);
@@ -107,9 +107,6 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.bottom_navigation, menu);
-
-
-       // enableSearchView(searchView, false);
         return true;
     }
 
@@ -141,22 +138,13 @@ public class HomeActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    private void enableSearchView(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                enableSearchView(child, enabled);
-            }
-        }
-    }
-
+    // Return to home page
     public void home(View v) {
         Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
+    // Return to sign up page
     public void signOut() {
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);

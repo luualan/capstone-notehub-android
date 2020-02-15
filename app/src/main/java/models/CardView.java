@@ -1,11 +1,7 @@
-package com.example.notehub;
+package models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CardView implements Parcelable {
     private int noteId;

@@ -11,19 +11,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.notehub.R;
 
-public class NoteFileFragment extends Fragment {
+public class NoteFilesFragment extends Fragment {
 
     View view;
 
     // Constructor
-    public NoteFileFragment() {
+    public NoteFilesFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.note_file_fragment, container, false);
+        view = inflater.inflate(R.layout.note_files_fragment, container, false);
         return view;
     }
 }

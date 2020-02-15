@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:text="Search Notes"
         android:textColor="@color/white"
-        android:textSize="22dp"
+        android:textSize="20sp"
         app:fontFamily="@font/permanentmarker" />
 
 </LinearLayout>

@@ -144,13 +144,14 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/reg_register"
             android:layout_width="165dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            app:rippleColor="@color/white"
             android:fontFamily="@font/permanentmarker"
             android:text="Register" />
     </LinearLayout>
