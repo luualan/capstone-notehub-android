@@ -59,26 +59,26 @@ public interface ApiInterface {
     Call<Token> loginUser(@Body Login login);
 
     @GET("api/notes/")
-    Call<List<Note>> getNotes(@Query("username") String username, @Query("title") String title, @Query("university") String university,
+    Call<List<Note>> getNotes(@Header("Authorization") String authKey, @Query("username") String username, @Query("title") String title, @Query("university") String university,
                               @Query("course") String course, @Query("order_by") String order_by);
 
     @POST("api/notes/")
     public Call<Note> uploadNote(@Header("Authorization") String authKey, @Body Note note);
 
     @GET("api/notes/{id}/")
-    public Call<Note> getNote(@Path("id") int id);
+    public Call<Note> getNote(@Header("Authorization") String authKey, @Path("id") int id);
 
     @DELETE("api/notes/{id}/")
     public Call<Note> deleteNote(@Header("Authorization") String authKey, @Path("id") int id);
 
     @GET("api/notes/{id}/files/")
-    public Call<List<NoteFile>> getNoteFiles(@Path("id") int id);
+    public Call<List<NoteFile>> getNoteFiles(@Header("Authorization") String authKey, @Path("id") int id);
 
     @POST("api/notes/{id}/files/")
     public Call<NoteFile> uploadNoteFile(@Header("Authorization") String authKey, @Path("id") int id, @Body RequestBody file);
 
     @GET("api/notes/{id}/files/{index}/")
-    public Call<NoteFile> getNoteFile(@Path("id") int id, @Path("index") int index);
+    public Call<NoteFile> getNoteFile(@Header("Authorization") String authKey, @Path("id") int id, @Path("index") int index);
 
     @GET("api/notes/{id}/ratings/")
     public Call<List<Rating>> getNoteRatings(@Header("Authorization") String authKey, @Path("id") int id);
@@ -96,13 +96,13 @@ public interface ApiInterface {
     public Call<Rating> deleteNoteRating(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
 
     @GET("api/notes/{id}/comments/")
-    public Call<List<Comment>> getNoteComments(@Path("id") int id);
+    public Call<List<Comment>> getNoteComments(@Header("Authorization") String authKey, @Path("id") int id);
 
     @POST("api/notes/{id}/comments/")
     public Call<Comment> uploadNoteComment(@Header("Authorization") String authKey, @Path("id") int id, @Body Comment comment);
 
     @GET("api/notes/{noteId}/comments/{id}/")
-    public Call<Comment> getNoteComment(@Path("noteId") int noteId, @Path("id") int id);
+    public Call<Comment> getNoteComment(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
 
     @PATCH("api/notes/{noteId}/comments/{id}/")
     public Call<Comment> updateNoteComment(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id, @Body Comment comment);
