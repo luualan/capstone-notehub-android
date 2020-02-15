@@ -19,8 +19,8 @@ import models.Comment;
 
 // Comment Recycler View Adapter
 public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecyclerViewAdapter.ViewHolder> {
-    Context context;
-    List<Comment> comments;
+    private Context context;
+    private List<Comment> comments;
 
     // Comment Constructor
     public CommentRecyclerViewAdapter(Context context, List<Comment> comments) {
@@ -65,5 +65,4 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
             image = itemView.findViewById(R.id.note_user_img);
         }
     }
-
 }

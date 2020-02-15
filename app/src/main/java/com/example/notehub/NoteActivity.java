@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -21,6 +22,8 @@ public class NoteActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPageAdapter adapter;
+
+    private int noteID;
 
 
     @Override
@@ -40,6 +43,8 @@ public class NoteActivity extends AppCompatActivity {
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        noteID = getIntent().getIntExtra("noteID", -1);
 
         // Insert icons
        // tabLayout.getTabAt(0).setIcon(R.drawable.ic_file);
@@ -76,5 +81,8 @@ public class NoteActivity extends AppCompatActivity {
         return true;
     }
 
+    public int getNoteId() {
+        return noteID;
+    }
 
 }

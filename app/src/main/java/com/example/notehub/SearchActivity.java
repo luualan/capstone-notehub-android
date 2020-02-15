@@ -189,7 +189,8 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             @Override
             public void onItemClick(int position) {
                 //changeItem(position, "Clicked");
-                Intent intent = new Intent(SearchActivity.this, NoteActivity.class);
+                Intent intent = new Intent(SearchActivity.this, NoteActivity.class)
+                        .putExtra("noteID", cards.get(position).getNoteId());
                 startActivity(intent);
             }
 
