@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import models.CardView;
+import remote.ApiInterface;
+
+import com.example.notehub.MainActivity;
 import com.example.notehub.R;
 
 import java.util.ArrayList;
@@ -45,6 +49,8 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         void onReportClick();
 
         void onDeleteClick(int position);
+
+        void onRatingClick(int position, float score);
     }
 
     public void setOnItemCLickListener(onItemClickListener listener) {
@@ -66,7 +72,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         // Animation reference
         RelativeLayout container;
 
-        public ViewHolder(View itemView, final onItemClickListener listener) {
+        public ViewHolder(final View itemView, final onItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.text_title);
             university = itemView.findViewById(R.id.text_university);
@@ -146,7 +152,13 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     // send to api and save in server
-                    Log.e("dsadasdasd", "dsada");
+                    if (listener != null && fromUser) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onRatingClick(position, rating);
+                        }
+                    }
                 }
             });
         }
@@ -181,6 +193,8 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         holder.university.setText(currentItem.getUniversity());
         holder.course.setText(currentItem.getCourse());
         holder.name.setText(currentItem.getName());
+        holder.ratingBar.setStepSize((float)0.25);
+        holder.ratingBar.setRating(currentItem.getAvgRating());
     }
 
     @Override

@@ -26,6 +26,7 @@ import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
 import models.Note;
+import models.Rating;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -145,11 +146,11 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
                                     if(favorites.size() == 0) {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), R.drawable.ic_favorite_star));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), R.drawable.ic_favorite_star));
                                     }
                                     else {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), R.drawable.ic_favorite_toggle_on));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), R.drawable.ic_favorite_toggle_on));
                                     }
                                 }
                             }
@@ -308,6 +309,68 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                         })
                         .setNegativeButton("No", null)
                         .show();
+            }
+
+            @Override
+            public void onRatingClick(final int position, final float score) {
+                Call<List<Rating>> callGet = apiService.getNoteRatings(getToken(), cards.get(position).getNoteId());
+                callGet.enqueue(new Callback<List<Rating>>() {
+                    @Override
+                    public void onResponse(Call<List<Rating>> call, Response<List<Rating>> response) {
+                        if(response.errorBody() == null) {
+                            List<Rating> ratings = response.body();
+
+                            if(ratings.size() == 0) {
+                                Rating rating = new Rating();
+                                rating.setScore(score);
+                                Call<Rating> callUpload = apiService.uploadNoteRating(getToken(), cards.get(position).getNoteId(), rating);
+                                callUpload.enqueue(new Callback<Rating>() {
+                                    @Override
+                                    public void onResponse(Call<Rating> call, Response<Rating> response) {
+                                        if(response.errorBody() == null) {
+                                        }
+                                        else {
+                                            showAlertMessage("Could not rating note.", "Ok");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Rating> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                            else {
+                                Rating rating = response.body().get(0);
+                                rating.setScore(score);
+                                Call<Rating> callDelete = apiService.updateNoteRating(getToken(), cards.get(position).getNoteId(), rating.getId(), rating);
+                                callDelete.enqueue(new Callback<Rating>() {
+                                    @Override
+                                    public void onResponse(Call<Rating> call, Response<Rating> response) {
+                                        if(response.errorBody() == null) {
+                                        }
+                                        else {
+                                            showAlertMessage("Could not delete rating note.", "Ok");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Rating> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }
+                        else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Rating>> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

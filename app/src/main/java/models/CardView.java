@@ -10,13 +10,15 @@ public class CardView implements Parcelable {
     private String university;
     private String course;
     private String name;
+    private float avgRating;
 
-    public CardView(int noteId, String title, String university, String course, String name, int imageFavorite) {
+    public CardView(int noteId, String title, String university, String course, String name, float avgRating, int imageFavorite) {
         this.noteId = noteId;
         this.title = title;
         this.university = university;
         this.course = course;
         this.name = name;
+        this.avgRating = avgRating;
         this.imageFavorite = imageFavorite;
     }
 
@@ -27,6 +29,7 @@ public class CardView implements Parcelable {
         university = in.readString();
         course = in.readString();
         name = in.readString();
+        avgRating = in.readFloat();
 
        // files = new ArrayList<>();
        // in.readList(files, CardView.class.getClassLoader());
@@ -97,6 +100,15 @@ public class CardView implements Parcelable {
         this.name = name;
     }
 
+    public float getAvgRating() {
+        return this.avgRating;
+    }
+
+    public void setAvgRating(float avg) {
+        this.avgRating = avg;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,5 +121,6 @@ public class CardView implements Parcelable {
         dest.writeString(university);
         dest.writeString(course);
         dest.writeString(name);
+        dest.writeFloat(avgRating);
     }
 }

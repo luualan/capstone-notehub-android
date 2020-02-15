@@ -89,7 +89,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
 
                     for (int i = 0; i < notes.size(); i++)
                         cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), "School: " + notes.get(i).getUniversityName(),
-                                "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
+                                "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), notes.get(i).getAvgRating(), R.drawable.ic_favorite_star));
 
                     buildRecyclerView();
                 }
@@ -168,6 +168,11 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                         })
                         .setNegativeButton("No", null)
                         .show();
+            }
+
+            @Override
+            public void onRatingClick(int position, float score) {
+
             }
         });
     }
