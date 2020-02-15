@@ -81,13 +81,13 @@ public interface ApiInterface {
     public Call<NoteFile> getNoteFile(@Path("id") int id, @Path("index") int index);
 
     @GET("api/notes/{id}/ratings/")
-    public Call<List<Rating>> getNoteRatings(@Path("id") int id);
+    public Call<List<Rating>> getNoteRatings(@Header("Authorization") String authKey, @Path("id") int id);
 
     @POST("api/notes/{id}/ratings/")
     public Call<Rating> uploadNoteRating(@Header("Authorization") String authKey, @Path("id") int id, @Body Rating rating);
 
     @GET("api/notes/{noteId}/ratings/{id}/")
-    public Call<Rating> getNoteRating(@Path("noteId") int noteId, @Path("id") int id);
+    public Call<Rating> getNoteRating(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
 
     @PATCH("api/notes/{noteId}/ratings/{id}/")
     public Call<Rating> updateNoteRating(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id, @Body Rating rating);
