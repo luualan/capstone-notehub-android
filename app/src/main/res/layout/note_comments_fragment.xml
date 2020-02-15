@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/light_grey"
+    android:layout_marginBottom="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- <Button
+        android:id="@+id/sign_in"
+        android:layout_width="90pt"
+        android:layout_height="24pt"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="#104C91"
+        android:enabled="true"
+        android:fontFamily="@font/permanentmarker"
+        android:text="@string/action_sign_in"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" /> -->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/note_user_img"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:padding="2dp"
+        android:src="@drawable/anime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comment_text"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:text="Comment"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/permanentmarker"
+        app:layout_constraintBottom_toTopOf="@+id/input_layout_comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_comment"
+        android:layout_width="245dp"
+        android:layout_height="36dp"
+        android:layout_margin="5dp"
+        android:hint="Add a public comment..."
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintStart_toEndOf="@+id/note_user_img"
+        app:layout_constraintTop_toTopOf="@+id/note_user_img">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_input_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/open_sans"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sign_in"
+        android:layout_width="73dp"
+        android:layout_height="47dp"
+        android:layout_gravity="center_horizontal"
+        android:enabled="true"
+        android:fontFamily="@font/permanentmarker"
+        android:text="Add"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/note_comments_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/input_layout_comment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.657"
+        app:rippleColor="@color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/note_comments_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="590dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/light_grey"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_comment"
+        tools:layout_editor_absoluteX="16dp"></androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

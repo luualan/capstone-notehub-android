@@ -1,4 +1,4 @@
-package com.example.notehub;
+package adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,10 +16,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import models.CardView;
+import com.example.notehub.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements Filterable {
+// An adapter for notes
+public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> implements Filterable {
     private ArrayList<CardView> list;
     private ArrayList<CardView> listFull; // copy
     private List<CardView> filteredList;
@@ -144,7 +148,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // Constructor with ArrayList
-    public RecyclerViewAdapter(Context context, ArrayList<CardView> list) {
+    public NoteRecyclerViewAdapter(Context context, ArrayList<CardView> list) {
         this.context = context;
         this.list = list;
         this.listFull = new ArrayList<>(list);
@@ -153,7 +157,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_note, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_card_view, parent, false);
         ViewHolder evh = new ViewHolder(v, listener);
         return evh;
     }
@@ -173,8 +177,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.university.setText(currentItem.getUniversity());
         holder.course.setText(currentItem.getCourse());
         holder.name.setText(currentItem.getName());
-
-
     }
 
     @Override

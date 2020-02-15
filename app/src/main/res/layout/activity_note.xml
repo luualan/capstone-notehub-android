@@ -11,9 +11,13 @@
         android:id="@+id/note_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/black"
+        app:tabTextColor="@color/white"
         app:tabMode="fixed"
         app:tabGravity="fill"
+        app:tabIconTint="@color/white"
+        app:tabTextAppearance="@style/TabLayoutText"
+        app:tabRippleColor="@color/white"
         app:tabIndicatorColor="@color/colorAccent">
     </com.google.android.material.tabs.TabLayout>
 

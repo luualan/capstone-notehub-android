@@ -3,4 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/background_fragment"
     android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/note_files_recycler"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

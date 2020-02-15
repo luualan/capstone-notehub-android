@@ -1,20 +1,31 @@
-package com.example.notehub;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.notehub.HomeActivity;
+import com.example.notehub.MainActivity;
+import com.example.notehub.NoteActivity;
+import com.example.notehub.R;
+import com.example.notehub.UploadActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -27,23 +38,38 @@ import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
-public class SearchActivity extends AppCompatActivity implements UploadActivity.CardHolder {
-    private ArrayList<CardView> cards;
-    private RecyclerView recyclerView;
-    private NoteRecyclerViewAdapter adapter; // bridge from recycle view to data; provides as many items as we currently need. (can use custom adapter)
-    private RecyclerView.LayoutManager layoutManager; // aligning single items on list
-
+public class MyNotesFragment extends Fragment implements UploadActivity.CardHolder {
     private ApiInterface apiService;
+    private ArrayList<CardView> cards = new ArrayList<>();
+
+    // RecyclerView
+    View view;
+    private RecyclerView recyclerView;
+    private NoteRecyclerViewAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    //private SharedPreferences savePreferences;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-
         apiService = MainActivity.buildHTTP();
+       // SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.my_notes_fragment, container, false);
+
         createCardsList();
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.bottom_navigation, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void createCardsList() {
@@ -52,14 +78,20 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
         Call<List<Note>> call = apiService.getNotes(null, null, null, null, null);
 
+        final SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+
         call.enqueue(new Callback<List<Note>>() {
             @Override
             public void onResponse(Call<List<Note>> call, Response<List<Note>> response) {
                 if (response.errorBody() == null) {
                     List<Note> notes = response.body();
-                    for (int i = 0; i < notes.size(); i++)
-                        cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), "School: " + notes.get(i).getUniversityName(),
-                                "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
+                    for (int i = 0; i < notes.size(); i++) {
+
+                        /*if (savePreferences.getString("TOKEN", null) == notes.get(i))*/
+                            cards.add(new CardView(notes.get(i).getId(), notes.get(i).getTitle(), "School: " + notes.get(i).getUniversityName(),
+                                    "Course: " + notes.get(i).getCourse(), "Name: " + notes.get(i).getAuthorUsername(), R.drawable.ic_favorite_star));
+                    }
+
                     buildRecyclerView();
                 } else {
                     showAlertMessage("Could not load notes to recycler view.", "Ok");
@@ -75,10 +107,10 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
     // Initialize recycle view
     public void buildRecyclerView() {
-        recyclerView = findViewById(R.id.search_recycler_view);
+        recyclerView = view.findViewById(R.id.my_notes_recycler);
         // recyclerView.setHasFixedSize(true); // need to remove later IMPORTANT
-        layoutManager = new LinearLayoutManager(this);
-        adapter = new NoteRecyclerViewAdapter(SearchActivity.this, cards);
+        layoutManager = new LinearLayoutManager(getActivity());
+        adapter = new NoteRecyclerViewAdapter(getActivity(), cards);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -88,14 +120,14 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             @Override
             public void onItemClick(int position) {
                 //changeItem(position, "Clicked");
-                Intent intent = new Intent(SearchActivity.this, NoteActivity.class);
+                Intent intent = new Intent(getContext(), NoteActivity.class);
                 startActivity(intent);
             }
 
             // Card clicked on gets sent to home
             @Override
             public void onFavoriteClick(int position) {
-                Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+                Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.putExtra("Example item", cards.get(position));
                 startActivity(intent);
             }
@@ -106,13 +138,13 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
             @Override
             public void onReportClick() {
-                new MaterialAlertDialogBuilder(SearchActivity.this)
+                new MaterialAlertDialogBuilder(getContext())
                         .setTitle("Report Note")
                         .setMessage("Do you want to report this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialAlertDialogBuilder(SearchActivity.this)
+                                new MaterialAlertDialogBuilder(getContext())
                                         .setMessage("Note successfully reported.")
                                         .setPositiveButton("Done", null)
                                         .show();
@@ -125,7 +157,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             // Click on delete image deletes card
             @Override
             public void onDeleteClick(final int position) {
-                new MaterialAlertDialogBuilder(SearchActivity.this)
+                new MaterialAlertDialogBuilder(getContext())
                         .setTitle("Delete Note")
                         .setMessage("Do you want to delete this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -140,6 +172,12 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         });
     }
 
+    @Override
+    public void insertCard(CardView cardView) {
+        insertItem(cards.size(), cardView);
+    }
+
+
     // Insert item in recycle view
     public void insertItem(int position, CardView card) {
         adapter.addItem(position, card);
@@ -148,9 +186,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
     // Remove item in recycle view
     public void removeItem(final int position) {
-        //cards.remove(position);
-
-        final SharedPreferences savePreferences = this.getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+       final SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
 
         Call<Note> call = apiService.deleteNote("Token " + savePreferences.getString("TOKEN", null), cards.get(position).getNoteId());
 
@@ -177,101 +213,11 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         adapter.notifyItemChanged(position);
     }
 
-    @Override
-    public void insertCard(CardView cardView) {
-        insertItem(cards.size(), cardView);
-    }
-
-    // Adds the tool bar icons to bottom navigation bar
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.top_navigation, menu);
-
-        // Style title for top app bar and hide it
-        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
-        getSupportActionBar().getCustomView().setVisibility(View.GONE);
-
-        // display back button
-        assert getSupportActionBar() != null;   //null check
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Search
-        final MenuItem searchItem = menu.findItem(R.id.nav_search);
-
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setIconified(false);
-        searchView.clearFocus();
-        searchView.requestFocus();
-
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-        // Expand Search hide title
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportActionBar().getCustomView().setVisibility(View.GONE);
-            }
-        });
-
-        // Close Search show title
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                getSupportActionBar().getCustomView().setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
-
-        // Used for filter search
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            // What ever we type will filter search
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // NewText then goes to our filter
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-        return true;
-    }
-
-    // Back Button on app bar
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-
-            if (item != exception)
-                item.setVisible(visible);
-        }
-    }
-
-    public void home(View v) {
-        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
-        startActivity(intent);
-    }
-
-    public void signOut() {
-        Intent intent = new Intent(SearchActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     private void showAlertMessage(String message, String buttonText) {
-        new MaterialAlertDialogBuilder(SearchActivity.this)
+        new MaterialAlertDialogBuilder(getContext())
                 .setMessage(message)
                 .setPositiveButton(buttonText, null)
                 .show();
     }
+
 }

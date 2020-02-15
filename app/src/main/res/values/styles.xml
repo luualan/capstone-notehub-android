@@ -5,13 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/cotton_candy</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/black</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="MyCustomActionBarStyle" parent="AppTheme">
@@ -46,6 +46,11 @@
         <item name="strokeColor">#000</item>
         <item name="strokeWidth">3dp</item>
         <item name="cornerRadius">3dp</item>
+    </style>
+
+    <style name="TabLayoutText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/permanentmarker</item>
     </style>
 
 </resources>

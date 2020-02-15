@@ -108,7 +108,7 @@
             android:textSize="15sp"
             app:fontFamily="@font/roboto_medium_italic" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_in"
             android:layout_width="90pt"
             android:layout_height="24pt"
@@ -119,6 +119,7 @@
             android:fontFamily="@font/permanentmarker"
             android:text="@string/action_sign_in"
             android:textColor="#FFFFFF"
+            app:rippleColor="@color/white"
             android:textSize="16sp" />
 
         <TextView

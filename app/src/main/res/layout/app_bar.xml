@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        app:rippleColor="@color/colorAccent"
         app:fabSize="normal"
         app:backgroundTint="@color/design_default_color_primary_dark"
         app:tint="@null"
