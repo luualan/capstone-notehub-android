@@ -13,7 +13,7 @@ public class Rating {
     private String username;
     @SerializedName("score")
     @Expose
-    private int score;
+    private float score;
 
     public int getId() {
         return id;
@@ -31,11 +31,11 @@ public class Rating {
         this.username = username;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
