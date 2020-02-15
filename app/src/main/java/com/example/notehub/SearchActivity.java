@@ -216,6 +216,9 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                                     public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                                         if(response.errorBody() == null) {
                                             cards.get(position).setImageFavorite(R.drawable.ic_favorite_toggle_on);
+                                            //ImageView favorite = findViewById(R.id.image_favorite);
+                                            //favorite.setImageResource(R.drawable.ic_favorite_toggle_on);
+                                            adapter.notifyItemChanged(position);
                                         }
                                         else {
                                             showAlertMessage("Could not favorite note.", "Ok");
@@ -236,8 +239,9 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                                         if(response.errorBody() == null) {
                                             // showAlertMessage("");
                                             cards.get(position).setImageFavorite(R.drawable.ic_favorite_star);
-                                            ImageView favorite = findViewById(R.id.image_favorite);
-                                            favorite.setImageResource(R.drawable.ic_favorite_star);
+                                            //ImageView favorite = findViewById(R.id.image_favorite);
+                                            //favorite.setImageResource(R.drawable.ic_favorite_star);
+                                            adapter.notifyItemChanged(position);
                                         }
                                         else {
                                             showAlertMessage("Could not delete favorite note.", "Ok");
