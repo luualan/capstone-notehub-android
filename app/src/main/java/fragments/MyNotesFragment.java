@@ -237,7 +237,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                 Intent intent = new Intent(getActivity(), NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle())
-                        .putExtra("startComment", false);
+                        .putExtra("startComment", true);
                 startActivity(intent);
             }
 

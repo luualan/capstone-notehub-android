@@ -234,7 +234,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                 Intent intent = new Intent(getActivity(), NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle())
-                        .putExtra("startComment", false);
+                        .putExtra("startComment", true);
                 startActivity(intent);
             }
 
