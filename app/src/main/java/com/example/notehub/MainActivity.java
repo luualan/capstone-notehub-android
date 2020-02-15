@@ -2,7 +2,9 @@ package com.example.notehub;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         apiService = buildHTTP();
+    }
+
+    public static String getToken(Context context) {
+        SharedPreferences savePreferences = context.getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+        String key = savePreferences.getString("TOKEN", null);
+        if(key == null)
+            return null;
+        return "Token " + key;
     }
 
     static public ApiInterface buildHTTP() {
