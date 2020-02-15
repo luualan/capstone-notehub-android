@@ -127,7 +127,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         cards = new ArrayList<>();
 
 
-        Call<List<Note>> call = apiService.getNotes(null, null, null, null, null);
+        Call<List<Note>> call = apiService.getNotes(getToken(), null, null, null, null, null);
 
         call.enqueue(new Callback<List<Note>>() {
             @Override
@@ -275,7 +275,12 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             }
 
             @Override
-            public void onCommentClick() {
+            public void onCommentClick(int position) {
+                Intent intent = new Intent(SearchActivity.this, NoteActivity.class)
+                        .putExtra("noteID", cards.get(position).getNoteId())
+                        .putExtra("noteTitle", cards.get(position).getTitle())
+                        .putExtra("startComment", false);
+                startActivity(intent);
             }
 
             @Override
@@ -412,8 +417,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     }
 
     private String getToken() {
-        SharedPreferences savePreferences = this.getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
-        return "Token " + savePreferences.getString("TOKEN", null);
+        return MainActivity.getToken(this);
     }
 
     private void setItemsVisibility(Menu menu, MenuItem exception, boolean visible) {

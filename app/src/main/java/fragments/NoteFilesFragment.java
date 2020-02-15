@@ -59,7 +59,7 @@ public class NoteFilesFragment extends Fragment {
 
         NoteActivity noteActivity = (NoteActivity) getActivity();
 
-        Call<List<NoteFile>> call = apiService.getNoteFiles(noteActivity.getNoteId());
+        Call<List<NoteFile>> call = apiService.getNoteFiles(MainActivity.getToken(noteActivity), noteActivity.getNoteId());
         call.enqueue(new Callback<List<NoteFile>>() {
             @Override
             public void onResponse(Call<List<NoteFile>> call, Response<List<NoteFile>> response) {

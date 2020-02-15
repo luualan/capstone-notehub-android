@@ -288,9 +288,6 @@ public class UploadActivity extends DialogFragment {
 
     private void uploadFile() {
         note = new Note();
-
-        final SharedPreferences savePreferences = getContext().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
-
         Call<University> callUniversity = apiService.getUniversity(schoolDropDown.getText().toString());
 
         final boolean titleCheckEmpty = title.getText().toString().trim().isEmpty();
@@ -319,7 +316,7 @@ public class UploadActivity extends DialogFragment {
                     note.setCourse(course.getText().toString());
 
                     final Call<Note> callNote;
-                    callNote = apiService.uploadNote("Token " + savePreferences.getString("TOKEN", null), note);
+                    callNote = apiService.uploadNote(MainActivity.getToken(getActivity()), note);
 
                     // call note
                     callNote.enqueue(new Callback<Note>() {
@@ -361,7 +358,7 @@ public class UploadActivity extends DialogFragment {
                                     builder.addFormDataPart("index", Integer.toString(i));
                                     builder.addFormDataPart("file", queryName(getContext().getContentResolver(), uris.get(i)), requestFile);
 
-                                    Call<NoteFile> callNoteFile = apiService.uploadNoteFile("Token " + savePreferences.getString("TOKEN", null), note.getId(), builder.build());
+                                    Call<NoteFile> callNoteFile = apiService.uploadNoteFile(MainActivity.getToken(getActivity()), note.getId(), builder.build());
 
                                     // call note file
                                     callNoteFile.enqueue(new Callback<NoteFile>() {

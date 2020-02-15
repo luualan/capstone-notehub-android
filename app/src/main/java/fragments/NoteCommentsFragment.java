@@ -69,7 +69,7 @@ public class NoteCommentsFragment extends Fragment {
 
         final NoteActivity noteActivity = (NoteActivity) getActivity();
 
-        Call<List<Comment>> call = apiService.getNoteComments(noteActivity.getNoteId());
+        Call<List<Comment>> call = apiService.getNoteComments(getToken(), noteActivity.getNoteId());
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
