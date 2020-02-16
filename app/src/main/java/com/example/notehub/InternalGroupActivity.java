@@ -39,7 +39,7 @@ import retrofit2.Response;
 
 import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
-public class InternalGroupActivity extends AppCompatActivity {
+public class InternalGroupActivity extends AppCompatActivity implements UploadActivity.CardHolder {
 
     private int groupID;
     private String groupName;
@@ -57,31 +57,12 @@ public class InternalGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_internal);
 
+        apiService = MainActivity.buildHTTP();
         groupID = getIntent().getIntExtra("groupID", -1);
         groupName = getIntent().getStringExtra("groupName");
+
+        createCardsList();
     }
-
-    public void getGroupNotes(View v) {
-        Random random = new Random();
-        Call<List<Note>> call = apiService.getGroupNotes(MainActivity.getToken(this), groupID, null, null, null, null, null);
-        call.enqueue(new Callback<List<Note>>() {
-            @Override
-            public void onResponse(Call<List<Note>> call, Response<List<Note>> response) {
-                if (response.errorBody() == null) {
-                    List<Note> dataList = response.body();
-
-                } else {
-                    Log.d("TEST", "Failed to upload note");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Note>> call, Throwable t) {
-                Log.d("TEST", "Super Failure");
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,7 +130,6 @@ public class InternalGroupActivity extends AppCompatActivity {
         // Create Cards
         cards = new ArrayList<>();
 
-
         Call<List<Note>> call = apiService.getGroupNotes(getToken(), groupID, null, null, null, null, null);
 
         call.enqueue(new Callback<List<Note>>() {
@@ -200,10 +180,10 @@ public class InternalGroupActivity extends AppCompatActivity {
 
     // Initialize recycle view
     public void buildRecyclerView() {
-        recyclerView = findViewById(R.id.search_recycler_view);
+        recyclerView = findViewById(R.id.internal_recycler);
         // recyclerView.setHasFixedSize(true); // need to remove later IMPORTANT
-        layoutManager = new LinearLayoutManager(this);
-        adapter = new NoteRecyclerViewAdapter(this, cards);
+        layoutManager = new LinearLayoutManager(InternalGroupActivity.this);
+        adapter = new NoteRecyclerViewAdapter(InternalGroupActivity.this, cards);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -445,4 +425,8 @@ public class InternalGroupActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void insertCard(CardView card) {
+            insertItem(cards.size(), card);
+    }
 }
