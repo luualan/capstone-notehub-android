@@ -1,6 +1,5 @@
 package fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notehub.GroupActivity;
-import com.example.notehub.LoginActivity;
+import com.example.notehub.InternalGroupActivity;
 import com.example.notehub.MainActivity;
-import com.example.notehub.NoteActivity;
 import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -28,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import adapters.GroupRecyclerViewAdapter;
 import models.Group;
@@ -108,6 +103,29 @@ public class MyGroupsFragment extends Fragment {
 
         // Set recycler view to use custom comment adapter
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        // Adapter listener on click
+        recyclerViewAdapter.setOnClickListener(new GroupRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getActivity(), InternalGroupActivity.class)
+                        .putExtra("groupID", groups.get(position).getId())
+                        .putExtra("groupName", groups.get(position).getName());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onClickButton(int position) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+
+            }
+        });
+
+
     }
 
     public void createGroup() {
@@ -118,6 +136,8 @@ public class MyGroupsFragment extends Fragment {
 
         MaterialButton createGroupButton;
         groupNameEdit = dialogView.findViewById(R.id.create_group_name);
+        final boolean checkNameEdit = groupNameEdit.getText().toString().trim().isEmpty();
+
         createGroupButton = dialogView.findViewById(R.id.create_group_button);
 
         final AlertDialog showDialog = createDialog.show();
@@ -129,7 +149,6 @@ public class MyGroupsFragment extends Fragment {
                 Group group = new Group();
                 group.setName(groupNameEdit.getText().toString());
 
-                showDialog.dismiss();
                 Call<Group> call = apiService.createGroup(MainActivity.getToken(getActivity()), group);
                 call.enqueue(new Callback<Group>() {
                     @Override
@@ -139,9 +158,10 @@ public class MyGroupsFragment extends Fragment {
                             final Group data = response.body();
                             recyclerViewAdapter.addItem(data);
                             showAlertMessage("Group was successfully created!", "Ok");
+                            showDialog.dismiss();
                         }
                             else {
-                            if (groupNameEdit.getText().toString().trim().isEmpty())
+                            if (checkNameEdit)
                                 groupNameEdit.setError("Please fill out this field.");
 
                             else

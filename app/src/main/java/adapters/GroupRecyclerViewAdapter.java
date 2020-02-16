@@ -31,9 +31,13 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     }
 
     public interface onItemClickListener {
-        void onClickButton();
-        void onItemClick();
-        void onDeleteClick();
+        void onClickButton(int position);
+        void onItemClick(int position);
+        void onDeleteClick(int posiiton);
+    }
+
+    public void setOnClickListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -95,7 +99,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                         int position = getAdapterPosition();
 
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick();
+                            listener.onItemClick(position);
                         }
                     }
                 }
@@ -108,7 +112,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                         int position = getAdapterPosition();
 
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onClickButton();
+                            listener.onClickButton(position);
                         }
                     }
                 }

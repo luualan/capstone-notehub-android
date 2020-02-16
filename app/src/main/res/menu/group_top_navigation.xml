@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/group_nav_invite"
+        android:title="Invite members" />
+
+    <item
+        android:id="@+id/group_nav_upload_notes"
+        android:title="Upload notes" />
+    <item
+        android:id="@+id/group_nav_show_members"
+        android:title="Show members" />
+
+    <item
+        android:id="@+id/group_nav_leave"
+        android:title="Leave group"/>
+
+</menu>
+
