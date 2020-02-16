@@ -47,6 +47,10 @@ public class NoteActivity extends AppCompatActivity {
 
         noteID = getIntent().getIntExtra("noteID", -1);
         noteTitle = getIntent().getStringExtra("noteTitle");
+        boolean startComment = getIntent().getBooleanExtra("startComment", false);
+
+        if (startComment)
+            viewPager.setCurrentItem(1);
 
         // Insert icons
        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_file);

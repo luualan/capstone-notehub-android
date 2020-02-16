@@ -173,8 +173,6 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                     public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                                         if(response.errorBody() == null) {
                                             cards.get(position).setImageFavorite(R.drawable.ic_favorite_toggle_on);
-                                            //ImageView favorite = findViewById(R.id.image_favorite);
-                                            //favorite.setImageResource(R.drawable.ic_favorite_toggle_on);
                                             adapter.notifyItemChanged(position);
                                         }
                                         else {
@@ -194,11 +192,8 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                     @Override
                                     public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                                         if(response.errorBody() == null) {
-                                            // showAlertMessage("");
-                                            cards.get(position).setImageFavorite(R.drawable.ic_favorite_star);
-                                            //ImageView favorite = findViewById(R.id.image_favorite);
-                                            //favorite.setImageResource(R.drawable.ic_favorite_star);
-                                            adapter.notifyItemChanged(position);
+                                            cards.remove(position);
+                                            adapter.notifyItemRemoved(position);
                                         }
                                         else {
                                             showAlertMessage("Could not delete favorite note.", "Ok");
@@ -234,7 +229,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                 Intent intent = new Intent(getActivity(), NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle())
-                        .putExtra("startComment", false);
+                        .putExtra("startComment", true);
                 startActivity(intent);
             }
 

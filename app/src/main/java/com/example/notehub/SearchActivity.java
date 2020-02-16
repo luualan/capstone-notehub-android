@@ -279,7 +279,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                 Intent intent = new Intent(SearchActivity.this, NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle())
-                        .putExtra("startComment", false);
+                        .putExtra("startComment", true);
                 startActivity(intent);
             }
 
