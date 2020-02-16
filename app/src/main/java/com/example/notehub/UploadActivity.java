@@ -74,6 +74,7 @@ public class UploadActivity extends DialogFragment {
     private ImageButton xIcon;
     private ImageButton refreshIcon;
     private CardHolder cardHolder;
+    private int groupID;
 
     public interface CardHolder {
         public void insertCard(CardView card);
@@ -126,6 +127,7 @@ public class UploadActivity extends DialogFragment {
         showFileName = view.findViewById(R.id.show_file_path);
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
         refreshIcon = view.findViewById(R.id.fullscreen_dialog_refresh);
+        groupID = getArguments().getInt("groupID");
 
         call = apiService.getUniversities(null, null, null);
         call.enqueue(new Callback<List<University>>() {
@@ -316,7 +318,10 @@ public class UploadActivity extends DialogFragment {
                     note.setCourse(course.getText().toString());
 
                     final Call<Note> callNote;
-                    callNote = apiService.uploadNote(MainActivity.getToken(getActivity()), note);
+                    if(groupID == -1)
+                        callNote = apiService.uploadNote(MainActivity.getToken(getActivity()), note);
+                    else
+                        callNote = apiService.uploadGroupNote(MainActivity.getToken(getActivity()), groupID, note);
 
                     // call note
                     callNote.enqueue(new Callback<Note>() {

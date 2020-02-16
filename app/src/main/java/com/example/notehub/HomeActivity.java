@@ -91,7 +91,10 @@ public class HomeActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("groupID", -1);
                 dialog = UploadActivity.newInstance();
+                dialog.setArguments(bundle);
                 dialog.show(ft, "dialog");
             }
         });
