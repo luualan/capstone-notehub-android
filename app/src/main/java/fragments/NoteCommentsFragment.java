@@ -43,16 +43,10 @@ public class NoteCommentsFragment extends Fragment {
     private MaterialButton button;
     private ApiInterface apiService;
 
-    // Constructor
-    public NoteCommentsFragment() {
-
-    }
-
     // Store data in list
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         comments = new ArrayList<>();
     }
 
