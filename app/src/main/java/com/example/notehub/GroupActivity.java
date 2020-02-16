@@ -2,10 +2,10 @@ package com.example.notehub;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -13,63 +13,54 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import adapters.NoteRecyclerViewAdapter;
 import adapters.ViewPageAdapter;
-import fragments.FavoriteFragment;
-import fragments.MyNotesFragment;
+import fragments.GroupsNotificationFragment;
+import fragments.MyGroupsFragment;
 import fragments.NoteCommentsFragment;
 import fragments.NoteFilesFragment;
-import models.CardView;
-import models.Note;
-import remote.ApiInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity  {
+public class GroupActivity extends AppCompatActivity {
     // Tabs
-    protected TabLayout tabLayout;
-    protected ViewPager viewPager;
-    protected ViewPageAdapter adapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPageAdapter adapter;
 
     // Bottom Navigation Bar
-    protected FloatingActionButton floatingActionButton;
-    protected BottomAppBar bottomAppBar;
-    protected DialogFragment dialog;
+    private FloatingActionButton floatingActionButton;
+    private BottomAppBar bottomAppBar;
+    private DialogFragment dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_group);
 
         // Initialize
-        tabLayout = findViewById(R.id.home_tab_layout);
-        viewPager = findViewById(R.id.home_view_pager);
+        tabLayout = findViewById(R.id.group_tab_layout);
+        viewPager = findViewById(R.id.group_view_pager);
         adapter = new ViewPageAdapter(getSupportFragmentManager());
 
         // Added Fragments are here
-        adapter.addFragment(new MyNotesFragment(), "Home");
-        adapter.addFragment(new FavoriteFragment(), "Favorite");
+        adapter.addFragment(new MyGroupsFragment(), "Groups");
+        adapter.addFragment(new GroupsNotificationFragment(), "Notification");
 
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        //noteID = getIntent().getIntExtra("noteID", -1);
+        //noteTitle = getIntent().getStringExtra("noteTitle");
+
         // Insert icons
-       //tabLayout.getTabAt(0).setIcon(R.drawable.ic_person);
-        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_favorite_star);
+        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_file);
+        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_comment);
 
         // Bottom App bar
         bottomAppBar = findViewById(R.id.bottomAppBar);
@@ -115,15 +106,15 @@ public class HomeActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.nav_search:
-                Intent homeIntent = new Intent(this, SearchActivity.class);
+                Intent homeIntent = new Intent(GroupActivity.this, SearchActivity.class);
                 startActivity(homeIntent);
                 //floatingActionButton.hide();
-               // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-               // item.expandActionView();
+                // bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+                // item.expandActionView();
                 return true;
             case R.id.nav_groups:
                 bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                Intent groupIntent = new Intent(this, GroupActivity.class);
+                Intent groupIntent = new Intent(GroupActivity.this, GroupActivity.class);
                 startActivity(groupIntent);
                 return true;
             case R.id.nav_settings:
@@ -140,13 +131,14 @@ public class HomeActivity extends AppCompatActivity  {
 
     // Return to home page
     public void home(View v) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(GroupActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
     // Return to sign up page
     public void signOut() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(GroupActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
 }

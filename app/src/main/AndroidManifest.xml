@@ -15,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NoteActivity"
-            android:theme="@style/AppTheme.ActionBar"/>
+        <activity android:name=".GroupActivity" />
+        <activity
+            android:name=".NoteActivity"
+            android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".SearchActivity"
             android:theme="@style/AppTheme.ActionBar" />

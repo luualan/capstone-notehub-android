@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginBottom="2dp"
+    app:cardCornerRadius="4dp">
 
-    <!-- <ImageView
-          android:layout_width="56dp"
-          android:layout_height="56dp"
-          android:src="@mipmap/ic_launcher_round"/>-->
-
-    <!--     app:civ_border_color="#000"
-       app:civ_border_width="2dp"-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/note_user_img"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/anime"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="16dp">
-
-        <TextView
-            android:id="@+id/note_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="Name:"/>
-
-        <TextView
-            android:id="@+id/note_user_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="Description"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="end"
+    <RelativeLayout
+        android:id="@+id/action_note"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
 
-        <ImageView
-            android:layout_gravity="center_vertical"
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/group_button"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="3dp"
+            android:enabled="true"
+            android:fontFamily="@font/permanentmarker"
+            android:text="Join"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:rippleColor="@color/white" />
+
+        <TextView
+            android:id="@+id/group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_file"
-            android:background="#000"/>
-    </LinearLayout>
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:ellipsize="end"
+            android:maxEms="10"
+            android:maxLines="1"
+            android:text="Group Name"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_group_moderator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/group_name"
+            android:layout_marginTop="0dp"
+            android:ellipsize="end"
+            android:maxEms="25"
+            android:maxLines="1"
+            android:text="Moderator"
+            android:textSize="15sp" />
 
 
-</LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

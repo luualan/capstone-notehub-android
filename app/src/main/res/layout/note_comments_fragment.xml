@@ -26,7 +26,7 @@
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:padding="2dp"
         android:src="@drawable/anime"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:id="@+id/input_layout_comment"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="253dp"
-        android:layout_height="50dp"
+        android:layout_height="57dp"
         android:layout_margin="5dp"
         android:layout_marginTop="4dp"
         android:hint="Add a public comment..."
@@ -67,6 +67,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/open_sans"
             android:inputType="text"
+            android:imeOptions="actionDone"
             android:selectAllOnFocus="true"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
