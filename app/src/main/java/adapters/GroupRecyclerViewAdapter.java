@@ -64,7 +64,11 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     public void addItem(Group group) {
         if (group != null) {
             groups.add(group);
-            notifyItemInserted(groups.size() - 1);
+            int size = (groups.size() - 1);
+
+            groups.get(size).setModeratorUsername("Moderator: " +
+                    groups.get(size).getModeratorUsername());
+            notifyItemInserted(size);
         }
     }
 
