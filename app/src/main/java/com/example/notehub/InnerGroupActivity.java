@@ -4,21 +4,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
 import models.Group;
-import models.Membership;
+import models.Invitation;
 import models.Note;
 import models.Rating;
 import remote.ApiInterface;
@@ -39,8 +42,7 @@ import retrofit2.Response;
 
 import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
-public class InternalGroupActivity extends AppCompatActivity implements UploadActivity.CardHolder {
-
+public class InnerGroupActivity extends AppCompatActivity implements UploadActivity.CardHolder {
     private int groupID;
     private String groupName;
 
@@ -51,11 +53,12 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
     private ApiInterface apiService;
     private ArrayList<CardView> cards = new ArrayList<>();
     private DialogFragment dialogFragment;
+    private EditText groupMemberNameEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_internal);
+        setContentView(R.layout.activity_inner_group);
 
         apiService = MainActivity.buildHTTP();
         groupID = getIntent().getIntExtra("groupID", -1);
@@ -84,9 +87,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.group_nav_invite:
-                Toast.makeText(this, "Invite", Toast.LENGTH_SHORT).show();
-               // Intent homeIntent = new Intent(this, SearchActivity.class);
-                //startActivity(homeIntent);
+                uploadGroupInvitation();
                 return true;
             case R.id.group_nav_upload_notes:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -97,13 +98,16 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
                 dialogFragment.show(ft, "dialog");
                 return true;
             case R.id.group_nav_show_members:
-                Toast.makeText(this, "Show members", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(InnerGroupActivity.this, GroupMembersActivity.class)
+                        .putExtra("groupID", groupID)
+                        .putExtra("groupName", groupName);
+                startActivity(intent);
                 return true;
             case R.id.group_nav_leave:
                 //Call<Membership> call =
                 //Call<Membership> call = apiService.deleteGroupMembership(getToken(), groupID, );
-                Intent leaveIntent = new Intent(this, GroupActivity.class);
-                startActivity(leaveIntent);
+                startActivity(new Intent(this, GroupActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -182,8 +186,8 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.internal_recycler);
         // recyclerView.setHasFixedSize(true); // need to remove later IMPORTANT
-        layoutManager = new LinearLayoutManager(InternalGroupActivity.this);
-        adapter = new NoteRecyclerViewAdapter(InternalGroupActivity.this, cards);
+        layoutManager = new LinearLayoutManager(InnerGroupActivity.this);
+        adapter = new NoteRecyclerViewAdapter(InnerGroupActivity.this, cards);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -193,7 +197,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
             @Override
             public void onItemClick(int position) {
                 //changeItem(position, "Clicked");
-                Intent intent = new Intent(InternalGroupActivity.this, NoteActivity.class)
+                Intent intent = new Intent(InnerGroupActivity.this, NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle());
                 startActivity(intent);
@@ -202,7 +206,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
             // Card clicked on gets sent to home
             @Override
             public void onFavoriteClick(final int position) {
-                Intent intent = new Intent(InternalGroupActivity.this, HomeActivity.class);
+                Intent intent = new Intent(InnerGroupActivity.this, HomeActivity.class);
 
                 Call<List<Favorite>> callGet = apiService.getNoteFavorites(getToken(), cards.get(position).getNoteId());
 
@@ -278,7 +282,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
 
             @Override
             public void onCommentClick(int position) {
-                Intent intent = new Intent(InternalGroupActivity.this, NoteActivity.class)
+                Intent intent = new Intent(InnerGroupActivity.this, NoteActivity.class)
                         .putExtra("noteID", cards.get(position).getNoteId())
                         .putExtra("noteTitle", cards.get(position).getTitle())
                         .putExtra("startComment", true);
@@ -287,13 +291,13 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
 
             @Override
             public void onReportClick() {
-                new MaterialAlertDialogBuilder(InternalGroupActivity.this)
+                new MaterialAlertDialogBuilder(InnerGroupActivity.this)
                         .setTitle("Report Note")
                         .setMessage("Do you want to report this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialAlertDialogBuilder(InternalGroupActivity.this)
+                                new MaterialAlertDialogBuilder(InnerGroupActivity.this)
                                         .setMessage("Note successfully reported.")
                                         .setPositiveButton("Done", null)
                                         .show();
@@ -306,7 +310,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
             // Click on delete image deletes card
             @Override
             public void onDeleteClick(final int position) {
-                new MaterialAlertDialogBuilder(InternalGroupActivity.this)
+                new MaterialAlertDialogBuilder(InnerGroupActivity.this)
                         .setTitle("Delete Note")
                         .setMessage("Do you want to delete this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -383,6 +387,52 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
         });
     }
 
+    private void uploadGroupInvitation() {
+        // Creates pop up dialog with input field and submit button
+        final AlertDialog.Builder createDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.invite_user, null);
+        createDialog.setView(dialogView);
+
+        MaterialButton addMemberButton;
+        groupMemberNameEdit = dialogView.findViewById(R.id.invite_username);
+
+        addMemberButton = dialogView.findViewById(R.id.invite_user_button);
+        final AlertDialog showDialog = createDialog.show();
+
+        // Click create button
+        addMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Invitation invitation = new Invitation();
+                invitation.setUsername(groupMemberNameEdit.toString());
+
+                Call<Invitation> call = apiService.uploadGroupInvitation(MainActivity.getToken(InnerGroupActivity.this), groupID, invitation);
+                call.enqueue(new Callback<Invitation>() {
+                    @Override
+                    public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                        if (response.errorBody() == null) {
+                            showAlertMessage("Invitation was successfully sent!", "Ok");
+                            showDialog.dismiss();
+                        }
+                        else {
+                            if (groupMemberNameEdit.getText().toString().trim().isEmpty())
+                                groupMemberNameEdit.setError("Please fill out this field.");
+
+                            else
+                                showAlertMessage("Failed to add user.", "Ok");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Invitation> call, Throwable t) {
+                        Log.d("TEST", "Super Failure");
+                    }
+                });
+            }
+        });
+    }
+
     // Remove item in recycle view
     public void removeItem(final int position) {
         //cards.remove(position);
@@ -419,7 +469,7 @@ public class InternalGroupActivity extends AppCompatActivity implements UploadAc
     }
 
     private void showAlertMessage(String message, String buttonText) {
-        new MaterialAlertDialogBuilder(InternalGroupActivity.this)
+        new MaterialAlertDialogBuilder(InnerGroupActivity.this)
                 .setMessage(message)
                 .setPositiveButton(buttonText, null)
                 .show();

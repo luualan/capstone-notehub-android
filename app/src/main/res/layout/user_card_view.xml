@@ -16,7 +16,7 @@
        app:civ_border_width="2dp"-->
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/note_user_img"
+        android:id="@+id/group_member_user_img"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/anime"/>
@@ -28,7 +28,7 @@
         android:layout_marginLeft="16dp">
 
         <TextView
-            android:id="@+id/note_username"
+            android:id="@+id/group_member_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -36,26 +36,33 @@
             android:text="Name:"/>
 
         <TextView
-            android:id="@+id/note_user_description"
+            android:id="@+id/group_member_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="Description"/>
+            android:text="Rank"/>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:gravity="end"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_gravity="center_vertical"
+        <TextView
+            android:id="@+id/group_member_join_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_file"
-            android:background="#000"/>
-    </LinearLayout>
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Date"/>
 
+        <ImageView
+            android:id="@+id/group_member_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove"
+            android:layout_below="@id/group_member_join_date" />
 
+    </RelativeLayout>
 </LinearLayout>

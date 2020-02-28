@@ -7,35 +7,11 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <!--    <ImageView
-           android:id="@+id/image_activity2"
-           android:layout_width="100dp"
-           android:layout_height="100dp" />
-
-       <TextView
-           android:id="@+id/text1_activity2"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="30sp" />
-
-       <TextView
-           android:id="@+id/text2_activity2"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="30sp" />
-
-       <TextView
-           android:id="@+id/list_of_text"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="15sp" />-->
-
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/home_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:background="@drawable/animation_background"
         app:tabTextColor="@color/white"
         app:tabMode="fixed"
         app:tabGravity="fill"
@@ -53,11 +29,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp">
+        android:layout_height="56dp">
 
          <include
-        android:id="@+id/appBar"
-        layout="@layout/app_bar" />
+        android:id="@+id/nav_bar"
+        layout="@layout/bottom_navigation_bar" />
     </FrameLayout>
 
 

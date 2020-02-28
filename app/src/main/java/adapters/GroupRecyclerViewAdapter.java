@@ -21,7 +21,7 @@ import models.Group;
 // Group Recycler View Adapter
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder> {
     private Context context;
-    private List<Group> groups;
+    private static List<Group> groups;
     private onItemClickListener listener;
 
     // Group Constructor
@@ -33,7 +33,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     public interface onItemClickListener {
         void onClickButton(int position);
         void onItemClick(int position);
-        void onDeleteClick(int posiiton);
+        void onDeleteClick(int position);
     }
 
     public void setOnClickListener(onItemClickListener listener) {
@@ -93,6 +93,16 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             groupName = itemView.findViewById(R.id.group_name_text);
             moderator = itemView.findViewById(R.id.group_moderator_text);
             button = itemView.findViewById(R.id.group_button);
+
+            int position = getAdapterPosition();
+            // groups.get(position).getModeratorUsername();
+
+           /* if (groups.get(position).isModerator() {
+
+            }
+            else
+            button.setText("Leave");*/
+
             button.setText("Leave");
             button.setBackgroundColor(0xffff4444);
 

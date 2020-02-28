@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notehub.InternalGroupActivity;
+import com.example.notehub.InnerGroupActivity;
 import com.example.notehub.MainActivity;
 import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
@@ -108,7 +108,7 @@ public class MyGroupsFragment extends Fragment {
         recyclerViewAdapter.setOnClickListener(new GroupRecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getActivity(), InternalGroupActivity.class)
+                Intent intent = new Intent(getActivity(), InnerGroupActivity.class)
                         .putExtra("groupID", groups.get(position).getId())
                         .putExtra("groupName", groups.get(position).getName());
                 startActivity(intent);
@@ -124,8 +124,6 @@ public class MyGroupsFragment extends Fragment {
 
             }
         });
-
-
     }
 
     public void createGroup() {
@@ -139,8 +137,8 @@ public class MyGroupsFragment extends Fragment {
         final boolean checkNameEdit = groupNameEdit.getText().toString().trim().isEmpty();
 
         createGroupButton = dialogView.findViewById(R.id.create_group_button);
-
         final AlertDialog showDialog = createDialog.show();
+
         // Click create button
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override

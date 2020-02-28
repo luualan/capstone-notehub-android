@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:drawable="@drawable/color_three"
+        android:drawable="@drawable/purplepine"
         android:duration="6000"/>
 
-  <!--  <item
-        android:drawable="@drawable/color_two"
-        android:duration="6000"/>-->
+    <item
+        android:drawable="@drawable/reef"
+        android:duration="6000"/>
 
     <item
-        android:drawable="@drawable/color_one"
+        android:drawable="@drawable/pacific_dream"
+        android:duration="6000"/>
+
+   <item
+        android:drawable="@drawable/purple_bliss"
+        android:duration="6000"/>
+
+
+    <item
+        android:drawable="@drawable/love_and_liberty"
+        android:duration="6000"/>
+
+
+    <item
+        android:drawable="@drawable/miaka"
+        android:duration="6000"/>
+
+    <item
+        android:drawable="@drawable/dance_to_forget"
+        android:duration="6000"/>
+
+    <item
+        android:drawable="@drawable/under_the_lake"
         android:duration="6000"/>
 
 </animation-list>
