@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import models.Group;
 import models.Membership;
 
 // Group Members Recycler View Adapter
@@ -25,17 +26,19 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
     private Context context;
     private static List<Membership> members;
     private onItemClickListener listener;
+    private static Group group;
 
     // Group Members Constructor
-    public GroupMembersRecyclerViewAdapter(Context context, List<Membership> members) {
+    public GroupMembersRecyclerViewAdapter(Context context, List<Membership> members, Group group) {
         this.context = context;
         this.members = members;
+        this.group = group;
     }
 
     public interface onItemClickListener {
        // void onClickButton(int position);
         // void onItemClick(int position);
-       // void onDeleteClick(int position);
+       void onDeleteClick(int position);
     }
 
     public void setOnClickListener(onItemClickListener listener) {
@@ -77,8 +80,6 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
             members.add(member);
             int size = (members.size() - 1);
 
-            members.get(size).setUsername("Name: " +
-                    members.get(size).getUsername());
             notifyItemInserted(size);
         }
     }
@@ -94,7 +95,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
         private TextView name;
         private TextView joinDate;
         private TextView role;
-       // private ImageView remove;
+        private ImageView remove;
 
 
         // View Constructor
@@ -104,12 +105,12 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
             name = itemView.findViewById(R.id.group_member_name);
             joinDate = itemView.findViewById(R.id.group_member_join_date);
             role = itemView.findViewById(R.id.group_member_rank);
-          //  remove = itemView.findViewById(R.id.group_button);
+            remove = itemView.findViewById(R.id.group_member_remove);
 
             // hide remove button
-          //  remove.setVisibility(View.GONE);
+            if(!group.getIsModerator())
+                remove.setVisibility(View.GONE);
 
-            int position = getAdapterPosition();
 
          /*   itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,16 +123,18 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
                 }
             });*/
 
-        /*    remove.setOnClickListener(new View.OnClickListener() {
+            remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
+                        int position = getAdapterPosition();
+
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onClickButton(position);
+                            listener.onDeleteClick(position);
                         }
                     }
                 }
-            });*/
+            });
         }
     }
 }

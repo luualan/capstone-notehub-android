@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +29,7 @@ import static androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
 public class GroupMembersActivity extends AppCompatActivity {
     private int groupID;
+    private Group group;
     private String groupName;
 
     private RecyclerView recyclerView;
@@ -35,6 +38,7 @@ public class GroupMembersActivity extends AppCompatActivity {
 
     private ApiInterface apiService;
     private ArrayList<Membership> members = new ArrayList<>();
+    private boolean isModerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,20 @@ public class GroupMembersActivity extends AppCompatActivity {
         apiService = MainActivity.buildHTTP();
         groupID = getIntent().getIntExtra("groupID", -1);
         groupName = getIntent().getStringExtra("groupName");
-        createMembersList();
+        Call<Group> call = apiService.getGroup(MainActivity.getToken(GroupMembersActivity.this), groupID);
+        call.enqueue(new Callback<Group>() {
+            @Override
+            public void onResponse(Call<Group> call, Response<Group> response) {
+                if(response.errorBody() == null)
+                    group = response.body();
+                createMembersList();
+            }
+
+            @Override
+            public void onFailure(Call<Group> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -63,8 +80,7 @@ public class GroupMembersActivity extends AppCompatActivity {
                     //groups = response.body();
                     for (Membership member : response.body())
                         adapter.addItem(member);
-                }
-                else
+                } else
                     showAlertMessage("Error, could not load users groups.", "Ok");
             }
 
@@ -80,7 +96,7 @@ public class GroupMembersActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.group_members_recycler);
 
         // Defines the list displaying in recycler view and set layout to linear
-        adapter = new GroupMembersRecyclerViewAdapter(this, members);
+        adapter = new GroupMembersRecyclerViewAdapter(this, members, group);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Set recycler view to use custom comment adapter
@@ -88,6 +104,8 @@ public class GroupMembersActivity extends AppCompatActivity {
 
         // Adapter listener on click
         adapter.setOnClickListener(new GroupMembersRecyclerViewAdapter.onItemClickListener() {
+            final Context context = GroupMembersActivity.this;
+            final String token = MainActivity.getToken(context);
          /*   @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(GroupMembersActivity.this, InnerGroupActivity.class)
@@ -96,15 +114,54 @@ public class GroupMembersActivity extends AppCompatActivity {
                 startActivity(intent);
             }*/
 
-   /*         @Override
-            public void onClickButton(int position) {
+            /*         @Override
+                     public void onClickButton(int position) {
 
-            }
+                     }
 
+             */
             @Override
-            public void onDeleteClick(int position) {
+            public void onDeleteClick(final int position) {
+                final Context context = GroupMembersActivity.this;
+                final String token = MainActivity.getToken(context);
+                final Membership member = members.get(position);
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("Kick member")
+                        .setMessage("Do you want to leave kick " + member.getUsername() + " from the group?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<Membership> call = apiService.deleteGroupMembership(token, member.getGroup(), member.getId());
+                                call.enqueue(new Callback<Membership>() {
+                                    @Override
+                                    public void onResponse(Call<Membership> call, Response<Membership> response) {
+                                        if (response.errorBody() == null) {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Successfully kicked " + member.getUsername() + " from the group.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                            adapter.removeItem(position);
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Failed to kick " + member.getUsername() + " from the group.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
 
-            }*/
+                                    @Override
+                                    public void onFailure(Call<Membership> call, Throwable t) {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to kick " + member.getUsername() + " from the group.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
         });
     }
 
