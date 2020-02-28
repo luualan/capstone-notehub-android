@@ -31,7 +31,9 @@ import java.util.List;
 import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
+import models.Group;
 import models.Invitation;
+import models.Membership;
 import models.Note;
 import models.NoteReport;
 import models.Rating;
@@ -69,7 +71,7 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.group_top_navigation, menu);
 
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
@@ -81,6 +83,32 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
 
         // Display back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Call<Group> call = apiService.getGroup(getToken(), groupID);
+
+        // Hide invite members item from menu when user is not a moderator
+        call.enqueue(new Callback<Group>() {
+            @Override
+            public void onResponse(Call<Group> call, Response<Group> response) {
+                if(response.errorBody() == null) {
+
+                    if(response.body().getIsModerator()) {
+                        MenuItem leaveItem = menu.findItem(R.id.group_nav_leave);
+                        leaveItem.setTitle("Delete group");
+                    }
+                    else {
+                        MenuItem inviteItem = menu.findItem(R.id.group_nav_invite);
+                        inviteItem.setVisible(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Group> call, Throwable t) {
+
+            }
+        });
+
         return true;
     }
 
@@ -105,9 +133,87 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
                 startActivity(intent);
                 return true;
             case R.id.group_nav_leave:
-                //Call<Membership> call =
-                //Call<Membership> call = apiService.deleteGroupMembership(getToken(), groupID, );
-                startActivity(new Intent(this, GroupActivity.class));
+                Call<Group> call = apiService.getGroup(getToken(), groupID);
+
+                // Get group call
+                call.enqueue(new Callback<Group>() {
+                    @Override
+                    public void onResponse(Call<Group> call, final Response<Group> response) {
+                        if(response.errorBody() == null) {
+                            // If moderator, enable delete group functionality
+                            if(response.body().getIsModerator()) {
+                                new MaterialAlertDialogBuilder(InnerGroupActivity.this)
+                                        .setTitle("Delete group")
+                                        .setMessage("Do you want to delete this group?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Call<Group> call = apiService.deleteGroup(getToken(), groupID);
+
+                                                // Delete group call
+                                                call.enqueue(new Callback<Group>() {
+                                                    @Override
+                                                    public void onResponse(Call<Group> call, Response<Group> response) {
+                                                        if(response.errorBody() == null) {
+                                                            showAlertMessage("Successfully deleted group.", "Done");
+                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                        }
+                                                        else
+                                                            showAlertMessage("Failed to delete group.", "Done");
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Group> call, Throwable t) {
+                                                        showAlertMessage("Failed to delete group.", "Done");
+                                                    }
+                                                });
+                                            }
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .show();
+                            }
+                            // Otherwise, enable leave functionality
+                            else {
+                                new MaterialAlertDialogBuilder(InnerGroupActivity.this)
+                                        .setTitle("Leave group")
+                                        .setMessage("Do you want to leave this group?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // Group group = groups.get(position);
+                                                Call<Membership> call = apiService.deleteGroupMembership(getToken(), groupID, response.body().getMembershipID());
+                                                call.enqueue(new Callback<Membership>() {
+                                                    @Override
+                                                    public void onResponse(Call<Membership> call, Response<Membership> response) {
+                                                        if(response.errorBody() == null) {
+                                                            showAlertMessage("Successfully left group.", "Done");
+                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                        }
+                                                         else
+                                                            showAlertMessage("Failed to leave group.", "Done");
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Membership> call, Throwable t) {
+                                                        showAlertMessage("Failed to leave group.", "Done");
+                                                    }
+                                                });
+                                            }
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .show();
+                            }
+                        }
+                        else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Group> call, Throwable t) {
+
+                    }
+                });
                 return true;
         }
 
