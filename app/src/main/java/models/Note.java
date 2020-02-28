@@ -38,6 +38,12 @@ public class Note {
     @SerializedName("avg_rating")
     @Expose
     private float avgRating;
+    @SerializedName("is_author")
+    @Expose
+    private boolean isAuthor;
+    @SerializedName("has_rated")
+    @Expose
+    private boolean hasRated;
 
     public int getId() {
         return id;
@@ -111,4 +117,19 @@ public class Note {
 
     public void setAvgRating(float avg) { this.avgRating = avg; }
 
+    public boolean isAuthor() {
+        return isAuthor;
+    }
+
+    public void setIsAuthor(boolean author) {
+        isAuthor = author;
+    }
+
+    public boolean hasRated() {
+        return hasRated;
+    }
+
+    public void setHasRated(boolean hasRated) {
+        this.hasRated = hasRated;
+    }
 }
