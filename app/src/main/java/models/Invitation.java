@@ -20,6 +20,9 @@ public class Invitation {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("moderator_username")
+    @Expose
+    private String moderatorUsername;
 
     public int getId() {
         return id;
@@ -61,4 +64,11 @@ public class Invitation {
         this.username = username;
     }
 
+    public String getModeratorUsername() {
+        return moderatorUsername;
+    }
+
+    public void setModeratorUsername(String moderatorUsername) {
+        this.moderatorUsername = moderatorUsername;
+    }
 }
