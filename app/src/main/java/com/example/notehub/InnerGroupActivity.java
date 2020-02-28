@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import java.util.List;
 import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
+import models.Invitation;
 import models.Note;
 import models.NoteReport;
 import models.Rating;
@@ -285,7 +291,7 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
 
             @Override
             public void onReportClick(int position) {
-                final Context context = InternalGroupActivity.this;
+                final Context context = InnerGroupActivity.this;
                 final int noteID = cards.get(position).getNoteId();
                 new MaterialAlertDialogBuilder(context)
                         .setTitle("NoteReport Note")
