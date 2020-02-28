@@ -20,6 +20,15 @@ public class Membership {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("role")
+    @Expose
+    private String role;
+    @SerializedName("is_user")
+    @Expose
+    private Boolean isUser;
+    @SerializedName("joined_at")
+    @Expose
+    private String joinedAt;
 
     public int getId() {
         return id;
@@ -61,4 +70,28 @@ public class Membership {
         this.username = username;
     }
 
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Boolean getIsUser() {
+        return isUser;
+    }
+
+    public void setIsUser(Boolean user) {
+        isUser = user;
+    }
+
+    public String getJoinedAt() {
+        return joinedAt;
+    }
+
+    public void setJoinedAt(String joinedAt) {
+        this.joinedAt = joinedAt;
+    }
 }
