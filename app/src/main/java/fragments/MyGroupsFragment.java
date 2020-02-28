@@ -1,5 +1,7 @@
 package fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import adapters.GroupRecyclerViewAdapter;
 import models.Group;
+import models.Membership;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,8 +84,7 @@ public class MyGroupsFragment extends Fragment {
                     //groups = response.body();
                     for (Group group : response.body())
                         recyclerViewAdapter.addItem(group);
-                }
-                else
+                } else
                     showAlertMessage("Error, could not load users groups.", "Ok");
 
             }
@@ -115,16 +117,54 @@ public class MyGroupsFragment extends Fragment {
             }
 
             @Override
-            public void onClickButton(int position) {
+            public void onClickButton(final int position) {
+                final Context context = getContext();
+                final String token = MainActivity.getToken(context);
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("Leave group")
+                        .setMessage("Do you want to leave this group?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Group group = groups.get(position);
+                                Call<Membership> call = apiService.deleteGroupMembership(token, group.getId(), group.getMembershipID());
+                                call.enqueue(new Callback<Membership>() {
+                                    @Override
+                                    public void onResponse(Call<Membership> call, Response<Membership> response) {
+                                        if(response.errorBody() == null) {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Successfully left group.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                            recyclerViewAdapter.removeItem(position);
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Failed to leave group.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Call<Membership> call, Throwable t) {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to leave group.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
 
-            @Override
-            public void onDeleteClick(int position) {
+        @Override
+        public void onDeleteClick (int position){
 
-            }
-        });
-    }
+        }
+    });
+}
 
     public void createGroup() {
         final AlertDialog.Builder createDialog = new AlertDialog.Builder(getActivity());
@@ -157,8 +197,7 @@ public class MyGroupsFragment extends Fragment {
                             recyclerViewAdapter.addItem(data);
                             showAlertMessage("Group was successfully created!", "Ok");
                             showDialog.dismiss();
-                        }
-                            else {
+                        } else {
                             if (checkNameEdit)
                                 groupNameEdit.setError("Please fill out this field.");
 

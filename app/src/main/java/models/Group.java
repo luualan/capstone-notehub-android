@@ -20,6 +20,9 @@ public class Group {
     @SerializedName("is_moderator")
     @Expose
     private Boolean isModerator;
+    @SerializedName("membership_id")
+    @Expose
+    private int membershipID;
 
     public int getId() {
         return id;
@@ -61,4 +64,11 @@ public class Group {
         this.isModerator = isModerator;
     }
 
+    public int getMembershipID() {
+        return membershipID;
+    }
+
+    public void setMembershipID(int membershipID) {
+        this.membershipID = membershipID;
+    }
 }
