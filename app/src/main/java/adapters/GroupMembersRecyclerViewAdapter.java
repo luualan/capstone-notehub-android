@@ -62,7 +62,8 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
         } catch (Exception ParseException) {
             date = new Date();
         }
-        holder.joinDate.setText(dateReadableFormat.format(date));
+        holder.joinDate.setText("Joined: " + dateReadableFormat.format(date));
+        holder.role.setText("Role: " + members.get(position).getRole());
        // holder.image.setImageResource(members.get(position).getPhoto());
     }
 
@@ -92,6 +93,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView joinDate;
+        private TextView role;
        // private ImageView remove;
 
 
@@ -101,6 +103,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
 
             name = itemView.findViewById(R.id.group_member_name);
             joinDate = itemView.findViewById(R.id.group_member_join_date);
+            role = itemView.findViewById(R.id.group_member_rank);
           //  remove = itemView.findViewById(R.id.group_button);
 
             // hide remove button
