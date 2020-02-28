@@ -155,8 +155,15 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
                                                     @Override
                                                     public void onResponse(Call<Group> call, Response<Group> response) {
                                                         if(response.errorBody() == null) {
-                                                            showAlertMessage("Successfully deleted group.", "Done");
-                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                            new MaterialAlertDialogBuilder(InnerGroupActivity.this)
+                                                                    .setMessage("Successfully deleted group.")
+                                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                                        }
+                                                                    })
+                                                                    .show();
                                                         }
                                                         else
                                                             showAlertMessage("Failed to delete group.", "Done");
@@ -186,8 +193,15 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
                                                     @Override
                                                     public void onResponse(Call<Membership> call, Response<Membership> response) {
                                                         if(response.errorBody() == null) {
-                                                            showAlertMessage("Successfully left group.", "Done");
-                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                            new MaterialAlertDialogBuilder(InnerGroupActivity.this)
+                                                                    .setMessage("Successfully left group.")
+                                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            startActivity(new Intent(InnerGroupActivity.this, GroupActivity.class));
+                                                                        }
+                                                                    })
+                                                                    .show();
                                                         }
                                                          else
                                                             showAlertMessage("Failed to leave group.", "Done");
