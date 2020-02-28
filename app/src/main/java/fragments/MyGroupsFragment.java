@@ -120,43 +120,90 @@ public class MyGroupsFragment extends Fragment {
             public void onClickButton(final int position) {
                 final Context context = getContext();
                 final String token = MainActivity.getToken(context);
-                new MaterialAlertDialogBuilder(context)
-                        .setTitle("Leave group")
-                        .setMessage("Do you want to leave this group?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Group group = groups.get(position);
-                                Call<Membership> call = apiService.deleteGroupMembership(token, group.getId(), group.getMembershipID());
-                                call.enqueue(new Callback<Membership>() {
-                                    @Override
-                                    public void onResponse(Call<Membership> call, Response<Membership> response) {
-                                        if(response.errorBody() == null) {
+                final Group group = groups.get(position);
+
+                // If moderator, enable delete group functionality
+                if(groups.get(position).getIsModerator()) {
+                    new MaterialAlertDialogBuilder(context)
+                            .setTitle("Delete group")
+                            .setMessage("Do you want to delete this group?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Call<Group> call = apiService.deleteGroup(token, group.getId());
+                                    call.enqueue(new Callback<Group>() {
+                                        @Override
+                                        public void onResponse(Call<Group> call, Response<Group> response) {
+                                            if(response.errorBody() == null) {
+                                                new MaterialAlertDialogBuilder(context)
+                                                        .setMessage("Successfully deleted group.")
+                                                        .setPositiveButton("Done", null)
+                                                        .show();
+                                                recyclerViewAdapter.removeItem(position);
+                                            }
+                                            else {
+                                                new MaterialAlertDialogBuilder(context)
+                                                        .setMessage("Failed to delete group.")
+                                                        .setPositiveButton("Done", null)
+                                                        .show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Group> call, Throwable t) {
                                             new MaterialAlertDialogBuilder(context)
-                                                    .setMessage("Successfully left group.")
+                                                    .setMessage("Failed to delete group.")
                                                     .setPositiveButton("Done", null)
                                                     .show();
-                                            recyclerViewAdapter.removeItem(position);
-                                        } else {
+                                        }
+                                    });
+
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+
+                // Otherwise, enable leave functionality
+                else {
+                    new MaterialAlertDialogBuilder(context)
+                            .setTitle("Leave group")
+                            .setMessage("Do you want to leave this group?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Group group = groups.get(position);
+                                    Call<Membership> call = apiService.deleteGroupMembership(token, group.getId(), group.getMembershipID());
+                                    call.enqueue(new Callback<Membership>() {
+                                        @Override
+                                        public void onResponse(Call<Membership> call, Response<Membership> response) {
+                                            if(response.errorBody() == null) {
+                                                new MaterialAlertDialogBuilder(context)
+                                                        .setMessage("Successfully left group.")
+                                                        .setPositiveButton("Done", null)
+                                                        .show();
+                                                recyclerViewAdapter.removeItem(position);
+                                            } else {
+                                                new MaterialAlertDialogBuilder(context)
+                                                        .setMessage("Failed to leave group.")
+                                                        .setPositiveButton("Done", null)
+                                                        .show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Membership> call, Throwable t) {
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Failed to leave group.")
                                                     .setPositiveButton("Done", null)
                                                     .show();
                                         }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Membership> call, Throwable t) {
-                                        new MaterialAlertDialogBuilder(context)
-                                                .setMessage("Failed to leave group.")
-                                                .setPositiveButton("Done", null)
-                                                .show();
-                                    }
-                                });
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                                    });
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
             }
 
         @Override

@@ -88,7 +88,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
             username = itemView.findViewById(R.id.invitation_username_text);
             button = itemView.findViewById(R.id.invitation_button);
             button.setText("Join");
-            button.setBackgroundColor(0x00ff00);
+            button.setBackgroundColor(Color.GREEN);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

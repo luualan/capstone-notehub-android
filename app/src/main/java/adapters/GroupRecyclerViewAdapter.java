@@ -54,6 +54,15 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         holder.groupName.setText(groups.get(position).getName());
         holder.moderator.setText(groups.get(position).getModeratorUsername());
        // holder.image.setImageResource(groups.get(position).getPhoto());
+
+        // Set text for button
+        if (groups.get(position).getIsModerator())
+            holder.button.setText("Delete");
+
+        else
+            holder.button.setText("Leave");
+
+        holder.button.setBackgroundColor(0xffff4444);
     }
 
     @Override
@@ -93,18 +102,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             groupName = itemView.findViewById(R.id.group_name_text);
             moderator = itemView.findViewById(R.id.group_moderator_text);
             button = itemView.findViewById(R.id.group_button);
-
-            int position = getAdapterPosition();
-            // groups.get(position).getModeratorUsername();
-
-           /* if (groups.get(position).isModerator() {
-
-            }
-            else
-            button.setText("Leave");*/
-
-            button.setText("Leave");
-            button.setBackgroundColor(0xffff4444);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
