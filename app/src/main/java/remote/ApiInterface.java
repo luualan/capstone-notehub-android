@@ -3,6 +3,7 @@ package remote;
 import java.util.List;
 
 import models.Comment;
+import models.CommentReport;
 import models.CreateUser;
 import models.Favorite;
 import models.Group;
@@ -11,27 +12,21 @@ import models.Login;
 import models.Membership;
 import models.Note;
 import models.NoteFile;
+import models.NoteReport;
 import models.Rating;
 import models.Token;
 import models.University;
 import models.User;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 public interface ApiInterface {
     @GET("api/user/")
@@ -110,6 +105,12 @@ public interface ApiInterface {
     @DELETE("api/notes/{noteId}/comments/{id}/")
     public Call<Comment> deleteNoteComment(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
 
+    @GET("api/notes/{noteId}/comments/{id}/report/")
+    public Call<List<CommentReport>> getNoteCommentReport(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
+
+    @POST("api/notes/{noteId}/comments/{id}/report/")
+    public Call<CommentReport> createNoteCommentReport(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
+
     @GET("api/notes/{id}/favorites/")
     public Call<List<Favorite>> getNoteFavorites(@Header("Authorization") String authKey, @Path("id") int id);
 
@@ -121,6 +122,12 @@ public interface ApiInterface {
 
     @DELETE("api/notes/{noteId}/favorites/{id}/")
     public Call<Favorite> deleteNoteFavorite(@Header("Authorization") String authKey, @Path("noteId") int noteId, @Path("id") int id);
+
+    @GET("api/notes/{id}/report/")
+    public Call<List<NoteReport>> getNoteReport(@Header("Authorization") String authKey, @Path("id") int id);
+
+    @POST("api/notes/{id}/report/")
+    public Call<NoteReport> createNoteReport(@Header("Authorization") String authKey, @Path("id") int id);
 
     @POST("api/groups/")
     public Call<Group> createGroup(@Header("Authorization") String authKey, @Body Group group);

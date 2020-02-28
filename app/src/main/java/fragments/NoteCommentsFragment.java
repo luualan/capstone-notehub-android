@@ -1,6 +1,7 @@
 package fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,18 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notehub.MainActivity;
 import com.example.notehub.NoteActivity;
 import com.example.notehub.R;
-import com.example.notehub.SearchActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import adapters.CommentRecyclerViewAdapter;
-import models.CardView;
 import models.Comment;
+import models.CommentReport;
+import models.NoteReport;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,7 +67,7 @@ public class NoteCommentsFragment extends Fragment {
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-                if(response.errorBody() == null)
+                if (response.errorBody() == null)
                     comments = response.body();
                 else {
                     showAlertMessage("All users comments for this note is unable to load.", "Ok");
@@ -75,11 +75,65 @@ public class NoteCommentsFragment extends Fragment {
                 recyclerView = view.findViewById(R.id.note_comments_recycler);
 
                 // Defines the list displaying in recycler view and set layout to linear
-                recyclerViewAdapter = new CommentRecyclerViewAdapter(getContext(),comments);
+                recyclerViewAdapter = new CommentRecyclerViewAdapter(getContext(), comments);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                 // Set recycler view to use custom comment adapter
                 recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerViewAdapter.setOnItemCLickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onReportClick(int position) {
+                        final Context context = getContext();
+                        final int commentID = comments.get(position).getId();
+                        final int noteID = comments.get(position).getNote();
+                        new MaterialAlertDialogBuilder(context)
+                                .setTitle("NoteReport Note")
+                                .setMessage("Do you want to report this note?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Call<CommentReport> call = apiService.createNoteCommentReport(MainActivity.getToken(context), noteID, commentID);
+                                        call.enqueue(new Callback<CommentReport>() {
+                                            @Override
+                                            public void onResponse(Call<CommentReport> call, Response<CommentReport> response) {
+                                                if (response.errorBody() == null) {
+                                                    new MaterialAlertDialogBuilder(context)
+                                                            .setMessage("Comment successfully reported.")
+                                                            .setPositiveButton("Done", null)
+                                                            .show();
+                                                } else {
+                                                    new MaterialAlertDialogBuilder(context)
+                                                            .setMessage("Already reported comment.")
+                                                            .setPositiveButton("Done", null)
+                                                            .show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<CommentReport> call, Throwable t) {
+
+                                                new MaterialAlertDialogBuilder(context)
+                                                        .setMessage("Failed to report comment.")
+                                                        .setPositiveButton("Done", null)
+                                                        .show();
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
+                    }
+
+                    @Override
+                    public void onDeleteClick(int position) {
+
+                    }
+                });
             }
 
             @Override
@@ -97,11 +151,10 @@ public class NoteCommentsFragment extends Fragment {
                 call.enqueue(new Callback<Comment>() {
                     @Override
                     public void onResponse(Call<Comment> call, Response<Comment> response) {
-                        if(response.errorBody() == null) {
+                        if (response.errorBody() == null) {
                             showAlertMessage("Comment was successfully added!", "Ok");
                             recyclerViewAdapter.addItem(response.body());
-                        }
-                        else {
+                        } else {
                             showAlertMessage("Please add text to your comment.", "Ok");
                         }
                     }

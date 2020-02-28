@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,9 +21,7 @@ import com.example.notehub.MainActivity;
 import com.example.notehub.NoteActivity;
 import com.example.notehub.R;
 import com.example.notehub.UploadActivity;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +30,7 @@ import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
 import models.Note;
+import models.NoteReport;
 import models.Rating;
 import remote.ApiInterface;
 import retrofit2.Call;
@@ -234,17 +232,41 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
             }
 
             @Override
-            public void onReportClick() {
-                new MaterialAlertDialogBuilder(getContext())
-                        .setTitle("Report Note")
+            public void onReportClick(int position) {
+                final Context context = getContext();
+                final int noteID = cards.get(position).getNoteId();
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("NoteReport Note")
                         .setMessage("Do you want to report this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialAlertDialogBuilder(getContext())
-                                        .setMessage("Note successfully reported.")
-                                        .setPositiveButton("Done", null)
-                                        .show();
+                                Call<NoteReport> call = apiService.createNoteReport(MainActivity.getToken(context), noteID);
+                                call.enqueue(new Callback<NoteReport>() {
+                                    @Override
+                                    public void onResponse(Call<NoteReport> call, Response<NoteReport> response) {
+                                        if(response.errorBody() == null) {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Note successfully reported.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Already reported note.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<NoteReport> call, Throwable t) {
+
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to report note.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("No", null)

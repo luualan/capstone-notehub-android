@@ -32,8 +32,17 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         this.comments = comments;
     }
 
+
     public interface onItemClickListener {
-        void onDeleteClick();
+        void onItemClick(int position);
+
+        void onReportClick(int position);
+
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemCLickListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -67,7 +76,8 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         private TextView name;
         private TextView description;
         private CircleImageView image;
-
+        public ImageView report;
+        public ImageView deleteImage;
 
         // View Constructor
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
@@ -76,6 +86,9 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
             name = itemView.findViewById(R.id.note_username);
             description = itemView.findViewById(R.id.note_user_description);
             image = itemView.findViewById(R.id.note_user_img);
+            report = itemView.findViewById(R.id.image_report);
+            deleteImage = itemView.findViewById(R.id.image_delete);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +98,34 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
 
                         if (position != RecyclerView.NO_POSITION) {
                             //listener.onButtonClick();
+                        }
+                    }
+                }
+            });
+
+            //  When users click on report icon
+            report.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onReportClick(position);
+                        }
+                    }
+                }
+            });
+
+            // When users click on delete icon
+            deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteClick(position);
                         }
                     }
                 }

@@ -17,6 +17,9 @@ public class Group {
     @SerializedName("moderator_username")
     @Expose
     private String moderatorUsername;
+    @SerializedName("is_moderator")
+    @Expose
+    private Boolean isModerator;
 
     public int getId() {
         return id;
@@ -48,6 +51,14 @@ public class Group {
 
     public void setModeratorUsername(String moderatorUsername) {
         this.moderatorUsername = moderatorUsername;
+    }
+
+    public Boolean getIsModerator() {
+        return isModerator;
+    }
+
+    public void setIsModerator(Boolean isModerator) {
+        this.isModerator = isModerator;
     }
 
 }

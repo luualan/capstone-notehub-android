@@ -46,7 +46,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 
         void onCommentClick(int position);
 
-        void onReportClick();
+        void onReportClick(int position);
 
         void onDeleteClick(int position);
 
@@ -129,7 +129,11 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onReportClick();
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onReportClick(position);
+                        }
                     }
                 }
             });
