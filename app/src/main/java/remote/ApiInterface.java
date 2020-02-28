@@ -45,7 +45,7 @@ public interface ApiInterface {
     Call<List<Note>> getUserFavorites(@Header("Authorization") String authKey);
 
     @GET("api/users/")
-    Call<List<User>> getUsers();
+    Call<List<User>> getUsers(@Query("username") String username);
 
     @POST("api/users/")
     Call<User> createUser(@Body CreateUser user);
