@@ -41,6 +41,35 @@ public class NoteActivity extends AppCompatActivity {
         adapter.addFragment(new NoteFilesFragment(), "Files");
         adapter.addFragment(new NoteCommentsFragment(), "Comments");
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                NoteFilesFragment fileFragment = (NoteFilesFragment)adapter.getItem(0);
+                NoteCommentsFragment  commentFragment = (NoteCommentsFragment) adapter.getItem(1);
+                switch (position) {
+                    case 0:
+                        commentFragment.clear();
+                        fileFragment.refresh();
+                        break;
+                    case 1:
+                        fileFragment.clear();
+                        commentFragment.refresh();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

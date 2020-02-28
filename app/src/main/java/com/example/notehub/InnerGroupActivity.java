@@ -247,6 +247,25 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
         return true;
     }
 
+       @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void clear() {
+        if(adapter != null) {
+            int size = cards.size();
+            cards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(adapter != null) {
+            createCardsList();
+        }
+    }
+
     private String getToken() {
         return MainActivity.getToken(this);
     }

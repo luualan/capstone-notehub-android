@@ -34,8 +34,10 @@ public class NoteFilesFragment extends Fragment {
 
     View view;
     private RecyclerView recyclerView;
+    private NoteFileRecyclerViewAdapter recyclerViewAdapter;
     private List<NoteFile> noteFiles;
     private ApiInterface apiService;
+
 
     // Constructor
     public NoteFilesFragment() {
@@ -57,7 +59,13 @@ public class NoteFilesFragment extends Fragment {
         view = inflater.inflate(R.layout.note_files_fragment, container, false);
         apiService = MainActivity.buildHTTP();
 
-        NoteActivity noteActivity = (NoteActivity) getActivity();
+        createFilesList();
+
+        return view;
+    }
+
+    public void createFilesList() {
+        final NoteActivity noteActivity = (NoteActivity) getActivity();
 
         Call<List<NoteFile>> call = apiService.getNoteFiles(MainActivity.getToken(noteActivity), noteActivity.getNoteId());
         call.enqueue(new Callback<List<NoteFile>>() {
@@ -76,19 +84,32 @@ public class NoteFilesFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
     public void buildRecyclerView() {
         recyclerView = view.findViewById(R.id.note_files_recycler);
 
         // Defines the list displaying in recycler view and set layout to linear
-        NoteFileRecyclerViewAdapter recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(),noteFiles);
+        recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(),noteFiles);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Set recycler view to use custom comment adapter
         recyclerView.setAdapter(recyclerViewAdapter);
     }
+
+    public void clear() {
+        if(recyclerViewAdapter != null) {
+            int size = noteFiles.size();
+            noteFiles.clear();
+            recyclerViewAdapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(recyclerViewAdapter != null) {
+            createFilesList();
+        }
+    }
+
 
 }
