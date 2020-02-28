@@ -53,6 +53,34 @@ public class GroupActivity extends AppCompatActivity {
         adapter.addFragment(new MyGroupsFragment(), "Groups");
         adapter.addFragment(new GroupsNotificationFragment(), "Notification");
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
+                GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+                switch (position) {
+                    case 0:
+                        notificationFragment.clear();
+                        groupFragment.refresh();
+                        break;
+                    case 1:
+                        groupFragment.clear();
+                        notificationFragment.refresh();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -81,6 +109,33 @@ public class GroupActivity extends AppCompatActivity {
         animationNavigationBar.setExitFadeDuration(3000);
 
         animationNavigationBar.start();
+    }
+
+     @Override
+    public void onPause() {
+        super.onPause();
+        clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+     public void clear() {
+        MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
+        GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+        groupFragment.clear();
+        notificationFragment.clear();
+    }
+
+
+    public void refresh() {
+        MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
+        GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+        groupFragment.refresh();
+        notificationFragment.refresh();
     }
 
     @Override

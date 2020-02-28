@@ -73,7 +73,20 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     @Override
     public void onResume() {
         super.onResume();
-        //createCardsList();
+    }
+
+    public void clear() {
+        if(adapter != null) {
+            int size = cards.size();
+            cards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(adapter != null) {
+            createCardsList();
+        }
     }
 
     private String getToken() {

@@ -75,6 +75,23 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
         //createCardsList();
     }
 
+    public void clear() {
+        if(adapter != null) {
+            int size = cards.size();
+            cards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(adapter != null) {
+            int size = cards.size();
+            cards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+            createCardsList();
+        }
+    }
+
     private String getToken() {
         return MainActivity.getToken(getActivity());
     }

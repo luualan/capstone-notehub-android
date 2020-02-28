@@ -30,6 +30,7 @@ import java.util.List;
 import adapters.NoteRecyclerViewAdapter;
 import adapters.ViewPageAdapter;
 import fragments.FavoriteFragment;
+import fragments.MyGroupsFragment;
 import fragments.MyNotesFragment;
 import fragments.NoteCommentsFragment;
 import fragments.NoteFilesFragment;
@@ -66,6 +67,34 @@ public class HomeActivity extends AppCompatActivity  {
         adapter.addFragment(new MyNotesFragment(), "Home");
         adapter.addFragment(new FavoriteFragment(), "Favorite");
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                MyNotesFragment noteFragment = (MyNotesFragment)adapter.getItem(0);
+                FavoriteFragment favoriteFragment = (FavoriteFragment)adapter.getItem(1);
+                switch (position) {
+                    case 0:
+                        favoriteFragment.clear();
+                        noteFragment.refresh();
+                        break;
+                    case 1:
+                        noteFragment.clear();
+                        favoriteFragment.refresh();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -91,6 +120,33 @@ public class HomeActivity extends AppCompatActivity  {
         // Insert icons
        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_person);
         //tabLayout.getTabAt(1).setIcon(R.drawable.ic_favorite_star);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+     public void clear() {
+        MyNotesFragment noteFragment = (MyNotesFragment)adapter.getItem(0);
+        FavoriteFragment favoriteFragment = (FavoriteFragment)adapter.getItem(1);
+        noteFragment.clear();
+        favoriteFragment.clear();
+    }
+
+
+    public void refresh() {
+        MyNotesFragment noteFragment = (MyNotesFragment)adapter.getItem(0);
+        FavoriteFragment favoriteFragment = (FavoriteFragment)adapter.getItem(1);
+        noteFragment.refresh();
+        favoriteFragment.refresh();
     }
 
     @Override

@@ -62,6 +62,21 @@ public class GroupsNotificationFragment extends Fragment {
         return view;
     }
 
+    public void clear() {
+        if(recyclerViewAdapter != null) {
+            int size = invitations.size();
+            invitations.clear();
+            recyclerViewAdapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(recyclerViewAdapter != null) {
+            createInvitationList();
+        }
+    }
+
+
     // Load invitation list
     public void createInvitationList() {
         invitations = new ArrayList<>();

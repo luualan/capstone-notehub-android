@@ -61,8 +61,13 @@ public class NoteCommentsFragment extends Fragment {
         textBox = view.findViewById(R.id.input_text_comment);
         button = view.findViewById(R.id.add_comment_button);
 
-        final NoteActivity noteActivity = (NoteActivity) getActivity();
+        createCommentsList();
 
+        return view;
+    }
+
+    public void createCommentsList() {
+        final NoteActivity noteActivity = (NoteActivity) getActivity();
         Call<List<Comment>> call = apiService.getNoteComments(getToken(), noteActivity.getNoteId());
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -166,12 +171,26 @@ public class NoteCommentsFragment extends Fragment {
                 });
             }
         });
-        return view;
     }
 
     void insertItem(Comment comment) {
         recyclerViewAdapter.addItem(comment);
     }
+
+    public void clear() {
+        if(recyclerViewAdapter != null) {
+            int size = comments.size();
+            comments.clear();
+            recyclerViewAdapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(recyclerViewAdapter != null) {
+            createCommentsList();
+        }
+    }
+
 
     private String getToken() {
         SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);

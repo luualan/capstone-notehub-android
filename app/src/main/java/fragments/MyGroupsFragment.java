@@ -70,6 +70,20 @@ public class MyGroupsFragment extends Fragment {
         return view;
     }
 
+    public void clear() {
+        if(recyclerViewAdapter != null) {
+            int size = groups.size();
+            groups.clear();
+            recyclerViewAdapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public void refresh() {
+        if(recyclerViewAdapter != null) {
+            createGroupList();
+        }
+    }
+
     // Load group list
     public void createGroupList() {
         groups = new ArrayList<>();
