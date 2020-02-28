@@ -8,17 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +23,7 @@ import adapters.NoteRecyclerViewAdapter;
 import models.CardView;
 import models.Favorite;
 import models.Note;
+import models.NoteReport;
 import models.Rating;
 import remote.ApiInterface;
 import retrofit2.Call;
@@ -284,17 +282,41 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
             }
 
             @Override
-            public void onReportClick() {
-                new MaterialAlertDialogBuilder(SearchActivity.this)
-                        .setTitle("Report Note")
+            public void onReportClick(final int position) {
+                final Context context = SearchActivity.this;
+                final int noteID = cards.get(position).getNoteId();
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("NoteReport Note")
                         .setMessage("Do you want to report this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new MaterialAlertDialogBuilder(SearchActivity.this)
-                                        .setMessage("Note successfully reported.")
-                                        .setPositiveButton("Done", null)
-                                        .show();
+                                Call<NoteReport> call = apiService.createNoteReport(MainActivity.getToken(context), noteID);
+                                call.enqueue(new Callback<NoteReport>() {
+                                    @Override
+                                    public void onResponse(Call<NoteReport> call, Response<NoteReport> response) {
+                                        if(response.errorBody() == null) {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Note successfully reported.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Already reported note.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<NoteReport> call, Throwable t) {
+
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to report note.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("No", null)
