@@ -35,6 +35,7 @@ import models.Invitation;
 import models.Note;
 import models.NoteReport;
 import models.Rating;
+import models.User;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -428,9 +429,18 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Invitation invitation = new Invitation();
-                invitation.setUsername(groupMemberNameEdit.toString());
 
+                Call<List<User>> userCall = apiService.getUsers(groupMemberNameEdit.getText().toString());
+                userCall.enqueue(new Callback<List<User>>() {
+                    @Override
+                    public void onResponse(Call<List<User>> userCall, Response<List<User>> response) {
+                        if(response.errorBody() == null) {
+                           List<User> users = response.body();
+                           int userID = -1;
+                           if(users.size() == 1)
+                               userID = users.get(0).getId();
+                            Invitation invitation = new Invitation();
+                            invitation.setUser(userID);
                 Call<Invitation> call = apiService.uploadGroupInvitation(MainActivity.getToken(InnerGroupActivity.this), groupID, invitation);
                 call.enqueue(new Callback<Invitation>() {
                     @Override
@@ -453,6 +463,15 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
                         Log.d("TEST", "Super Failure");
                     }
                 });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<User>> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
     }
