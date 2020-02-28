@@ -101,11 +101,11 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
                                     if(favorites.size() == 0) {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), R.drawable.ic_favorite_star));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), notes.get(count).isAuthor(), R.drawable.ic_favorite_star));
                                     }
                                     else {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), R.drawable.ic_favorite_toggle_on));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on));
                                     }
                                 }
                             }
@@ -276,13 +276,41 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
             // Click on delete image deletes card
             @Override
             public void onDeleteClick(final int position) {
-                new MaterialAlertDialogBuilder(getContext())
+                final Context context = getContext();
+                final int noteID = cards.get(position).getNoteId();
+                final String token = MainActivity.getToken(context);
+                new MaterialAlertDialogBuilder(context)
                         .setTitle("Delete Note")
                         .setMessage("Do you want to delete this note?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                removeItem(position);
+                                Call<Note> call = apiService.deleteNote(token, noteID);
+                                call.enqueue(new Callback<Note>() {
+                                    @Override
+                                    public void onResponse(Call<Note> call, Response<Note> response) {
+                                        if (response.errorBody() == null) {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Successfully deleted note.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                            adapter.removeItem(position);
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Failed to delete note.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Note> call, Throwable t) {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to delete note.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("No", null)
