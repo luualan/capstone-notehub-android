@@ -127,8 +127,10 @@ public class UploadActivity extends DialogFragment {
         showFileName = view.findViewById(R.id.show_file_path);
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
         refreshIcon = view.findViewById(R.id.fullscreen_dialog_refresh);
-        groupID = getArguments().getInt("groupID");
-
+        if(getArguments() == null)
+            groupID = -1;
+        else
+            groupID = getArguments().getInt("groupID");
         call = apiService.getUniversities(null, null, null);
         call.enqueue(new Callback<List<University>>() {
             @Override
