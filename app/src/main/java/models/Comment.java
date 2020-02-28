@@ -14,6 +14,9 @@ public class Comment {
     @SerializedName("id")
     @Expose
     private int id;
+    @SerializedName("note")
+    @Expose
+    private int note;
     @SerializedName("username")
     @Expose
     private String username;
@@ -44,5 +47,12 @@ public class Comment {
     public void setText(String text) {
         this.text = text;
     }
-  
+
+    public int getNote() {
+        return note;
+    }
+
+    public void setNote(int note) {
+        this.note = note;
+    }
 }
