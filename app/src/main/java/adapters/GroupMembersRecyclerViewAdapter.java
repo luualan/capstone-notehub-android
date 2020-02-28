@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notehub.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,7 +54,15 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(members.get(position).getUsername());
-        //holder.joinDate.setText(members.get(position).getModeratorUsername());
+        Date date;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
+        DateFormat dateReadableFormat = new SimpleDateFormat("MM-dd-yyyy");
+        try {
+            date = dateFormat.parse(members.get(position).getJoinedAt());
+        } catch (Exception ParseException) {
+            date = new Date();
+        }
+        holder.joinDate.setText(dateReadableFormat.format(date));
        // holder.image.setImageResource(members.get(position).getPhoto());
     }
 
