@@ -34,11 +34,9 @@ public class GroupMembersActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GroupMembersRecyclerViewAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private ApiInterface apiService;
     private ArrayList<Membership> members = new ArrayList<>();
-    private boolean isModerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +60,7 @@ public class GroupMembersActivity extends AppCompatActivity {
 
             }
         });
+        
     }
 
 
@@ -106,20 +105,7 @@ public class GroupMembersActivity extends AppCompatActivity {
         adapter.setOnClickListener(new GroupMembersRecyclerViewAdapter.onItemClickListener() {
             final Context context = GroupMembersActivity.this;
             final String token = MainActivity.getToken(context);
-         /*   @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(GroupMembersActivity.this, InnerGroupActivity.class)
-                        .putExtra("groupID", groups.get(position).getId())
-                        .putExtra("groupName", groups.get(position).getName());
-                startActivity(intent);
-            }*/
 
-            /*         @Override
-                     public void onClickButton(int position) {
-
-                     }
-
-             */
             @Override
             public void onDeleteClick(final int position) {
                 final Context context = GroupMembersActivity.this;

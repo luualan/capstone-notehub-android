@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import models.Group;
 import models.Membership;
 
@@ -96,7 +95,6 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
         private TextView joinDate;
         private TextView role;
         private ImageView remove;
-
 
         // View Constructor
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
