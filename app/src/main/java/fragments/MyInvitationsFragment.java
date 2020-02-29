@@ -182,7 +182,7 @@ public class MyInvitationsFragment extends Fragment {
                                     .setNegativeButton("No", null)
                                     .show();
                         } else {
-
+                            showAlertMessage("Could not delete invitation.", "Ok");
                         }
                     }
 

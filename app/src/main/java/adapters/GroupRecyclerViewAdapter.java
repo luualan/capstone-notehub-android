@@ -59,7 +59,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             holder.button.setText("Delete");
 
         else
-            holder.button.setText("Leave ");
+            holder.button.setText("Leave  ");
 
         holder.button.setBackgroundColor(0xffff4444);
     }

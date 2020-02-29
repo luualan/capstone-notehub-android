@@ -29,11 +29,11 @@
         <activity
             android:name=".SearchActivity"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".AccountActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MainActivity"
             android:label="NoteHub"
             android:noHistory="true">
             <intent-filter>

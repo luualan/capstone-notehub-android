@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp">
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/group_button"
             android:layout_width="wrap_content"
@@ -26,6 +25,7 @@
             android:enabled="true"
             android:fontFamily="@font/permanentmarker"
             android:text="Join"
+            app:cornerRadius="8dp"
             android:backgroundTint="@color/green"
             android:textColor="#FFFFFF"
             app:rippleColor="@color/white" />
@@ -40,7 +40,6 @@
             android:maxEms="10"
             android:maxLines="1"
             android:text="Group Name"
-            app:cornerRadius="8dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
