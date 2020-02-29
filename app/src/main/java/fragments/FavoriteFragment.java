@@ -59,7 +59,11 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.favorite_fragment, container, false);
+
         createCardsList();
+        if (cards.isEmpty())
+            view = inflater.inflate(R.layout.empty_fragment, container, false);
+
         return view;
     }
 
@@ -154,8 +158,8 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new NoteRecyclerViewAdapter(getActivity(), cards);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
 
         adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card changes text

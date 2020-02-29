@@ -97,7 +97,7 @@ public class GroupMembersActivity extends AppCompatActivity {
 
         return true;
     }
-    
+
     // Back Button on app bar
     @Override
     public boolean onSupportNavigateUp() {
