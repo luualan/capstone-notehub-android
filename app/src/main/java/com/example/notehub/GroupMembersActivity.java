@@ -1,5 +1,6 @@
 package com.example.notehub;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,10 +9,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +26,9 @@ import java.util.List;
 import adapters.GroupMembersRecyclerViewAdapter;
 import adapters.GroupRecyclerViewAdapter;
 import models.Group;
+import models.Invitation;
 import models.Membership;
+import models.User;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +46,9 @@ public class GroupMembersActivity extends AppCompatActivity {
 
     private ApiInterface apiService;
     private ArrayList<Membership> members = new ArrayList<>();
+
+    private FloatingActionButton addButton;
+    private EditText groupMemberNameEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +72,38 @@ public class GroupMembersActivity extends AppCompatActivity {
 
             }
         });
-        
+
+        addButton = findViewById(R.id.add_group_member_button);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadGroupInvitation();
+            }
+        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+
+        // Style title for top app bar and hide it
+        TextView actionBarTitle = findViewById(R.id.action_bar_search_title);
+        actionBarTitle.setText("Group Members");
+
+        // Display back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        return true;
+    }
+    
+    // Back Button on app bar
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
     // Load group list
     public void createMembersList() {
@@ -151,27 +192,68 @@ public class GroupMembersActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.group_top_navigation, menu);
+    private void uploadGroupInvitation() {
+        // Creates pop up dialog with input field and submit button
+        final AlertDialog.Builder createDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.invite_user, null);
+        createDialog.setView(dialogView);
 
-        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        MaterialButton addMemberButton;
+        groupMemberNameEdit = dialogView.findViewById(R.id.invite_username);
 
-        // Style title for top app bar and hide it
-        TextView actionBarTitle = findViewById(R.id.action_bar_search_title);
-        actionBarTitle.setText("Group Members");
+        addMemberButton = dialogView.findViewById(R.id.invite_user_button);
+        final AlertDialog showDialog = createDialog.show();
 
-        // Display back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        return true;
-    }
+        // Click create button
+        addMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    // Back Button on app bar
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+                Call<List<User>> userCall = apiService.getUsers(groupMemberNameEdit.getText().toString());
+                userCall.enqueue(new Callback<List<User>>() {
+                    @Override
+                    public void onResponse(Call<List<User>> userCall, Response<List<User>> response) {
+                        if(response.errorBody() == null) {
+                            List<User> users = response.body();
+                            int userID = -1;
+                            if(users.size() == 1)
+                                userID = users.get(0).getId();
+                            Invitation invitation = new Invitation();
+                            invitation.setUser(userID);
+                            Call<Invitation> call = apiService.uploadGroupInvitation(MainActivity.getToken(GroupMembersActivity.this), groupID, invitation);
+                            call.enqueue(new Callback<Invitation>() {
+                                @Override
+                                public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                                    if (response.errorBody() == null) {
+                                        showAlertMessage("Invitation was successfully sent!", "Ok");
+                                        showDialog.dismiss();
+                                    }
+                                    else {
+                                        if (groupMemberNameEdit.getText().toString().trim().isEmpty())
+                                            groupMemberNameEdit.setError("Please fill out this field.");
+
+                                        else
+                                            showAlertMessage("Failed to add user.", "Ok");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Invitation> call, Throwable t) {
+                                    Log.d("TEST", "Super Failure");
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<User>> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
     }
 
     private void showAlertMessage(String message, String buttonText) {

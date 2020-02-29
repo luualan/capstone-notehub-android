@@ -69,7 +69,6 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
-
         // Set up viewPager and tabLayout
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
