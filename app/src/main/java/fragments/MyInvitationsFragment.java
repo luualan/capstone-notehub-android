@@ -1,34 +1,24 @@
 package fragments;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notehub.GroupActivity;
-import com.example.notehub.LoginActivity;
 import com.example.notehub.MainActivity;
-import com.example.notehub.NoteActivity;
 import com.example.notehub.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import adapters.InvitationRecyclerViewAdapter;
 import models.Invitation;
@@ -38,13 +28,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GroupsNotificationFragment extends Fragment {
+public class MyInvitationsFragment extends Fragment {
     View view;
     private RecyclerView recyclerView;
     InvitationRecyclerViewAdapter recyclerViewAdapter;
     private List<Invitation> invitations;
     private ApiInterface apiService;
-    private EditText groupNameEdit;
+    private RelativeLayout emptyView;
 
 
     @Override
@@ -55,7 +45,7 @@ public class GroupsNotificationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.groups_notification_fragment, container, false);
+        view = inflater.inflate(R.layout.my_invitations_fragment, container, false);
         apiService = MainActivity.buildHTTP();
 
         createInvitationList();
@@ -76,7 +66,6 @@ public class GroupsNotificationFragment extends Fragment {
         }
     }
 
-
     // Load invitation list
     public void createInvitationList() {
         invitations = new ArrayList<>();
@@ -91,6 +80,17 @@ public class GroupsNotificationFragment extends Fragment {
                     //invitations = response.body();
                     for (Invitation invitation : response.body())
                         recyclerViewAdapter.addItem(invitation);
+
+                    // Display empty view when response body is empty
+                    emptyView = view.findViewById(R.id.empty_view);
+                    if (invitations.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 }
                 else
                     showAlertMessage("Error, could not load users invitations.", "Ok");
@@ -127,7 +127,17 @@ public class GroupsNotificationFragment extends Fragment {
                         if (response.errorBody() == null) {
                             recyclerViewAdapter.removeItem(position);
                             Membership data = response.body();
-                            showAlertMessage("You successfully joined " + data.getGroupName() + "!", "Ok");
+
+                            new MaterialAlertDialogBuilder(getActivity())
+                                    .setMessage("You successfully joined " + data.getGroupName() + "!")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            clear();
+                                            refresh();
+                                        }
+                                    })
+                                    .show();
                         } else {
 
                         }
@@ -138,16 +148,6 @@ public class GroupsNotificationFragment extends Fragment {
 
                     }
                 });
-            }
-
-            @Override
-            public void onItemClick(int position) {
-
-            }
-
-            @Override
-            public void onDeleteClick() {
-
             }
         });
     }

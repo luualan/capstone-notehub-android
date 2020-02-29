@@ -180,7 +180,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                 startActivity(intent);
             }
 
-            // Card clicked on gets sent to home
+            // Favorite toggle icon
             @Override
             public void onFavoriteClick(final int position) {
                 Call<List<Favorite>> callGet = apiService.getNoteFavorites(getToken(), cards.get(position).getNoteId());
@@ -189,7 +189,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                     @Override
                     public void onResponse(Call<List<Favorite>> call, Response<List<Favorite>> response) {
                         if(response.errorBody() == null) {
-                            List<Favorite> favorites = response.body();
+                            final List<Favorite> favorites = response.body();
 
                             if(favorites.size() == 0) {
                                 Call<Favorite> callUpload = apiService.uploadNoteFavorite(getToken(), cards.get(position).getNoteId(), new Favorite());
@@ -220,6 +220,9 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                         if(response.errorBody() == null) {
                                             cards.remove(position);
                                             adapter.notifyItemRemoved(position);
+
+                                            if(cards.isEmpty())
+                                                refresh();
                                         }
                                         else {
                                             showAlertMessage("Could not delete favorite note.", "Ok");
@@ -318,11 +321,18 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                     @Override
                                     public void onResponse(Call<Note> call, Response<Note> response) {
                                         if (response.errorBody() == null) {
+                                            adapter.removeItem(position);
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Successfully deleted note.")
-                                                    .setPositiveButton("Done", null)
+                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            if(cards.isEmpty())
+                                                                refresh();
+                                                        }
+                                                    })
                                                     .show();
-                                            adapter.removeItem(position);
+
                                         } else {
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Failed to delete note.")

@@ -313,11 +313,17 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                                     @Override
                                     public void onResponse(Call<Note> call, Response<Note> response) {
                                         if (response.errorBody() == null) {
+                                            adapter.removeItem(position);
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Successfully deleted note.")
-                                                    .setPositiveButton("Done", null)
+                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            if(cards.isEmpty())
+                                                                refresh();
+                                                        }
+                                                    })
                                                     .show();
-                                            adapter.removeItem(position);
                                         } else {
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Failed to delete note.")

@@ -32,8 +32,6 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
     public interface onItemClickListener {
         void onClickButton(int position);
-        void onItemClick(int position);
-        void onDeleteClick();
     }
 
     public void setOnItemClickListener(onItemClickListener listener) { this.listener = listener; }
@@ -89,19 +87,6 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
             button = itemView.findViewById(R.id.invitation_button);
             button.setText("Join");
             button.setBackgroundColor(Color.GREEN);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

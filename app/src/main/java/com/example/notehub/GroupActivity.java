@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import adapters.ViewPageAdapter;
-import fragments.GroupsNotificationFragment;
+import fragments.MyInvitationsFragment;
 import fragments.MyGroupsFragment;
 
 public class GroupActivity extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class GroupActivity extends AppCompatActivity {
 
         // Added Fragments are here
         adapter.addFragment(new MyGroupsFragment(), "Groups");
-        adapter.addFragment(new GroupsNotificationFragment(), "Notification");
+        adapter.addFragment(new MyInvitationsFragment(), "Invitations");
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -54,7 +54,7 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
-                GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+                MyInvitationsFragment notificationFragment = (MyInvitationsFragment) adapter.getItem(1);
                 switch (position) {
                     case 0:
                         notificationFragment.clear();
@@ -117,7 +117,7 @@ public class GroupActivity extends AppCompatActivity {
 
      public void clear() {
         MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
-        GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+        MyInvitationsFragment notificationFragment = (MyInvitationsFragment) adapter.getItem(1);
         groupFragment.clear();
         notificationFragment.clear();
     }
@@ -125,7 +125,7 @@ public class GroupActivity extends AppCompatActivity {
 
     public void refresh() {
         MyGroupsFragment groupFragment = (MyGroupsFragment)adapter.getItem(0);
-        GroupsNotificationFragment  notificationFragment = (GroupsNotificationFragment) adapter.getItem(1);
+        MyInvitationsFragment notificationFragment = (MyInvitationsFragment) adapter.getItem(1);
         groupFragment.refresh();
         notificationFragment.refresh();
     }

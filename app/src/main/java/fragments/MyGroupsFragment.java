@@ -45,8 +45,6 @@ public class MyGroupsFragment extends Fragment {
     private FloatingActionButton addGroupButton;
     private EditText groupNameEdit;
     private RelativeLayout emptyView;
-    private boolean ifEmpty;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,7 +166,8 @@ public class MyGroupsFragment extends Fragment {
                                                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
-                                                                refresh();
+                                                                if(groups.isEmpty())
+                                                                    refresh();
                                                             }
                                                         })
                                                         .show();
@@ -216,7 +215,8 @@ public class MyGroupsFragment extends Fragment {
                                                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
-                                                                refresh();
+                                                                if(groups.isEmpty())
+                                                                    refresh();
                                                             }
                                                         })
                                                         .show();
@@ -251,6 +251,7 @@ public class MyGroupsFragment extends Fragment {
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.create_group, null);
         createDialog.setView(dialogView);
+        final boolean isEmpty = groups.isEmpty();
 
         MaterialButton createGroupButton;
         groupNameEdit = dialogView.findViewById(R.id.create_group_name);
@@ -281,7 +282,8 @@ public class MyGroupsFragment extends Fragment {
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            refresh();
+                                            if(isEmpty)
+                                                refresh();
                                         }
                                     })
                                     .show();
