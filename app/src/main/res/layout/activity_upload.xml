@@ -19,8 +19,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
+            android:id="@+id/upload_tool_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/animation_background">
 
             <ImageButton
                 android:id="@+id/fullscreen_dialog_close"
@@ -178,6 +180,7 @@
                     android:layout_height="55dp"
                     app:rippleColor="@color/white"
                     android:layout_marginEnd="12dp"
+                    android:background="@drawable/animation_background"
                     android:layout_marginRight="12dp"
                     android:layout_toStartOf="@id/upload_image_button"
                     android:layout_toLeftOf="@id/upload_image_button"

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +77,8 @@ public class UploadActivity extends DialogFragment {
     private ImageButton refreshIcon;
     private CardHolder cardHolder;
     private int groupID;
+    private RelativeLayout toolbar;
+    private AnimationDrawable animationToolBar;
 
     public interface CardHolder {
         public void insertCard(CardView card);
@@ -112,6 +116,14 @@ public class UploadActivity extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_upload, container, false);
+
+        // Tool Bar Background Animation
+        toolbar = view.findViewById(R.id.upload_tool_bar_layout);
+        animationToolBar = (AnimationDrawable) toolbar.getBackground();
+        animationToolBar.setEnterFadeDuration(5000);
+        animationToolBar.setExitFadeDuration(3000);
+
+        animationToolBar.start();
 
         apiService = MainActivity.buildHTTP();
         filePaths = new ArrayList<String>();
