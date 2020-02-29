@@ -15,6 +15,7 @@ import models.Note;
 import models.NoteFile;
 import models.NoteReport;
 import models.Rating;
+import models.Subscription;
 import models.Token;
 import models.University;
 import models.UpdatePasswordRequest;
@@ -50,6 +51,12 @@ public interface ApiInterface {
 
     @PUT("api/user/change_password/")
     Call<UpdatePasswordResponse> updatePassword(@Header("Authorization") String authKey, @Body UpdatePasswordRequest request);
+
+    @POST("api/user/upload_avatar/")
+    Call<Subscription> uploadAvatar(@Header("Authorization") String authKey, @Body RequestBody avatar);
+
+    @POST("api/user/add_subscription/")
+    Call<Subscription> addSubscription(@Header("Authorization") String authKey);
 
     @GET("api/users/")
     Call<List<User>> getUsers(@Query("username") String username);
