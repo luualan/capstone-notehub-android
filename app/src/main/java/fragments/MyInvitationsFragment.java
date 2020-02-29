@@ -149,6 +149,49 @@ public class MyInvitationsFragment extends Fragment {
                     }
                 });
             }
+
+            @Override
+            public void onDeleteButton(final int position) {
+                Call<Invitation> call = apiService.deleteGroupInvitation(MainActivity.getToken(getContext()), invitations.get(position).getGroup(), invitations.get(position).getId());
+
+                call.enqueue(new Callback<Invitation>() {
+                    @Override
+                    public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                        if (response.errorBody() == null) {
+                            recyclerViewAdapter.removeItem(position);
+
+                            new MaterialAlertDialogBuilder(getActivity())
+                                    .setMessage("Do you want to decline this invitation?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new MaterialAlertDialogBuilder(getActivity())
+                                                    .setMessage("Invitation was successfully declined.")
+                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            if(invitations.isEmpty()) {
+                                                                clear();
+                                                                refresh();
+                                                            }
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    })
+                                    .setNegativeButton("No", null)
+                                    .show();
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Invitation> call, Throwable t) {
+
+                    }
+                });
+            }
         });
     }
 

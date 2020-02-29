@@ -15,7 +15,25 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/invitation_button"
+            android:id="@+id/join_button"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="117dp"
+            android:backgroundTint="@color/green"
+            android:enabled="true"
+            android:fontFamily="@font/permanentmarker"
+            android:text="Join"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:cornerRadius="8dp"
+            app:rippleColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decline_button"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_alignParentTop="true"
@@ -23,11 +41,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="3dp"
+            android:backgroundTint="@android:color/holo_red_light"
             android:enabled="true"
             android:fontFamily="@font/permanentmarker"
-            android:text="Join"
+            android:text="Decline"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            app:cornerRadius="8dp"
             app:rippleColor="@color/white" />
 
         <TextView

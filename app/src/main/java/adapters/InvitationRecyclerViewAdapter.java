@@ -32,6 +32,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
     public interface onItemClickListener {
         void onClickButton(int position);
+        void onDeleteButton(int position);
     }
 
     public void setOnItemClickListener(onItemClickListener listener) { this.listener = listener; }
@@ -74,8 +75,8 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView groupName;
         private TextView username;
-        private MaterialButton button;
-        private CircleImageView image;
+        private MaterialButton joinButton;
+        private MaterialButton declineButton;
 
 
         // View Constructor
@@ -84,11 +85,11 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
             groupName = itemView.findViewById(R.id.invitation_group_name_text);
             username = itemView.findViewById(R.id.invitation_username_text);
-            button = itemView.findViewById(R.id.invitation_button);
-            button.setText("Join");
-            button.setBackgroundColor(Color.GREEN);
+            joinButton = itemView.findViewById(R.id.join_button);
+            declineButton = itemView.findViewById(R.id.decline_button);
 
-            button.setOnClickListener(new View.OnClickListener() {
+
+            joinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -96,6 +97,19 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onClickButton(position);
+                        }
+                    }
+                }
+            });
+
+            declineButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteButton(position);
                         }
                     }
                 }

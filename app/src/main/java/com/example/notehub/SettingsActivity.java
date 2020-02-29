@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 
 public class SettingsActivity extends AppCompatActivity {
     private RelativeLayout toolbar;
@@ -20,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private DialogFragment dialog;
     private AnimationDrawable animationToolBar;
     private AnimationDrawable animationNavigationBar;
+    private MaterialButton signOut;
 
 
     @Override
@@ -47,6 +50,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         animationNavigationBar.start();
 
+        signOut = findViewById(R.id.settings_sign_out);
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
     }
 
     @Override

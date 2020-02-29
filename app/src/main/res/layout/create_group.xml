@@ -90,6 +90,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             app:rippleColor="@color/white"
+            app:cornerRadius="8dp"
             android:fontFamily="@font/permanentmarker"
             android:text="Create" />
     </LinearLayout>

@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -23,8 +23,8 @@
             android:id="@+id/pencil"
             android:layout_width="72dp"
             android:layout_height="75dp"
-            android:layout_marginTop="50dp"
             android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             app:srcCompat="@drawable/ic_border_color_black_24dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -32,12 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="90dp"
             android:fontFamily="@font/permanent_marker"
             android:text="@string/app_name"
             android:textAllCaps="true"
-            android:textColor="#000000"
-            android:textSize="46sp"
+            android:textColor="@color/white"
+            android:textSize="33sp"
             android:textStyle="bold"
             app:fontFamily="@font/permanentmarker" />
 
@@ -45,22 +45,25 @@
             android:id="@+id/log_in_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_in_text"
-            android:textColor="#000000"
-            android:textSize="17sp"
+            android:layout_marginLeft="5dp"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:fontFamily="@font/permanentmarker" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:hint="@string/prompt_username"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:hint="@string/prompt_username"
+            app:hintAnimationEnabled="true"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username"
@@ -70,22 +73,25 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
+                android:textColor="@color/black"
+                android:layout_marginBottom="7dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInLayoutLoginPassword"
-            android:hint="@string/prompt_password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopStart="8dp"
+            android:layout_margin="5dp"
+            android:hint="@string/prompt_password"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/black"
-            android:layout_margin="4dp">
+            app:passwordToggleTint="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
@@ -94,6 +100,7 @@
                 android:fontFamily="@font/open_sans"
                 android:inputType="textPassword"
                 android:selectAllOnFocus="true"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,37 +109,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:fontFamily="@font/open_sans"
             android:text="@string/action_password_reset"
-            android:textColor="#000000"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:fontFamily="@font/roboto_medium_italic" />
+            android:fontFamily="@font/permanentmarker" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_in"
-            android:layout_width="90pt"
-            android:layout_height="24pt"
+            android:layout_width="223dp"
+            android:layout_height="58dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:background="#104C91"
+            android:backgroundTint="@color/black"
             android:enabled="true"
             android:fontFamily="@font/permanentmarker"
             android:text="@string/action_sign_in"
-            android:textColor="#FFFFFF"
-            app:rippleColor="@color/white"
-            android:textSize="16sp" />
+            android:textColor="@color/white"
+            app:cornerRadius="16dp"
+            app:rippleColor="@color/white" />
 
         <TextView
             android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:clickable="true"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/action_sign_up"
-            android:textColor="#000000"
+            android:text="Sign up here"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
-            app:fontFamily="@font/roboto_medium_italic" />
+            android:fontFamily="@font/permanentmarker" />
     </LinearLayout>
 
 </FrameLayout>

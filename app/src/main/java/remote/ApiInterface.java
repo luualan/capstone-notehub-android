@@ -178,7 +178,7 @@ public interface ApiInterface {
     public Call<Membership> getGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Path("id") int id);
 
     @DELETE("api/groups/{groupId}/memberships/{id}/")
-    public Call<Membership> deleteGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Path("id") int id);
+    public Call<Invitation> deleteGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Path("id") int id);
 
     @GET("api/universities/")
     Call<List<University>> getUniversities(@Query("starts_with") String starts_with, @Query("contains") String contains, @Query("order_by") String order_by);

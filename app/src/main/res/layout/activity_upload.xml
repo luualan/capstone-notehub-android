@@ -169,6 +169,7 @@
                     app:rippleColor="@color/white"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
+                    app:cornerRadius="8dp"
                     android:text="Upload" />
 
                 <com.google.android.material.button.MaterialButton
@@ -182,6 +183,7 @@
                     android:layout_toLeftOf="@id/upload_image_button"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
+                    app:cornerRadius="8dp"
                     android:text="Choose File" />
             </RelativeLayout>
 

@@ -42,13 +42,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LinearRP">
 
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/user_photo" />
+
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             android:layout_height="wrap_content">
 
@@ -67,8 +76,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="fill_parent"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             android:layout_height="wrap_content">
 
@@ -86,8 +95,8 @@
             android:layout_marginTop="5dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -107,8 +116,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="fill_parent"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             android:layout_height="wrap_content">
 
@@ -126,8 +135,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="5dp"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="fill_parent"
@@ -151,6 +160,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            app:cornerRadius="8dp"
             app:rippleColor="@color/white"
             android:fontFamily="@font/permanentmarker"
             android:text="Register" />
