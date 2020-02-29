@@ -68,9 +68,8 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         public ImageView deleteImage;
         public RatingBar ratingBar;
 
-
         // Animation reference
-        RelativeLayout container;
+        public RelativeLayout container;
 
         public ViewHolder(final View itemView, final onItemClickListener listener) {
             super(itemView);

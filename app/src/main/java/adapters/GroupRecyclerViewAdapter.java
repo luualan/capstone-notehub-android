@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +64,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             holder.button.setText("Leave  ");
 
         holder.button.setBackgroundColor(0xffff4444);
+
+        // Animation sliding
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
     }
 
     @Override
@@ -92,6 +97,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         private TextView moderator;
         private MaterialButton button;
         private CircleImageView image;
+        private RelativeLayout container;
 
 
         // View Constructor
@@ -101,6 +107,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             groupName = itemView.findViewById(R.id.group_name_text);
             moderator = itemView.findViewById(R.id.group_moderator_text);
             button = itemView.findViewById(R.id.group_button);
+            container = itemView.findViewById(R.id.group_container);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
