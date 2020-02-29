@@ -334,7 +334,8 @@ public class UploadActivity extends DialogFragment {
                                 note = response.body();
 
                                 // card holder
-                                CardView cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(), note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite);
+                                CardView cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
+                                        note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star);
 
                                 if (cardHolder != null)
                                     cardHolder.insertCard(cardView);

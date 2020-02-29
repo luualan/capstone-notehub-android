@@ -18,7 +18,7 @@
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_navigation" />
 </FrameLayout>
 
 

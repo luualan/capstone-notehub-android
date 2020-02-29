@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,13 +47,12 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     private RecyclerView recyclerView;
     private NoteRecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    //private SharedPreferences savePreferences;
+    private RelativeLayout emptyView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiService = MainActivity.buildHTTP();
-        // SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.bottom_navigation, menu);
+        inflater.inflate(R.menu.bottom_app_navigation, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -131,6 +131,17 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
 
                     }
                     buildRecyclerView();
+
+                    // Display empty view when notes is empty
+                    emptyView = view.findViewById(R.id.empty_view);
+                    if(notes.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 } else {
                     showAlertMessage("Could not load notes to recycler view.", "Ok");
                 }

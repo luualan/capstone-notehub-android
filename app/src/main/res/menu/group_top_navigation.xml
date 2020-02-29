@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/group_nav_invite"
-        android:title="Invite members" />
+        android:title="Invite User" />
 
     <item
         android:id="@+id/group_nav_upload_notes"
-        android:title="Upload notes" />
+        android:title="Upload Notes" />
     <item
         android:id="@+id/group_nav_show_members"
-        android:title="Show members" />
+        android:title="Show Members" />
 
     <item
         android:id="@+id/group_nav_leave"
-        android:title="Leave group"/>
+        android:title="Leave Group"/>
 
 </menu>
 

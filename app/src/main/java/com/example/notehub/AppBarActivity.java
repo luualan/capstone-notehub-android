@@ -46,7 +46,7 @@ public class AppBarActivity extends AppCompatActivity {
     // Adds the tool bar to bottom navigation bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+        getMenuInflater().inflate(R.menu.bottom_app_navigation, menu);
         return true;
     }
 

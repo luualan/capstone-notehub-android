@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +47,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     private RecyclerView recyclerView;
     private NoteRecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    //private SharedPreferences savePreferences;
+    private RelativeLayout emptyView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,15 +62,12 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
         view = inflater.inflate(R.layout.favorite_fragment, container, false);
 
         createCardsList();
-        if (cards.isEmpty())
-            view = inflater.inflate(R.layout.empty_fragment, container, false);
-
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.bottom_navigation, menu);
+        inflater.inflate(R.menu.bottom_app_navigation, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -136,9 +134,19 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
                             }
                         });
-
                     }
                     buildRecyclerView();
+
+                    // Display empty view when notes is empty
+                    emptyView = view.findViewById(R.id.empty_view);
+                    if(notes.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 } else {
                     showAlertMessage("Could not load notes to recycler view.", "Ok");
                 }
@@ -154,7 +162,6 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     // Initialize recycle view
     public void buildRecyclerView() {
         recyclerView = view.findViewById(R.id.favorite_recycler);
-        // recyclerView.setHasFixedSize(true); // need to remove later IMPORTANT
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new NoteRecyclerViewAdapter(getActivity(), cards);
 
@@ -162,7 +169,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
             recyclerView.setAdapter(adapter);
 
         adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
-            // Click on card changes text
+            // Click on card sends information to another activity
             @Override
             public void onItemClick(int position) {
                 //changeItem(position, "Clicked");

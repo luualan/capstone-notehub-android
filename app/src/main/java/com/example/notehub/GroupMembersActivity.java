@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapters.GroupMembersRecyclerViewAdapter;
-import adapters.GroupRecyclerViewAdapter;
 import models.Group;
 import models.Invitation;
 import models.Membership;
@@ -86,7 +84,7 @@ public class GroupMembersActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title);
 
         // Style title for top app bar and hide it
         TextView actionBarTitle = findViewById(R.id.action_bar_search_title);

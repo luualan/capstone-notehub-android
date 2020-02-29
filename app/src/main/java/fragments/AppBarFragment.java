@@ -8,20 +8,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.notehub.HomeActivity;
 import com.example.notehub.LoginActivity;
 import com.example.notehub.R;
 import com.example.notehub.SearchActivity;
-import com.example.notehub.UploadActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -80,7 +77,7 @@ public class AppBarFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.bottom_navigation, menu);
+        getActivity().getMenuInflater().inflate(R.menu.bottom_app_navigation, menu);
     }
 
     // Clicks for icons located on toolbar

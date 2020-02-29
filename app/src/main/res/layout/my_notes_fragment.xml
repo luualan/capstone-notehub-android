@@ -14,9 +14,12 @@
         android:layout_width="match_parent">
     </androidx.recyclerview.widget.RecyclerView>
 
- <!--   <include
-        android:id="@+id/appBar"
-        layout="@layout/app_bar" />-->
+    <include
+        android:layout_height="230dp"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        layout="@layout/empty_fragment"/>
 </RelativeLayout>
 
 

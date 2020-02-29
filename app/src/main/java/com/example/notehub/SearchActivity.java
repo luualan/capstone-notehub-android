@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
         // Style title for top app bar and hide it
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title);
         getSupportActionBar().getCustomView().setVisibility(View.GONE);
 
         // display back button

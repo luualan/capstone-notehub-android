@@ -36,12 +36,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="70dp"
-                android:layout_toRightOf="@id/fullscreen_dialog_close"
+                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/permanentmarker"
                 android:text="Upload Notes"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/fullscreen_dialog_refresh"
@@ -170,8 +169,7 @@
                     app:rippleColor="@color/white"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
-                    android:text="Upload"
-                    android:textSize="16sp" />
+                    android:text="Upload" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/choose_image_button"
@@ -184,8 +182,7 @@
                     android:layout_toLeftOf="@id/upload_image_button"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
-                    android:text="Choose File"
-                    android:textSize="16sp" />
+                    android:text="Choose File" />
             </RelativeLayout>
 
         </LinearLayout>

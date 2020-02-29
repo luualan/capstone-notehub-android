@@ -2,12 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home_black_24dp"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/nav_search"
         android:title="Search"
         android:icon="@drawable/ic_search_black_24dp"
         app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/nav_upload"
+        android:title="Upload"
+        android:icon="@drawable/ic_create_black_24dp"
+        app:showAsAction="always" />
+
 
     <item
         android:id="@+id/nav_groups"
@@ -17,11 +30,13 @@
 
     <item
         android:id="@+id/nav_settings"
-        android:title="Settings"/>
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="always"/>
 
-    <item
+  <!--  <item
         android:id="@+id/nav_sign_out"
-        android:title="Sign out"/>
+        android:title="Sign out"/>-->
 
 </menu>
 

@@ -33,7 +33,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     public interface onItemClickListener {
         void onClickButton(int position);
         void onItemClick(int position);
-        void onDeleteClick(int position);
     }
 
     public void setOnClickListener(onItemClickListener listener) {

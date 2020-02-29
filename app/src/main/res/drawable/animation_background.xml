@@ -3,37 +3,41 @@
 
 
     <item
-        android:drawable="@drawable/purplepine"
+        android:drawable="@drawable/miaka"
         android:duration="6000"/>
 
     <item
-        android:drawable="@drawable/reef"
+        android:drawable="@drawable/relay"
         android:duration="6000"/>
+
 
     <item
         android:drawable="@drawable/pacific_dream"
         android:duration="6000"/>
 
-   <item
-        android:drawable="@drawable/purple_bliss"
-        android:duration="6000"/>
-
-
     <item
-        android:drawable="@drawable/love_and_liberty"
-        android:duration="6000"/>
-
-
-    <item
-        android:drawable="@drawable/miaka"
+        android:drawable="@drawable/transfile"
         android:duration="6000"/>
 
     <item
         android:drawable="@drawable/dance_to_forget"
         android:duration="6000"/>
 
+    <!--<item
+        android:drawable="@drawable/purple_bliss"
+        android:duration="6000"/>
+
+    <item
+        android:drawable="@drawable/love_and_liberty"
+        android:duration="6000"/>
+-->
+    <!--<item
+        android:drawable="@drawable/crimson_tide"
+        android:duration="6000"/>
+
     <item
         android:drawable="@drawable/under_the_lake"
         android:duration="6000"/>
+-->
 
 </animation-list>

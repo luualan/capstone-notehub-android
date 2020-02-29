@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,7 +74,7 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
         getMenuInflater().inflate(R.menu.group_top_navigation, menu);
 
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title);
 
         // Style title for top app bar and hide it
         TextView actionBarTitle = findViewById(R.id.action_bar_search_title);
@@ -94,7 +93,7 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
 
                     if(response.body().getIsModerator()) {
                         MenuItem leaveItem = menu.findItem(R.id.group_nav_leave);
-                        leaveItem.setTitle("Delete group");
+                        leaveItem.setTitle("Delete Group");
                     }
                     else {
                         MenuItem inviteItem = menu.findItem(R.id.group_nav_invite);

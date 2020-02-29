@@ -15,10 +15,11 @@
         app:tabTextColor="@color/white"
         app:tabMode="fixed"
         app:tabGravity="fill"
+        app:tabIndicator="@drawable/tab_indicator"
         app:tabIconTint="@color/white"
         app:tabTextAppearance="@style/TabLayoutText"
-        app:tabRippleColor="@color/white"
-        app:tabIndicatorColor="@color/black">
+        app:tabIndicatorColor="@color/black"
+        app:tabRippleColor="@color/white">
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

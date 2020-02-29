@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ public class MyGroupsFragment extends Fragment {
     private ApiInterface apiService;
     private FloatingActionButton addGroupButton;
     private EditText groupNameEdit;
+    private RelativeLayout emptyView;
+    private boolean ifEmpty;
 
 
     @Override
@@ -98,9 +101,19 @@ public class MyGroupsFragment extends Fragment {
                     //groups = response.body();
                     for (Group group : response.body())
                         recyclerViewAdapter.addItem(group);
+
+                    // Display empty view when response body is empty
+                    emptyView = view.findViewById(R.id.empty_view);
+                    if (groups.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
                 } else
                     showAlertMessage("Error, could not load users groups.", "Ok");
-
             }
 
             @Override
@@ -149,11 +162,16 @@ public class MyGroupsFragment extends Fragment {
                                         @Override
                                         public void onResponse(Call<Group> call, Response<Group> response) {
                                             if(response.errorBody() == null) {
+                                                recyclerViewAdapter.removeItem(position);
                                                 new MaterialAlertDialogBuilder(context)
                                                         .setMessage("Successfully deleted group.")
-                                                        .setPositiveButton("Done", null)
+                                                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                refresh();
+                                                            }
+                                                        })
                                                         .show();
-                                                recyclerViewAdapter.removeItem(position);
                                             }
                                             else {
                                                 new MaterialAlertDialogBuilder(context)
@@ -192,11 +210,16 @@ public class MyGroupsFragment extends Fragment {
                                         @Override
                                         public void onResponse(Call<Membership> call, Response<Membership> response) {
                                             if(response.errorBody() == null) {
+                                                recyclerViewAdapter.removeItem(position);
                                                 new MaterialAlertDialogBuilder(context)
                                                         .setMessage("Successfully left group.")
-                                                        .setPositiveButton("Done", null)
+                                                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                refresh();
+                                                            }
+                                                        })
                                                         .show();
-                                                recyclerViewAdapter.removeItem(position);
                                             } else {
                                                 new MaterialAlertDialogBuilder(context)
                                                         .setMessage("Failed to leave group.")
@@ -219,14 +242,10 @@ public class MyGroupsFragment extends Fragment {
                             .show();
                 }
             }
-
-        @Override
-        public void onDeleteClick (int position){
-
-        }
     });
 }
 
+    // Add Group
     public void createGroup() {
         final AlertDialog.Builder createDialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
@@ -251,12 +270,23 @@ public class MyGroupsFragment extends Fragment {
                 Call<Group> call = apiService.createGroup(MainActivity.getToken(getActivity()), group);
                 call.enqueue(new Callback<Group>() {
                     @Override
-                    public void onResponse(Call<Group> call, Response<Group> response) {
+                    public void onResponse(Call<Group> call, final Response<Group> response) {
                         // Success
                         if (response.errorBody() == null) {
                             final Group data = response.body();
                             recyclerViewAdapter.addItem(data);
-                            showAlertMessage("Group was successfully created!", "Ok");
+
+                            new MaterialAlertDialogBuilder(getActivity())
+                                    .setMessage("Group was successfully created!")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            refresh();
+                                        }
+                                    })
+                                    .show();
+
+
                             showDialog.dismiss();
                         } else {
                             if (checkNameEdit)

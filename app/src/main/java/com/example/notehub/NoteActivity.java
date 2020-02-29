@@ -4,10 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -94,7 +92,7 @@ public class NoteActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.top_navigation, menu);
 
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar_title_search);
+        getSupportActionBar().setCustomView(R.layout.action_bar_title);
 
         // Style title for top app bar and hide it
         TextView actionBarTitle = findViewById(R.id.action_bar_search_title);
