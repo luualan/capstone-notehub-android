@@ -1,6 +1,7 @@
 package remote;
 
 import java.util.List;
+import java.util.Map;
 
 import models.Comment;
 import models.CommentReport;
@@ -16,6 +17,8 @@ import models.NoteReport;
 import models.Rating;
 import models.Token;
 import models.University;
+import models.UpdatePasswordRequest;
+import models.UpdatePasswordResponse;
 import models.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -25,6 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -43,6 +47,9 @@ public interface ApiInterface {
 
     @GET("api/user/favorites/")
     Call<List<Note>> getUserFavorites(@Header("Authorization") String authKey);
+
+    @PUT("api/user/change_password/")
+    Call<UpdatePasswordResponse> updatePassword(@Header("Authorization") String authKey, @Body UpdatePasswordRequest request);
 
     @GET("api/users/")
     Call<List<User>> getUsers(@Query("username") String username);
