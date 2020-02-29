@@ -255,7 +255,6 @@ public class MyGroupsFragment extends Fragment {
 
         MaterialButton createGroupButton;
         groupNameEdit = dialogView.findViewById(R.id.create_group_name);
-        final boolean checkNameEdit = groupNameEdit.getText().toString().trim().isEmpty();
 
         createGroupButton = dialogView.findViewById(R.id.create_group_button);
         final AlertDialog showDialog = createDialog.show();
@@ -291,11 +290,11 @@ public class MyGroupsFragment extends Fragment {
 
                             showDialog.dismiss();
                         } else {
-                            if (checkNameEdit)
+                            if (groupNameEdit.getText().toString().trim().isEmpty())
                                 groupNameEdit.setError("Please fill out this field.");
 
                             else
-                                showAlertMessage("Failed to create Group", "Ok");
+                                showAlertMessage("Failed to create Group.", "Ok");
                         }
                     }
 
