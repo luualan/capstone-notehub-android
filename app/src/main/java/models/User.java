@@ -20,6 +20,12 @@ public class User {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("avatar")
+    @Expose
+    private String avatar;
+    @SerializedName("is_premium")
+    @Expose
+    private boolean isPremium;
 
     public int getId() {
         return id;
@@ -61,4 +67,19 @@ public class User {
         this.username = username;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
 }
