@@ -174,10 +174,10 @@ public interface ApiInterface {
     @POST("api/groups/{groupId}/invitations/")
     public Call<Invitation> uploadGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Body Invitation invitation);
 
-    @GET("api/groups/{groupId}/invitatons/{id}/")
+    @GET("api/groups/{groupId}/invitations/{id}/")
     public Call<Membership> getGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Path("id") int id);
 
-    @DELETE("api/groups/{groupId}/memberships/{id}/")
+    @DELETE("api/groups/{groupId}/invitations/{id}/")
     public Call<Invitation> deleteGroupInvitation(@Header("Authorization") String authKey, @Path("groupId") int groupId, @Path("id") int id);
 
     @GET("api/universities/")
