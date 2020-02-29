@@ -5,6 +5,8 @@ package adapters;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.view.animation.AnimationUtils;
+        import android.widget.RelativeLayout;
         import android.widget.TextView;
 
         import androidx.annotation.NonNull;
@@ -48,6 +50,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         holder.groupName.setText(invitations.get(position).getGroupName());
         holder.username.setText("Moderator: " + invitations.get(position).getModeratorUsername());
         // holder.image.setImageResource(invitations.get(position).getPhoto());
@@ -77,6 +80,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
         private TextView username;
         private MaterialButton joinButton;
         private MaterialButton declineButton;
+        private RelativeLayout container;
 
 
         // View Constructor
@@ -87,6 +91,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
             username = itemView.findViewById(R.id.invitation_username_text);
             joinButton = itemView.findViewById(R.id.join_button);
             declineButton = itemView.findViewById(R.id.decline_button);
+            container = itemView.findViewById(R.id.invitation_container);
 
 
             joinButton.setOnClickListener(new View.OnClickListener() {

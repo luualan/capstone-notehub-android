@@ -52,6 +52,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Animation sliding
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+
         holder.groupName.setText(groups.get(position).getName());
         holder.moderator.setText(groups.get(position).getModeratorUsername());
        // holder.image.setImageResource(groups.get(position).getPhoto());
@@ -64,9 +67,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             holder.button.setText("Leave  ");
 
         holder.button.setBackgroundColor(0xffff4444);
-
-        // Animation sliding
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
     }
 
     @Override
