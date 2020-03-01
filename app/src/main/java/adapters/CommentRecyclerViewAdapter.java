@@ -1,10 +1,14 @@
 package adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +18,11 @@ import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,9 +45,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
     public interface onItemClickListener {
         void onItemClick(int position);
 
-        void onReportClick(int position);
-
-        void onDeleteClick(int position);
+        void onOverflowClick(int position, PopupMenu menu);
     }
 
     public void setOnItemCLickListener(onItemClickListener listener) {
@@ -58,6 +65,17 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(comments.get(position).getUsername());
         holder.description.setText(comments.get(position).getText());
+        Date date;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
+        DateFormat dateReadableFormat = new SimpleDateFormat("MMM dd, yyyy");
+        try {
+            date = dateFormat.parse(comments.get(position).getCreatedAt());
+        } catch (Exception ParseException) {
+            date = new Date();
+        }
+        holder.date.setText(dateReadableFormat.format(date));
+        //if(!comments.get(position).isAuthor())
+        //  holder.menu.getMenu().findItem(R.id.deleteGroup).setVisible(false);
         // holder.image.setImageResource(comments.get(position).getPhoto());
     }
 
@@ -84,18 +102,22 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         private TextView name;
         private TextView description;
         private CircleImageView image;
-        public ImageView report;
-        public ImageView deleteImage;
+        private TextView date;
+        private ImageView overflow;
+        //public ImageView report;
+        //public ImageView deleteImage;
 
         // View Constructor
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
-
             name = itemView.findViewById(R.id.note_username);
             description = itemView.findViewById(R.id.note_user_description);
             image = itemView.findViewById(R.id.note_user_img);
-            report = itemView.findViewById(R.id.image_report);
-            deleteImage = itemView.findViewById(R.id.image_delete);
+            date = itemView.findViewById(R.id.note_date);
+            overflow = itemView.findViewById(R.id.note_overflow);
+
+            //report = itemView.findViewById(R.id.image_report);
+            //deleteImage = itemView.findViewById(R.id.image_delete);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -112,21 +134,21 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
             });
 
             //  When users click on report icon
-            report.setOnClickListener(new View.OnClickListener() {
+            overflow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int position = getAdapterPosition();
+                        final PopupMenu menu = new PopupMenu(v.getContext(), v);
+                        MenuInflater inflater = menu.getMenuInflater();
+                        inflater.inflate(R.menu.overflow_menu, menu.getMenu());
+                        listener.onOverflowClick(getAdapterPosition(), menu);
 
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onReportClick(position);
-                        }
                     }
                 }
             });
 
             // When users click on delete icon
-            deleteImage.setOnClickListener(new View.OnClickListener() {
+/*            deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -138,6 +160,8 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
                     }
                 }
             });
+
+ */
 
         /*    button.setOnClickListener(new View.OnClickListener() {
                 @Override
