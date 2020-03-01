@@ -21,63 +21,57 @@
             android:padding="2dp"
             android:src="@drawable/anime" />
 
-        <ImageView
-            android:id="@+id/image_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="115dp"
-            android:layout_marginEnd="40dp"
-            android:src="@drawable/ic_delete" />
-
-        <ImageView
-            android:id="@+id/image_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="115dp"
-            android:layout_marginEnd="340dp"
-            android:src="@drawable/ic_thumb_up" />
-
-        <ImageView
-            android:id="@+id/image_report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="115dp"
-            android:layout_marginEnd="200dp"
-            android:src="@drawable/ic_report_problem_black_24dp" />
-
         <TextView
             android:id="@+id/note_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="10dp"
             android:ellipsize="end"
             android:maxEms="28"
             android:maxLines="1"
             android:text="Username"
             android:layout_toEndOf="@id/note_user_img"
-            android:textSize="14sp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/note_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@id/note_user_img"
+            android:layout_below="@id/note_username"
+            android:ellipsize="end"
+            android:maxEms="28"
+            android:maxLines="1"
+            android:text="Nov 17"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/note_user_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/note_user_img"
-            android:layout_below="@id/note_username"
+            android:layout_below="@id/note_overflow"
+            android:layout_margin="4dp"
+            android:ellipsize="end"
             android:maxEms="28"
             android:maxLines="5"
-            android:ellipsize="end"
-            android:layout_marginTop="0dp"
+            android:text="Lorem ipsum dolor sit amet, vix elitr munere feugiat ea, ei qui causae delenit placerat. Ne eos odio feugiat utroque, eruditi inimicus sit in, possim mollis est eu. Ut sed lorem doming recteque. Liber dicam in quo. Ei eos eripuit splendide, his an autem oblique maiestatis."
             android:textColor="@android:color/black"
-            android:text="Description"
             android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/note_overflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            style="?android:attr/actionOverflowButtonStyle"/>
 
 
     </RelativeLayout>

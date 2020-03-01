@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +38,8 @@ import retrofit2.Response;
 public class NoteCommentsFragment extends Fragment {
 
     View view;
-    private RecyclerView recyclerView;
     CommentRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
     private List<Comment> comments;
     private TextInputEditText textBox;
     private MaterialButton button;
@@ -66,6 +68,98 @@ public class NoteCommentsFragment extends Fragment {
         return view;
     }
 
+
+    public void onDeleteClick(final int position, PopupMenu menu) {
+        final Context context = getContext();
+        final int noteID = comments.get(position).getNote();
+        final int commentID = comments.get(position).getId();
+        final String token = MainActivity.getToken(context);
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("Delete Comment")
+                .setMessage("Do you want to delete this comment?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Comment> call = apiService.deleteNoteComment(token, noteID, commentID);
+                        call.enqueue(new Callback<Comment>() {
+                            @Override
+                            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                if (response.errorBody() == null) {
+                                    recyclerViewAdapter.removeItem(position);
+                                    new MaterialAlertDialogBuilder(context)
+                                            .setMessage("Successfully deleted note.")
+                                            .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (comments.isEmpty())
+                                                        refresh();
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    new MaterialAlertDialogBuilder(context)
+                                            .setMessage("Failed to delete note.")
+                                            .setPositiveButton("Done", null)
+                                            .show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Comment> call, Throwable t) {
+                                new MaterialAlertDialogBuilder(context)
+                                        .setMessage("Failed to delete note.")
+                                        .setPositiveButton("Done", null)
+                                        .show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    public void onReportClick(int position, PopupMenu menu) {
+        final Context context = getContext();
+        final int commentID = comments.get(position).getId();
+        final int noteID = comments.get(position).getNote();
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("NoteReport Note")
+                .setMessage("Do you want to report this note?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<CommentReport> call = apiService.createNoteCommentReport(MainActivity.getToken(context), noteID, commentID);
+                        call.enqueue(new Callback<CommentReport>() {
+                            @Override
+                            public void onResponse(Call<CommentReport> call, Response<CommentReport> response) {
+                                if (response.errorBody() == null) {
+                                    new MaterialAlertDialogBuilder(context)
+                                            .setMessage("Comment successfully reported.")
+                                            .setPositiveButton("Done", null)
+                                            .show();
+                                } else {
+                                    new MaterialAlertDialogBuilder(context)
+                                            .setMessage("Already reported comment.")
+                                            .setPositiveButton("Done", null)
+                                            .show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<CommentReport> call, Throwable t) {
+
+                                new MaterialAlertDialogBuilder(context)
+                                        .setMessage("Failed to report comment.")
+                                        .setPositiveButton("Done", null)
+                                        .show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
     public void createCommentsList() {
         final NoteActivity noteActivity = (NoteActivity) getActivity();
         Call<List<Comment>> call = apiService.getNoteComments(getToken(), noteActivity.getNoteId());
@@ -92,96 +186,25 @@ public class NoteCommentsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onReportClick(int position) {
-                        final Context context = getContext();
-                        final int commentID = comments.get(position).getId();
-                        final int noteID = comments.get(position).getNote();
-                        new MaterialAlertDialogBuilder(context)
-                                .setTitle("NoteReport Note")
-                                .setMessage("Do you want to report this note?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Call<CommentReport> call = apiService.createNoteCommentReport(MainActivity.getToken(context), noteID, commentID);
-                                        call.enqueue(new Callback<CommentReport>() {
-                                            @Override
-                                            public void onResponse(Call<CommentReport> call, Response<CommentReport> response) {
-                                                if (response.errorBody() == null) {
-                                                    new MaterialAlertDialogBuilder(context)
-                                                            .setMessage("Comment successfully reported.")
-                                                            .setPositiveButton("Done", null)
-                                                            .show();
-                                                } else {
-                                                    new MaterialAlertDialogBuilder(context)
-                                                            .setMessage("Already reported comment.")
-                                                            .setPositiveButton("Done", null)
-                                                            .show();
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<CommentReport> call, Throwable t) {
-
-                                                new MaterialAlertDialogBuilder(context)
-                                                        .setMessage("Failed to report comment.")
-                                                        .setPositiveButton("Done", null)
-                                                        .show();
-                                            }
-                                        });
-                                    }
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
-                    }
-
-                    @Override
-                    public void onDeleteClick(final int position) {
-                final Context context = getContext();
-                final int noteID = comments.get(position).getNote();
-                final int commentID = comments.get(position).getId();
-                final String token = MainActivity.getToken(context);
-                new MaterialAlertDialogBuilder(context)
-                        .setTitle("Delete Comment")
-                        .setMessage("Do you want to delete this comment?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onOverflowClick(final int position, final PopupMenu menu) {
+                        if(!comments.get(position).isAuthor())
+                            menu.getMenu().findItem(R.id.overflow_delete).setVisible(false);
+                        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Call<Comment> call = apiService.deleteNoteComment(token, noteID, commentID);
-                                call.enqueue(new Callback<Comment>() {
-                                    @Override
-                                    public void onResponse(Call<Comment> call, Response<Comment> response) {
-                                        if (response.errorBody() == null) {
-                                            recyclerViewAdapter.removeItem(position);
-                                            new MaterialAlertDialogBuilder(context)
-                                                    .setMessage("Successfully deleted note.")
-                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            if(comments.isEmpty())
-                                                                refresh();
-                                                        }
-                                                    })
-                                                    .show();
-                                        } else {
-                                            new MaterialAlertDialogBuilder(context)
-                                                    .setMessage("Failed to delete note.")
-                                                    .setPositiveButton("Done", null)
-                                                    .show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Comment> call, Throwable t) {
-                                        new MaterialAlertDialogBuilder(context)
-                                                .setMessage("Failed to delete note.")
-                                                .setPositiveButton("Done", null)
-                                                .show();
-                                    }
-                                });
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.overflow_delete:
+                                        onDeleteClick(position, menu);
+                                        return true;
+                                    case R.id.overflow_report:
+                                        onReportClick(position, menu);
+                                        return true;
+                                    default:
+                                        return false;
+                                }
                             }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                        });
+                        menu.show();
                     }
                 });
             }
@@ -223,7 +246,7 @@ public class NoteCommentsFragment extends Fragment {
     }
 
     public void clear() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             int size = comments.size();
             comments.clear();
             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
@@ -231,7 +254,7 @@ public class NoteCommentsFragment extends Fragment {
     }
 
     public void refresh() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             createCommentsList();
         }
     }

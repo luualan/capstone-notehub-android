@@ -26,6 +26,9 @@ public class Comment {
     @SerializedName("is_author")
     @Expose
     private boolean isAuthor;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public int getId() {
         return id;
@@ -65,5 +68,13 @@ public class Comment {
 
     public void setIsAuthor(boolean author) {
         isAuthor = author;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }
