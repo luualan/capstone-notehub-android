@@ -189,6 +189,8 @@ public class NoteCommentsFragment extends Fragment {
                     public void onOverflowClick(final int position, final PopupMenu menu) {
                         if(!comments.get(position).isAuthor())
                             menu.getMenu().findItem(R.id.overflow_delete).setVisible(false);
+                        else
+                            menu.getMenu().findItem(R.id.overflow_report).setVisible(false);
                         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
