@@ -193,17 +193,38 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_sign_out"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:fontFamily="@font/permanentmarker"
-            android:text="Sign Out"
-            app:cornerRadius="8dp"
-            app:rippleColor="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_sign_out"
+                android:layout_width="165dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/permanentmarker"
+                android:text="Sign Out"
+                app:cornerRadius="8dp"
+                app:rippleColor="@color/white" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/settings_subscription"
+                android:layout_width="111dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="250dp"
+                app:showText="true"
+                android:padding="10dp"
+                app:track="@drawable/switch_on"
+                app:useMaterialThemeColors="false" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <FrameLayout

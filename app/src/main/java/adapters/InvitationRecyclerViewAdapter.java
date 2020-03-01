@@ -50,7 +50,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
         holder.groupName.setText(invitations.get(position).getGroupName());
         holder.username.setText("Moderator: " + invitations.get(position).getModeratorUsername());
         // holder.image.setImageResource(invitations.get(position).getPhoto());

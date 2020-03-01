@@ -31,6 +31,7 @@ import java.util.List;
 import adapters.GroupRecyclerViewAdapter;
 import models.Group;
 import models.Membership;
+import models.User;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -263,44 +264,65 @@ public class MyGroupsFragment extends Fragment {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Store group name input into group object
-                Group group = new Group();
-                group.setName(groupNameEdit.getText().toString());
+                Call<User> callUser = apiService.getUser(MainActivity.getToken(getActivity()));
 
-                Call<Group> call = apiService.createGroup(MainActivity.getToken(getActivity()), group);
-                call.enqueue(new Callback<Group>() {
+                callUser.enqueue(new Callback<User>() {
                     @Override
-                    public void onResponse(Call<Group> call, final Response<Group> response) {
-                        // Success
-                        if (response.errorBody() == null) {
-                            final Group data = response.body();
-                            recyclerViewAdapter.addItem(data);
+                    public void onResponse(Call<User> call, final Response<User> userResponse) {
+                        // Successfully get user
+                        if(userResponse.errorBody() == null) {
+                            // Store group name input into group object
+                            Group group = new Group();
+                            group.setName(groupNameEdit.getText().toString());
 
-                            new MaterialAlertDialogBuilder(getActivity())
-                                    .setMessage("Group was successfully created!")
-                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if(isEmpty)
-                                                refresh();
-                                        }
-                                    })
-                                    .show();
+                            Call<Group> callGroup = apiService.createGroup(MainActivity.getToken(getActivity()), group);
+                            callGroup.enqueue(new Callback<Group>() {
+                                @Override
+                                public void onResponse(Call<Group> call, final Response<Group> response) {
+                                    // Successfully get group
+                                    if (response.errorBody() == null) {
+                                        final Group data = response.body();
+                                        recyclerViewAdapter.addItem(data);
+
+                                        new MaterialAlertDialogBuilder(getActivity())
+                                                .setMessage("Group was successfully created!")
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        if(isEmpty)
+                                                            refresh();
+                                                    }
+                                                })
+                                                .show();
 
 
-                            showDialog.dismiss();
-                        } else {
-                            if (groupNameEdit.getText().toString().trim().isEmpty())
-                                groupNameEdit.setError("Please fill out this field.");
+                                        showDialog.dismiss();
+                                    } else {
+                                        if (groupNameEdit.getText().toString().trim().isEmpty())
+                                            groupNameEdit.setError("Please fill out this field.");
 
-                            else
-                                showAlertMessage("Failed to create Group.", "Ok");
+                                        else if(!userResponse.body().isPremium() && groups.size() == 3)
+                                            showAlertMessage("Failed to create group. You have exceeded the number of groups you can create with your free subscription.", "Ok");
+
+                                        else
+                                            showAlertMessage("Failed to create group.", "Ok");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Group> call, Throwable t) {
+                                    Log.d("TEST", "Super Failure");
+                                }
+                            });
+                        }
+                        else {
+                            showAlertMessage("Failed to get user.", "Ok");
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Group> call, Throwable t) {
-                        Log.d("TEST", "Super Failure");
+                    public void onFailure(Call<User> call, Throwable t) {
+
                     }
                 });
             }

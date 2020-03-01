@@ -53,7 +53,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Animation sliding
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
 
         holder.groupName.setText(groups.get(position).getName());
         holder.moderator.setText(groups.get(position).getModeratorUsername());

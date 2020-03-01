@@ -11,10 +11,13 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.ToggleButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsActivity extends AppCompatActivity {
     private RelativeLayout toolbar;
@@ -23,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     private AnimationDrawable animationToolBar;
     private AnimationDrawable animationNavigationBar;
     private MaterialButton signOut;
+    private SwitchMaterial toggleButton;
 
 
     @Override
@@ -56,6 +60,22 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signOut();
+            }
+        });
+
+        toggleButton = findViewById(R.id.settings_subscription);
+        toggleButton.setTextOff("Free");
+        toggleButton.setTextOn("Premium");
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+
+                }
+                else {
+
+                }
             }
         });
     }

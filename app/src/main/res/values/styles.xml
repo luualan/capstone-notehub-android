@@ -53,4 +53,9 @@
         <item name="fontFamily">@font/permanentmarker</item>
     </style>
 
+    <style name="Switch">
+        <item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>
+        <item name="android:background">@color/yale_blue</item>
+    </style>
+
 </resources>

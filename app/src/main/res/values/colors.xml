@@ -28,4 +28,5 @@
     <color name="dusk_yellow">#FFC922</color>
     <color name="dark_yellow">#9B870C</color>
     <color name="green">#00FF00</color>
+    <color name="holo_red">@android:color/holo_red_light</color>
 </resources>
