@@ -77,6 +77,4 @@ public class NoteFileRecyclerViewAdapter extends RecyclerView.Adapter<NoteFileRe
             });
         }
     }
-
-
 }
