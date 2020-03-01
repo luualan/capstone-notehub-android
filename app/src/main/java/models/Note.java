@@ -35,6 +35,9 @@ public class Note {
     @SerializedName("group")
     @Expose
     private String group;
+    @SerializedName("group_name")
+    @Expose
+    private String groupName;
     @SerializedName("avg_rating")
     @Expose
     private float avgRating;
@@ -131,5 +134,13 @@ public class Note {
 
     public void setHasRated(boolean hasRated) {
         this.hasRated = hasRated;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }
