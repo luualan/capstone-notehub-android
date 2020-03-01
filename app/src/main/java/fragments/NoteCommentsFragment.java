@@ -135,8 +135,53 @@ public class NoteCommentsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onDeleteClick(int position) {
+                    public void onDeleteClick(final int position) {
+                final Context context = getContext();
+                final int noteID = comments.get(position).getNote();
+                final int commentID = comments.get(position).getId();
+                final String token = MainActivity.getToken(context);
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("Delete Comment")
+                        .setMessage("Do you want to delete this comment?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<Comment> call = apiService.deleteNoteComment(token, noteID, commentID);
+                                call.enqueue(new Callback<Comment>() {
+                                    @Override
+                                    public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                        if (response.errorBody() == null) {
+                                            recyclerViewAdapter.removeItem(position);
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Successfully deleted note.")
+                                                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            if(comments.isEmpty())
+                                                                refresh();
+                                                        }
+                                                    })
+                                                    .show();
+                                        } else {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("Failed to delete note.")
+                                                    .setPositiveButton("Done", null)
+                                                    .show();
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Call<Comment> call, Throwable t) {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage("Failed to delete note.")
+                                                .setPositiveButton("Done", null)
+                                                .show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                     }
                 });
             }

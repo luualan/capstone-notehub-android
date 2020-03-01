@@ -58,7 +58,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(comments.get(position).getUsername());
         holder.description.setText(comments.get(position).getText());
-       // holder.image.setImageResource(comments.get(position).getPhoto());
+        // holder.image.setImageResource(comments.get(position).getPhoto());
     }
 
     @Override
@@ -70,6 +70,14 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         comments.add(comment);
         notifyItemInserted(comments.size() - 1);
     }
+
+    public void removeItem(int position) {
+        if (comments != null) {
+            comments.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
 
     // Comment View Holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
