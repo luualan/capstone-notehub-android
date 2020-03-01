@@ -106,7 +106,6 @@ public class NoteFilesFragment extends Fragment {
             @Override
             public void onDownloadClick(int position) {
                 download(getContext(), noteFiles.get(position).getFile());
-                showAlertMessage(noteFiles.get(position).getFile(), "Done");
             }
         });
     }
@@ -119,7 +118,6 @@ public class NoteFilesFragment extends Fragment {
                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                               try {
                                   String root = Environment.getExternalStorageDirectory().toString();
-                                  Log.e("dadadadadadada", root);
 
                                   File myDir = new File(root + "/myDirectory");
 
@@ -141,10 +139,12 @@ public class NoteFilesFragment extends Fragment {
 
                           @Override
                           public void onBitmapFailed(Drawable errorDrawable) {
+                              showAlertMessage("Download failed.", "Done");
                           }
 
                           @Override
                           public void onPrepareLoad(Drawable placeHolderDrawable) {
+                              showAlertMessage("Download successful.", "Done");
                           }
                       }
                 );

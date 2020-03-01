@@ -53,6 +53,8 @@ public class GroupMembersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_members);
 
+        addButton = findViewById(R.id.add_group_member_button);
+
         apiService = MainActivity.buildHTTP();
         groupID = getIntent().getIntExtra("groupID", -1);
         groupName = getIntent().getStringExtra("groupName");
@@ -60,9 +62,17 @@ public class GroupMembersActivity extends AppCompatActivity {
         call.enqueue(new Callback<Group>() {
             @Override
             public void onResponse(Call<Group> call, Response<Group> response) {
-                if(response.errorBody() == null)
+                if(response.errorBody() == null) {
                     group = response.body();
-                createMembersList();
+                    createMembersList();
+
+                    // Hide add button when user is not a moderator
+                    if(!response.body().getIsModerator())
+                        addButton.setVisibility(View.GONE);
+                }
+                else {
+                    showAlertMessage("Could not get group.", "Ok");
+                }
             }
 
             @Override
@@ -70,8 +80,6 @@ public class GroupMembersActivity extends AppCompatActivity {
 
             }
         });
-
-        addButton = findViewById(R.id.add_group_member_button);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
