@@ -23,6 +23,9 @@ public class Comment {
     @SerializedName("text")
     @Expose
     private String text;
+    @SerializedName("is_author")
+    @Expose
+    private boolean isAuthor;
 
     public int getId() {
         return id;
@@ -54,5 +57,13 @@ public class Comment {
 
     public void setNote(int note) {
         this.note = note;
+    }
+
+    public boolean isAuthor() {
+        return isAuthor;
+    }
+
+    public void setIsAuthor(boolean author) {
+        isAuthor = author;
     }
 }
