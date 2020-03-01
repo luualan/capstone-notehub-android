@@ -53,7 +53,7 @@ public class MyInvitationsFragment extends Fragment {
     }
 
     public void clear() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             int size = invitations.size();
             invitations.clear();
             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
@@ -61,7 +61,7 @@ public class MyInvitationsFragment extends Fragment {
     }
 
     public void refresh() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             createInvitationList();
         }
     }
@@ -86,13 +86,11 @@ public class MyInvitationsFragment extends Fragment {
                     if (invitations.isEmpty()) {
                         recyclerView.setVisibility(View.GONE);
                         emptyView.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyView.setVisibility(View.GONE);
                     }
-                }
-                else
+                } else
                     showAlertMessage("Error, could not load users invitations.", "Ok");
 
             }
@@ -152,45 +150,44 @@ public class MyInvitationsFragment extends Fragment {
 
             @Override
             public void onDeleteButton(final int position) {
-                Call<Invitation> call = apiService.deleteGroupInvitation(MainActivity.getToken(getContext()), invitations.get(position).getGroup(), invitations.get(position).getId());
+                new MaterialAlertDialogBuilder(getActivity())
+                        .setMessage("Do you want to decline this invitation?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<Invitation> call = apiService.deleteGroupInvitation(MainActivity.getToken(getContext()), invitations.get(position).getGroup(), invitations.get(position).getId());
 
-                call.enqueue(new Callback<Invitation>() {
-                    @Override
-                    public void onResponse(Call<Invitation> call, Response<Invitation> response) {
-                        if (response.errorBody() == null) {
-                            recyclerViewAdapter.removeItem(position);
-
-                            new MaterialAlertDialogBuilder(getActivity())
-                                    .setMessage("Do you want to decline this invitation?")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                call.enqueue(new Callback<Invitation>() {
+                                    @Override
+                                    public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                                        if (response.errorBody() == null) {
+                                            recyclerViewAdapter.removeItem(position);
+                                            if (invitations.isEmpty()) {
+                                                clear();
+                                                refresh();
+                                            }
                                             new MaterialAlertDialogBuilder(getActivity())
                                                     .setMessage("Invitation was successfully declined.")
                                                     .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            if(invitations.isEmpty()) {
-                                                                clear();
-                                                                refresh();
-                                                            }
                                                         }
                                                     })
                                                     .show();
+                                        } else {
+                                            showAlertMessage("Could not delete invitation.", "Ok");
                                         }
-                                    })
-                                    .setNegativeButton("No", null)
-                                    .show();
-                        } else {
-                            showAlertMessage("Could not delete invitation.", "Ok");
-                        }
-                    }
+                                    }
 
-                    @Override
-                    public void onFailure(Call<Invitation> call, Throwable t) {
-
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<Invitation> call, Throwable t) {
+                                        showAlertMessage("Could not delete invitation.", "Ok");
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
     }
