@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -99,7 +101,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     // Return to sign up page
     public void signOut() {
+        SharedPreferences savePreferences = getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+        savePreferences.edit().putString("TOKEN", "").apply();
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 }

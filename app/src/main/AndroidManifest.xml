@@ -29,7 +29,8 @@
         <activity
             android:name=".SearchActivity"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:noHistory="true" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".AccountActivity" />
         <activity
