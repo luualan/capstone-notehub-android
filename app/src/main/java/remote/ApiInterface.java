@@ -37,6 +37,9 @@ public interface ApiInterface {
     @GET("api/user/")
     Call<User> getUser(@Header("Authorization") String authKey);
 
+    @PATCH("api/user/")
+    Call<User> updateUser(@Header("Authorization") String authKey, @Body User user);
+
     @GET("api/user/notes/")
     Call<List<Note>> getUserNotes(@Header("Authorization") String authKey);
 
