@@ -346,8 +346,16 @@ public class UploadActivity extends DialogFragment {
                                 note = response.body();
 
                                 // card holder
-                                CardView cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
-                                        note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star);
+                                CardView cardView;
+
+                                if(groupID == -1) {
+                                    cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
+                                            note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star, "Type: Public");
+                                }
+                                else {
+                                    cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
+                                            note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star, "Type: Private");
+                                }
 
                                 if (cardHolder != null)
                                     cardHolder.insertCard(cardView);

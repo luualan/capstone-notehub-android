@@ -1,6 +1,11 @@
 package fragments;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +17,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notehub.GroupMembersActivity;
 import com.example.notehub.MainActivity;
 import com.example.notehub.NoteActivity;
 import com.example.notehub.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import adapters.CommentRecyclerViewAdapter;
@@ -38,7 +48,6 @@ public class NoteFilesFragment extends Fragment {
     private List<NoteFile> noteFiles;
     private ApiInterface apiService;
 
-
     // Constructor
     public NoteFilesFragment() {
 
@@ -47,10 +56,7 @@ public class NoteFilesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-       // Log.e("dssadaddadas", Integer.toString(noteActivity.getNoteId()));
         noteFiles = new ArrayList<>();
-
     }
 
     @Nullable
@@ -95,6 +101,53 @@ public class NoteFilesFragment extends Fragment {
 
         // Set recycler view to use custom comment adapter
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        recyclerViewAdapter.setOnItemClickListener(new NoteFileRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onDownloadClick(int position) {
+                download(getContext(), noteFiles.get(position).getFile());
+                showAlertMessage(noteFiles.get(position).getFile(), "Done");
+            }
+        });
+    }
+
+    public void download(Context context, String imageUrl) {
+        Picasso.with(context)
+                .load(imageUrl)
+                .into(new Target() {
+                          @Override
+                          public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                              try {
+                                  String root = Environment.getExternalStorageDirectory().toString();
+                                  Log.e("dadadadadadada", root);
+
+                                  File myDir = new File(root + "/myDirectory");
+
+                                  if (!myDir.exists()) {
+                                      myDir.mkdirs();
+                                  }
+
+                                  String name = new Date().toString() + ".jpg";
+                                  myDir = new File(myDir, name);
+                                  FileOutputStream out = new FileOutputStream(myDir);
+                                  bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+                                  out.flush();
+                                  out.close();
+                              } catch(Exception e){
+                                  // some action
+                              }
+                          }
+
+                          @Override
+                          public void onBitmapFailed(Drawable errorDrawable) {
+                          }
+
+                          @Override
+                          public void onPrepareLoad(Drawable placeHolderDrawable) {
+                          }
+                      }
+                );
     }
 
     public void clear() {
@@ -111,5 +164,10 @@ public class NoteFilesFragment extends Fragment {
         }
     }
 
-
+    private void showAlertMessage(String message, String buttonText) {
+        new MaterialAlertDialogBuilder(getActivity())
+                .setMessage(message)
+                .setPositiveButton(buttonText, null)
+                .show();
+    }
 }

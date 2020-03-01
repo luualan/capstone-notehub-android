@@ -85,7 +85,7 @@ public class NoteCommentsFragment extends Fragment {
 
                 // Set recycler view to use custom comment adapter
                 recyclerView.setAdapter(recyclerViewAdapter);
-                recyclerViewAdapter.setOnItemCLickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
+                recyclerViewAdapter.setOnItemClickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
 

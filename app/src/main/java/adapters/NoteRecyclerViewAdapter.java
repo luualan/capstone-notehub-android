@@ -62,6 +62,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         public TextView university;
         public TextView course;
         public TextView name;
+        public TextView type;
         public ImageView favorite;
         public ImageView comment;
         public ImageView report;
@@ -77,6 +78,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
             university = itemView.findViewById(R.id.text_university);
             course = itemView.findViewById(R.id.text_course);
             name = itemView.findViewById(R.id.text_name);
+            type = itemView.findViewById(R.id.text_type);
             favorite = itemView.findViewById(R.id.image_favorite);
             comment = itemView.findViewById(R.id.image_comment);
             report = itemView.findViewById(R.id.image_report);
@@ -197,6 +199,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         holder.university.setText(currentItem.getUniversity());
         holder.course.setText(currentItem.getCourse());
         holder.name.setText(currentItem.getName());
+        holder.type.setText(currentItem.getType());
         holder.ratingBar.setStepSize((float)0.25);
         holder.ratingBar.setRating(currentItem.getAvgRating());
     }

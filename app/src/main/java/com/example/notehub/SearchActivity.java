@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,6 +40,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
     private RecyclerView.LayoutManager layoutManager; // aligning single items on list
 
     private ApiInterface apiService;
+    private AnimationDrawable animationToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,17 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         // display back button
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Fix
+        getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.animation_background));
+
+       // animationToolBar = (AnimationDrawable) getActionBarView().getBackground();
+
+        //Time changes
+       //  animationToolBar.setEnterFadeDuration(5000);
+       //  animationToolBar.setExitFadeDuration(3000);
+
+      //  animationToolBar.start();
 
         // Search
         final MenuItem searchItem = menu.findItem(R.id.nav_search);
@@ -124,7 +138,6 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         // Create Cards
         cards = new ArrayList<>();
 
-
         Call<List<Note>> call = apiService.getNotes(getToken(), null, null, null, null, null);
 
         call.enqueue(new Callback<List<Note>>() {
@@ -144,11 +157,13 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
                                     if(favorites.size() == 0) {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), notes.get(count).isAuthor(), R.drawable.ic_favorite_star));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Public"));
                                     }
                                     else {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(), notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on));
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Public"));
                                     }
                                 }
                             }
@@ -452,6 +467,14 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
 
             }
         });
+    }
+
+    // Retrieve action bar id
+    public View getActionBarView() {
+        Window window = getWindow();
+        View v = window.getDecorView();
+        int resId = getResources().getIdentifier("action_bar_container", "id", "android");
+        return v.findViewById(resId);
     }
 
     // Change cards text

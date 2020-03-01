@@ -41,7 +41,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         void onDeleteClick(int position);
     }
 
-    public void setOnItemCLickListener(onItemClickListener listener) {
+    public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
 

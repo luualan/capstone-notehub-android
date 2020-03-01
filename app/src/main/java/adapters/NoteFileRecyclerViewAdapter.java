@@ -21,18 +21,25 @@ import models.NoteFile;
 public class NoteFileRecyclerViewAdapter extends RecyclerView.Adapter<NoteFileRecyclerViewAdapter.ViewHolder>  {
     private Context context;
     private List<NoteFile> noteFiles;
+    private onItemClickListener listener;
 
     public NoteFileRecyclerViewAdapter(Context context, List<NoteFile> noteFiles) {
         this.context = context;
         this.noteFiles = noteFiles;
     }
 
+    public interface onItemClickListener {
+        void onDownloadClick(int position);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {this.listener = listener; }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.note_file_card_view, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, listener);
         return viewHolder;
     }
 
@@ -50,11 +57,24 @@ public class NoteFileRecyclerViewAdapter extends RecyclerView.Adapter<NoteFileRe
         public ImageView fileImage;
         private MaterialButton download;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
 
             fileImage = itemView.findViewById(R.id.note_file_image);
             download = itemView.findViewById(R.id.note_file_download);
+
+            download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDownloadClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
