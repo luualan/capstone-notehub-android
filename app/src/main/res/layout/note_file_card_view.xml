@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="502dp"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_marginBottom="10dp"
     android:background="@color/light_grey">
 
+        <ImageView
+            android:id="@+id/note_file_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/pg2" />
 
-    <ImageView
-        android:id="@+id/note_file_image"
-        android:layout_width="match_parent"
-        android:layout_height="502dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/pg2" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/note_file_download"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="50dp"
-        android:layout_height="60dp"
-
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/permanentmarker"
-        android:gravity="center_vertical"
-        android:textColor="#FFFFFF"
-        app:icon="@drawable/ic_file_download"
-        app:iconPadding="0dp"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/note_file_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/white" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/note_file_download"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/blue_500"
+            android:fontFamily="@font/permanentmarker"
+            android:text="Download"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="8dp"
+            app:rippleColor="@color/white" />
+</RelativeLayout>

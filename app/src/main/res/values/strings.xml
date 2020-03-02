@@ -15,4 +15,7 @@
     <string name="create_account_text">Create An Account</string>
     <string name="action_password_reset">Forgot Password?</string>
     <string name="favorite">Favorite Notes</string>
+    <string name="title">Title</string>
+    <string name="school">University</string>
+    <string name="course">Course</string>
 </resources>

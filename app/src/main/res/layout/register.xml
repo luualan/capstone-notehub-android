@@ -43,14 +43,13 @@
 
         <ImageView
             android:id="@+id/profile_picture"
-            android:layout_marginTop="10dp"
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/user_photo" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="5dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
@@ -175,7 +174,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/open_sans"
                 android:maxLines="1"
-                android:imeOptions="actionNext"
                 android:selectAllOnFocus="true"
                 android:hint="Password"
                 android:inputType="textPassword" />
@@ -186,11 +184,11 @@
             android:layout_width="165dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            app:cornerRadius="8dp"
-            app:rippleColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/permanentmarker"
-            android:text="Register" />
+            android:text="Register"
+            app:cornerRadius="8dp"
+            app:rippleColor="@color/white" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
