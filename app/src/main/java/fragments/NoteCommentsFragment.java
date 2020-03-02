@@ -1,14 +1,19 @@
 package fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +27,8 @@ import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +66,6 @@ public class NoteCommentsFragment extends Fragment {
         view = inflater.inflate(R.layout.note_comments_fragment, container, false);
 
         apiService = MainActivity.buildHTTP();
-
         textBox = view.findViewById(R.id.input_text_comment);
         button = view.findViewById(R.id.add_comment_button);
 
@@ -67,7 +73,6 @@ public class NoteCommentsFragment extends Fragment {
 
         return view;
     }
-
 
     public void onDeleteClick(final int position, PopupMenu menu) {
         final Context context = getContext();
@@ -182,7 +187,6 @@ public class NoteCommentsFragment extends Fragment {
                 recyclerViewAdapter.setOnItemClickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
                     }
 
                     @Override
@@ -239,6 +243,17 @@ public class NoteCommentsFragment extends Fragment {
                 });
             }
         });
+
+        textBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    button.callOnClick();
+                    closeKeyboard();
+                }
+                return true;
+            }
+        });
     }
 
     void insertItem(Comment comment) {
@@ -259,6 +274,15 @@ public class NoteCommentsFragment extends Fragment {
         }
     }
 
+    // Close keyboard when open
+    private void closeKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if(view != null) {
+            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
     private String getToken() {
         SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);

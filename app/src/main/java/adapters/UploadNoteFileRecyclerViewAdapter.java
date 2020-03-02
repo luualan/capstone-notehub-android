@@ -104,7 +104,7 @@ public class UploadNoteFileRecyclerViewAdapter extends RecyclerView.Adapter<Uplo
             fileTitle = itemView.findViewById(R.id.upload_note_file_title);
             trashIcon = itemView.findViewById(R.id.upload_delete_icon);
 
-        /*    trashIcon.setOnClickListener(new View.OnClickListener() {
+            trashIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -115,7 +115,7 @@ public class UploadNoteFileRecyclerViewAdapter extends RecyclerView.Adapter<Uplo
                         }
                     }
                 }
-            });*/
+            });
         }
     }
 }

@@ -69,8 +69,7 @@
             android:fontFamily="@font/open_sans"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:selectAllOnFocus="true"
-            android:textSize="16sp" />
+            android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -95,8 +94,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/note_comments_recycler"
         android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="95dp"
         android:background="@color/light_grey"
         app:layout_constraintTop_toBottomOf="@+id/input_layout_comment"
         tools:layout_editor_absoluteX="16dp"></androidx.recyclerview.widget.RecyclerView>

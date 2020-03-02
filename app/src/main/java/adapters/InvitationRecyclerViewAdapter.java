@@ -10,6 +10,7 @@ package adapters;
         import android.widget.TextView;
 
         import androidx.annotation.NonNull;
+        import androidx.cardview.widget.CardView;
         import androidx.recyclerview.widget.RecyclerView;
 
         import com.example.notehub.R;
@@ -50,7 +51,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         holder.groupName.setText(invitations.get(position).getGroupName());
         holder.username.setText("Moderator: " + invitations.get(position).getModeratorUsername());
         // holder.image.setImageResource(invitations.get(position).getPhoto());
@@ -80,7 +81,7 @@ public class InvitationRecyclerViewAdapter extends RecyclerView.Adapter<Invitati
         private TextView username;
         private MaterialButton joinButton;
         private MaterialButton declineButton;
-        private RelativeLayout container;
+        private CardView container;
 
 
         // View Constructor

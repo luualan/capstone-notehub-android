@@ -83,9 +83,10 @@ public class UploadActivity extends DialogFragment {
     private RecyclerView noteFilesRecyclerView;
     private UploadNoteFileRecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<NoteFile> noteFiles = new ArrayList<>();
+    private TextView uploadFilesText;
 
     public interface CardHolder {
-        public void insertCard(CardView card);
+        void insertCard(CardView card);
     }
 
     static UploadActivity newInstance() {
@@ -135,6 +136,7 @@ public class UploadActivity extends DialogFragment {
         schoolDropDown = view.findViewById(R.id.upload_school);
         title = view.findViewById(R.id.upload_title);
         course = view.findViewById(R.id.upload_course);
+        uploadFilesText = view.findViewById(R.id.upload_files_text);
 
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
         refreshIcon = view.findViewById(R.id.fullscreen_dialog_refresh);
@@ -194,6 +196,8 @@ public class UploadActivity extends DialogFragment {
                 schoolDropDown.getText().clear();
                 course.getText().clear();
                 noteFiles.clear();
+                uris.clear();
+                uploadFilesText.setVisibility(View.GONE);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(UploadActivity.this);
                 ft.attach(UploadActivity.this);
@@ -203,7 +207,6 @@ public class UploadActivity extends DialogFragment {
 
         // RecyclerView
         buildRecyclerView();
-
         return view;
     }
 
@@ -213,6 +216,17 @@ public class UploadActivity extends DialogFragment {
         noteFilesRecyclerView.setAdapter(recyclerViewAdapter);
         // Horizontal layout
         noteFilesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        recyclerViewAdapter.setOnItemClickListener(new UploadNoteFileRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                recyclerViewAdapter.removeItem(position);
+                uris.remove(position);
+
+                if(uris.isEmpty())
+                    uploadFilesText.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void openFileChooser() {
@@ -287,6 +301,8 @@ public class UploadActivity extends DialogFragment {
             NoteFile noteFile = new NoteFile();
             noteFile.setFile(imageURI.toString());
             recyclerViewAdapter.addItem(noteFile);
+
+            uploadFilesText.setVisibility(View.VISIBLE);
 
         /*    String concat = "";
 

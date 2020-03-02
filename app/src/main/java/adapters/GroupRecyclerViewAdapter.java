@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notehub.R;
@@ -53,7 +54,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Animation sliding
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
         holder.groupName.setText(groups.get(position).getName());
         holder.moderator.setText(groups.get(position).getModeratorUsername());
@@ -97,7 +98,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         private TextView moderator;
         private MaterialButton button;
         private CircleImageView image;
-        private RelativeLayout container;
+        private CardView container;
 
 
         // View Constructor
