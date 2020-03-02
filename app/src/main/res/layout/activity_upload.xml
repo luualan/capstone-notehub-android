@@ -126,6 +126,9 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
                     android:imeOptions="actionNext"
+                    android:paddingTop="25dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="12dp"
                     android:inputType="text"
                     android:hint="@string/school"
                     android:textSize="16sp"
@@ -161,6 +164,7 @@
 
             <RelativeLayout
                 android:layout_width="310dp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content">
 
