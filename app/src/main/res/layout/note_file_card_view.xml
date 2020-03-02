@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="500dp"
-    android:layout_marginBottom="10dp"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="16dp"
     android:background="@color/light_grey">
 
-        <ImageView
-            android:id="@+id/note_file_image"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/pg2" />
+            android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/note_file_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/pg2" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/note_file_download"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="@color/blue_500"
-            android:fontFamily="@font/permanentmarker"
-            android:text="Download"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="8dp"
-            app:rippleColor="@color/white" />
-</RelativeLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/note_file_download"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:backgroundTint="@color/green"
+                    android:fontFamily="@font/permanentmarker"
+                    android:text="Download"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/white" />
+        </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

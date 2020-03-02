@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,13 +73,20 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Fix
-       // getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.animation_background));
+      /*  getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.animation_background));
+
+        int actionBarId = getResources().getIdentifier("action_bar", "id", "android");
+        View actionBar = findViewById(actionBarId);
+        Log.e("AAAAAAAAAAAAAA", Integer.toString(actionBarId));
+        Log.e("ALANAALANANA", actionBar.toString());
+        Drawable actionBarBackground = actionBar.getBackground();
+        animationToolBar = (AnimationDrawable) actionBarBackground;
         // animationToolBar = (AnimationDrawable) getActionBarView().getBackground();
 
        // animationToolBar = (AnimationDrawable) getSupportActionBar().getCustomView().getBackground();
 
         //Time changes
-    /*     animationToolBar.setEnterFadeDuration(5000);
+         animationToolBar.setEnterFadeDuration(5000);
          animationToolBar.setExitFadeDuration(3000);
 
          animationToolBar.start();*/
