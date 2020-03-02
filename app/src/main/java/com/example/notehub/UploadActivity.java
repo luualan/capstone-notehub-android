@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -442,9 +443,20 @@ public class UploadActivity extends DialogFragment {
                                         }
                                     });
                                 }
-                                showAlertMessage("Upload successful!");
-                                //Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
-                                dismiss();
+                                // showAlertMessage("Upload successful!");
+
+                                new MaterialAlertDialogBuilder(getContext())
+                                        .setMessage("Upload successful!")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if(groupID == -1)
+                                                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                                                else
+                                                    dismiss();
+                                            }
+                                        })
+                                        .show();
                             } else {
 
                             }
