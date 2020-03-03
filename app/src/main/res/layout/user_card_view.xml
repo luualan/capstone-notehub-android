@@ -4,8 +4,9 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:padding="5dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginBottom="2dp">
 
     <!-- <ImageView
           android:layout_width="56dp"
@@ -54,15 +55,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:layout_alignParentRight="true"
             android:textColor="@color/black"
             android:text="Date"/>
 
         <ImageView
             android:id="@+id/group_member_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_remove"
-            android:layout_below="@id/group_member_join_date" />
+            android:layout_width="40dp"
+            android:layout_height="37dp"
+            android:layout_below="@id/group_member_join_date"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="-4dp"
+            android:src="@drawable/ic_remove" />
 
     </RelativeLayout>
 </LinearLayout>

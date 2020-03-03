@@ -333,7 +333,7 @@ public class InnerGroupActivity extends AppCompatActivity implements UploadActiv
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
+        adapter.setOnItemClickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card redirects to NoteActivity and sends the data to it
             @Override
             public void onItemClick(int position) {

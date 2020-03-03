@@ -13,6 +13,8 @@
         android:id="@+id/action_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:layout_margin="4dp">
 
         <ImageView
@@ -66,7 +68,7 @@
             android:maxLines="1"
             android:text="Title"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -94,7 +96,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/text_name"
+            android:id="@+id/text_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_course"
@@ -102,19 +104,19 @@
             android:ellipsize="end"
             android:maxEms="15"
             android:maxLines="1"
-            android:text="Name"
+            android:text="Type"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/text_type"
+            android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_name"
+            android:layout_below="@id/text_type"
             android:layout_marginTop="-2dp"
             android:ellipsize="end"
             android:maxEms="15"
             android:maxLines="1"
-            android:text="Type"
+            android:text="Name"
             android:textSize="15sp" />
 
         <RatingBar

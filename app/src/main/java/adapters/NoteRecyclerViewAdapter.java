@@ -53,7 +53,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         void onRatingClick(int position, float score);
     }
 
-    public void setOnItemCLickListener(onItemClickListener listener) {
+    public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
     }
 

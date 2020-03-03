@@ -7,11 +7,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notehub.R;
@@ -26,7 +29,6 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import models.CardView;
 import models.Comment;
 
 // Comment Recycler View Adapter
@@ -74,6 +76,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
             date = new Date();
         }
         holder.date.setText(dateReadableFormat.format(date));
+        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         //if(!comments.get(position).isAuthor())
         //  holder.menu.getMenu().findItem(R.id.deleteGroup).setVisible(false);
         // holder.image.setImageResource(comments.get(position).getPhoto());
@@ -107,6 +110,8 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         //public ImageView report;
         //public ImageView deleteImage;
 
+        private CardView container;
+
         // View Constructor
         public ViewHolder(@NonNull View itemView, final onItemClickListener listener) {
             super(itemView);
@@ -115,6 +120,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
             image = itemView.findViewById(R.id.note_user_img);
             date = itemView.findViewById(R.id.note_date);
             overflow = itemView.findViewById(R.id.note_overflow);
+            container = itemView.findViewById(R.id.comment_container);
 
             //report = itemView.findViewById(R.id.image_report);
             //deleteImage = itemView.findViewById(R.id.image_delete);

@@ -184,7 +184,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
+        adapter.setOnItemClickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card sends information to another activity
             @Override
             public void onItemClick(int position) {

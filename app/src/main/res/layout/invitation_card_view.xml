@@ -2,27 +2,29 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/invitation_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
-        android:id="@+id/invitation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:layout_margin="4dp">
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/join_button"
-            android:layout_width="wrap_content"
+            android:layout_width="115dp"
             android:layout_height="47dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="29dp"
-            android:layout_marginEnd="117dp"
+            android:layout_marginEnd="120dp"
             android:backgroundTint="@color/green"
             android:enabled="true"
             android:fontFamily="@font/permanentmarker"
@@ -34,13 +36,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/decline_button"
-            android:layout_width="wrap_content"
+            android:layout_width="115dp"
             android:layout_height="47dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="29dp"
-            android:layout_marginEnd="3dp"
             android:backgroundTint="@android:color/holo_red_light"
             android:enabled="true"
             android:fontFamily="@font/permanentmarker"
@@ -61,7 +62,7 @@
             android:maxLines="1"
             android:text="Group Name"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView

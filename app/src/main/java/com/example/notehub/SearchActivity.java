@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,20 +73,28 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Fix
-        getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.animation_background));
+      /*  getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.animation_background));
 
-       // animationToolBar = (AnimationDrawable) getActionBarView().getBackground();
+        int actionBarId = getResources().getIdentifier("action_bar", "id", "android");
+        View actionBar = findViewById(actionBarId);
+        Log.e("AAAAAAAAAAAAAA", Integer.toString(actionBarId));
+        Log.e("ALANAALANANA", actionBar.toString());
+        Drawable actionBarBackground = actionBar.getBackground();
+        animationToolBar = (AnimationDrawable) actionBarBackground;
+        // animationToolBar = (AnimationDrawable) getActionBarView().getBackground();
+
+       // animationToolBar = (AnimationDrawable) getSupportActionBar().getCustomView().getBackground();
 
         //Time changes
-       //  animationToolBar.setEnterFadeDuration(5000);
-       //  animationToolBar.setExitFadeDuration(3000);
+         animationToolBar.setEnterFadeDuration(5000);
+         animationToolBar.setExitFadeDuration(3000);
 
-      //  animationToolBar.start();
+         animationToolBar.start();*/
 
         // Search
         final MenuItem searchItem = menu.findItem(R.id.nav_search);
 
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        final SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setIconified(false);
         searchView.clearFocus();
@@ -198,7 +208,7 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
+        adapter.setOnItemClickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card redirects to NoteActivity and sends the data to it
             @Override
             public void onItemClick(int position) {

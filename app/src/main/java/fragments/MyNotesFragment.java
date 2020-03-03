@@ -181,7 +181,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemCLickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
+        adapter.setOnItemClickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card changes text
             @Override
             public void onItemClick(int position) {

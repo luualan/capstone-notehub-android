@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
@@ -41,6 +43,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapters.UploadNoteFileRecyclerViewAdapter;
 import models.CardView;
 import models.Note;
 import models.NoteFile;
@@ -56,7 +59,6 @@ import retrofit2.Response;
 public class UploadActivity extends DialogFragment {
     private static final int PICK_IMAGE_REQUEST = 1;
     private View view;
-    private List<String> filePaths;
     private Note note;
     private List<University> universities;
     private ArrayAdapter<University> arrayAdapter;
@@ -79,9 +81,13 @@ public class UploadActivity extends DialogFragment {
     private int groupID;
     private RelativeLayout toolbar;
     private AnimationDrawable animationToolBar;
+    private RecyclerView noteFilesRecyclerView;
+    private UploadNoteFileRecyclerViewAdapter recyclerViewAdapter;
+    private ArrayList<NoteFile> noteFiles = new ArrayList<>();
+    private TextView uploadFilesText;
 
     public interface CardHolder {
-        public void insertCard(CardView card);
+        void insertCard(CardView card);
     }
 
     static UploadActivity newInstance() {
@@ -122,27 +128,26 @@ public class UploadActivity extends DialogFragment {
         animationToolBar = (AnimationDrawable) toolbar.getBackground();
         animationToolBar.setEnterFadeDuration(5000);
         animationToolBar.setExitFadeDuration(3000);
-
         animationToolBar.start();
 
         apiService = MainActivity.buildHTTP();
-        filePaths = new ArrayList<String>();
 
         buttonChooseImage = view.findViewById(R.id.choose_image_button);
         buttonUpload = view.findViewById(R.id.upload_image_button);
-        //textViewShowUploads = view.findViewById(R.id.show_image_button);
-        imageView = view.findViewById(R.id.image_view);
-        // progessBar = view.findViewById(R.id.progress_bar);
         schoolDropDown = view.findViewById(R.id.upload_school);
         title = view.findViewById(R.id.upload_title);
         course = view.findViewById(R.id.upload_course);
-        showFileName = view.findViewById(R.id.show_file_path);
+        uploadFilesText = view.findViewById(R.id.upload_files_text);
+
         xIcon = view.findViewById(R.id.fullscreen_dialog_close);
         refreshIcon = view.findViewById(R.id.fullscreen_dialog_refresh);
+
         if(getArguments() == null)
             groupID = -1;
         else
             groupID = getArguments().getInt("groupID");
+
+        // Get list of Universities from API
         call = apiService.getUniversities(null, null, null);
         call.enqueue(new Callback<List<University>>() {
             @Override
@@ -191,6 +196,9 @@ public class UploadActivity extends DialogFragment {
                 title.getText().clear();
                 schoolDropDown.getText().clear();
                 course.getText().clear();
+                noteFiles.clear();
+                uris.clear();
+                uploadFilesText.setVisibility(View.GONE);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(UploadActivity.this);
                 ft.attach(UploadActivity.this);
@@ -198,7 +206,28 @@ public class UploadActivity extends DialogFragment {
             }
         });
 
+        // RecyclerView
+        buildRecyclerView();
         return view;
+    }
+
+    public void buildRecyclerView() {
+        noteFilesRecyclerView = view.findViewById(R.id.upload_files_recycler_view);
+        recyclerViewAdapter = new UploadNoteFileRecyclerViewAdapter(getActivity(), noteFiles);
+        noteFilesRecyclerView.setAdapter(recyclerViewAdapter);
+        // Horizontal layout
+        noteFilesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        recyclerViewAdapter.setOnItemClickListener(new UploadNoteFileRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                recyclerViewAdapter.removeItem(position);
+                uris.remove(position);
+
+                if(uris.isEmpty())
+                    uploadFilesText.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void openFileChooser() {
@@ -252,7 +281,7 @@ public class UploadActivity extends DialogFragment {
         }
     }
 
-    // Method is called when we get file
+    // Method is called when user selects a file
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -269,7 +298,14 @@ public class UploadActivity extends DialogFragment {
             //files.add(file);
 
             uris.add(imageURI);
-            String concat = "";
+
+            NoteFile noteFile = new NoteFile();
+            noteFile.setFile(imageURI.toString());
+            recyclerViewAdapter.addItem(noteFile);
+
+            uploadFilesText.setVisibility(View.VISIBLE);
+
+        /*    String concat = "";
 
             // Print file names
             for (Uri path : uris)
@@ -277,8 +313,8 @@ public class UploadActivity extends DialogFragment {
 
             // Toast.makeText(getContext(), file.toString(), Toast.LENGTH_SHORT).show();
 
-            showFileName.setText(concat);
-            Picasso.with(view.getContext()).load(imageURI).into(imageView);
+            showFileName.setText(concat);*/
+           // Picasso.with(view.getContext()).load(imageURI).into(imageView);
         }
     }
 
@@ -407,9 +443,20 @@ public class UploadActivity extends DialogFragment {
                                         }
                                     });
                                 }
-                                showAlertMessage("Upload successful!");
-                                //Toast.makeText(getContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
-                                dismiss();
+                                // showAlertMessage("Upload successful!");
+
+                                new MaterialAlertDialogBuilder(getContext())
+                                        .setMessage("Upload successful!")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if(groupID == -1)
+                                                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                                                else
+                                                    dismiss();
+                                            }
+                                        })
+                                        .show();
                             } else {
 
                             }

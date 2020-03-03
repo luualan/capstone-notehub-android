@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/light_grey"
     tools:context=".UploadActivity">
 
     <androidx.cardview.widget.CardView
@@ -60,106 +60,112 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="602dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="62dp"
-            android:paddingTop="36dp">
+            android:layout_height="545dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="55dp"
+            android:orientation="vertical">
 
-            <ImageView
+          <!--  <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:scaleType="fitXY" />-->
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="280dp"
-                android:layout_height="55dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:hint="Title"
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="5dp"
+                app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
+                app:startIconDrawable="@drawable/ic_edit"
+                app:startIconTint="@color/black"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/upload_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
+                    android:hint="@string/title"
                     android:selectAllOnFocus="true"
-                    android:textSize="16sp" />
+                    android:imeOptions="actionNext"
+                    android:textSize="16sp"
+                    android:inputType="text"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="280dp"
-                android:layout_height="55dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:hint="University"
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
+                app:startIconDrawable="@drawable/ic_business"
+                app:startIconTint="@color/black"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp">
 
-                <AutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/upload_school"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/open_sans"
                     android:imeOptions="actionNext"
+                    android:paddingTop="25dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="12dp"
                     android:inputType="text"
-                    android:paddingHorizontal="10dp"
+                    android:hint="@string/school"
+                    android:textSize="16sp"
                     android:selectAllOnFocus="true"
-                    android:textSize="16sp" />
+                    android:maxLines="1"  />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="280dp"
-                android:layout_height="55dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:hint="Course"
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="8dp"
                 app:boxCornerRadiusBottomStart="8dp"
+                app:startIconDrawable="@drawable/ic_school_black"
+                app:startIconTint="@color/black"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/upload_course"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLines="1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:hint="@string/course"
                     android:selectAllOnFocus="true"
-                    android:textSize="16sp" />
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/show_file_path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#000000"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                app:fontFamily="@font/permanent_marker" />
-
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="310dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.button.MaterialButton
@@ -168,30 +174,67 @@
                     android:layout_height="55dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    app:rippleColor="@color/white"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
+                    android:text="Upload"
                     app:cornerRadius="8dp"
-                    android:text="Upload" />
+                    app:rippleColor="@color/white" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/choose_image_button"
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
-                    app:rippleColor="@color/white"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/animation_background"
-                    android:layout_marginRight="12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginRight="100dp"
                     android:layout_toStartOf="@id/upload_image_button"
                     android:layout_toLeftOf="@id/upload_image_button"
+                    android:background="@drawable/animation_background"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/permanentmarker"
+                    android:text="Choose File"
                     app:cornerRadius="8dp"
-                    android:text="Choose File" />
+                    app:rippleColor="@color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--    <TextView
+                        android:id="@+id/show_file_path"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/permanent_marker" />-->
+
+                <TextView
+                    android:id="@+id/upload_files_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/permanentmarker"
+                    android:text="Uploaded Files"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/upload_files_recycler_view"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
 
         </LinearLayout>
-
     </ScrollView>
 
     <!--<ProgressBar
@@ -201,4 +244,4 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_gravity="bottom" />-->
-</LinearLayout>
+</RelativeLayout>
