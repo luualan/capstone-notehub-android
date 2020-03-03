@@ -1,6 +1,7 @@
 package fragments;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +49,7 @@ public class NoteFilesFragment extends Fragment {
     private NoteFileRecyclerViewAdapter recyclerViewAdapter;
     private List<NoteFile> noteFiles;
     private ApiInterface apiService;
+    DownloadManager downloadManager;
     private String imageUrl;
 
     // Constructor
@@ -67,6 +68,7 @@ public class NoteFilesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.note_files_fragment, container, false);
         apiService = MainActivity.buildHTTP();
+        downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 
         createFilesList();
 
@@ -80,11 +82,10 @@ public class NoteFilesFragment extends Fragment {
         call.enqueue(new Callback<List<NoteFile>>() {
             @Override
             public void onResponse(Call<List<NoteFile>> call, Response<List<NoteFile>> response) {
-                if(response.errorBody() == null) {
+                if (response.errorBody() == null) {
                     noteFiles = response.body();
                     buildRecyclerView();
-                }
-                else {
+                } else {
                 }
             }
 
@@ -99,7 +100,7 @@ public class NoteFilesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.note_files_recycler);
 
         // Defines the list displaying in recycler view and set layout to linear
-        recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(),noteFiles);
+        recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(), noteFiles);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Set recycler view to use custom comment adapter
@@ -158,47 +159,21 @@ public class NoteFilesFragment extends Fragment {
 
 
     public void download() {
-        Picasso.with(getContext())
-                .load(imageUrl)
-                .into(new Target() {
-                          @Override
-                          public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                              try {
-                                  String root = Environment.getExternalStorageDirectory().toString();
-
-                                  File myDir = new File(root + "/myDirectory");
-
-                                  if (!myDir.exists()) {
-                                      myDir.mkdirs();
-                                  }
-
-                                  String name = new Date().toString() + ".jpg";
-                                  myDir = new File(myDir, name);
-                                  FileOutputStream out = new FileOutputStream(myDir);
-                                  bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-
-                                  out.flush();
-                                  out.close();
-                                  showAlertMessage("Download successful.", "Done");
-                              } catch(Exception e){
-                                  // some action
-                              }
-                          }
-
-                          @Override
-                          public void onBitmapFailed(Drawable errorDrawable) {
-                              showAlertMessage("Download failed.", "Done");
-                          }
-
-                          @Override
-                          public void onPrepareLoad(Drawable placeHolderDrawable) {
-                          }
-                      }
-                );
+        Uri imageUri = Uri.parse(imageUrl);
+        String extension = imageUrl.substring(imageUrl.lastIndexOf("."));
+        String name = new Date().toString() + extension;
+        DownloadManager.Request request = new DownloadManager.Request(imageUri);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setTitle("Notehub Download");
+        request.setDescription("Downloading Notehub file: " + name);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+        downloadManager.enqueue(request);
+        showAlertMessage("Download Started.", "Done");
     }
 
     public void clear() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             int size = noteFiles.size();
             noteFiles.clear();
             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
@@ -206,7 +181,7 @@ public class NoteFilesFragment extends Fragment {
     }
 
     public void refresh() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             createFilesList();
         }
     }
