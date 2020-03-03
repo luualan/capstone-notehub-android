@@ -1,6 +1,8 @@
 package fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -47,6 +49,7 @@ public class NoteFilesFragment extends Fragment {
     private NoteFileRecyclerViewAdapter recyclerViewAdapter;
     private List<NoteFile> noteFiles;
     private ApiInterface apiService;
+    private String imageUrl;
 
     // Constructor
     public NoteFilesFragment() {
@@ -105,13 +108,57 @@ public class NoteFilesFragment extends Fragment {
         recyclerViewAdapter.setOnItemClickListener(new NoteFileRecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onDownloadClick(int position) {
-                download(getContext(), noteFiles.get(position).getFile());
+                imageUrl = noteFiles.get(position).getFile();
+                verifyStoragePermissions();
             }
         });
     }
 
-    public void download(Context context, String imageUrl) {
-        Picasso.with(context)
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    // Checks if the app has permission to write to device storage
+    // If the app does not has permission then the user will be prompted to grant permissions
+    public void verifyStoragePermissions() {
+        // Check if we have write permission
+        int permission = getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            this.requestPermissions(
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        } else {
+            download();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty. Permission was granted.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    download();
+                }
+                // permission denied
+                else {
+
+                }
+                return;
+            }
+        }
+    }
+
+
+    public void download() {
+        Picasso.with(getContext())
                 .load(imageUrl)
                 .into(new Target() {
                           @Override
@@ -132,6 +179,7 @@ public class NoteFilesFragment extends Fragment {
 
                                   out.flush();
                                   out.close();
+                                  showAlertMessage("Download successful.", "Done");
                               } catch(Exception e){
                                   // some action
                               }
@@ -144,7 +192,6 @@ public class NoteFilesFragment extends Fragment {
 
                           @Override
                           public void onPrepareLoad(Drawable placeHolderDrawable) {
-                              showAlertMessage("Download successful.", "Done");
                           }
                       }
                 );
