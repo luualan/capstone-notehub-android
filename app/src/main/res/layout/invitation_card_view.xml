@@ -18,7 +18,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/join_button"
-            android:layout_width="105dp"
+            android:layout_width="115dp"
             android:layout_height="47dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -36,7 +36,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/decline_button"
-            android:layout_width="105dp"
+            android:layout_width="115dp"
             android:layout_height="47dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
