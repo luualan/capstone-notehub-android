@@ -6,6 +6,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groups_notification_recycler"
+        android:scrollbars="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
     </androidx.recyclerview.widget.RecyclerView>

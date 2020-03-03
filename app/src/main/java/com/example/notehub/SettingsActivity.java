@@ -85,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
         newPassword = findViewById(R.id.settings_new_password);
         subscription = findViewById(R.id.settings_subscription);
 
-        firstName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+   /*     firstName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN
@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+*/
         subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

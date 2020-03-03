@@ -225,12 +225,11 @@
                     android:fontFamily="@font/permanentmarker"
                     android:text="Uploaded Files"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="17sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/upload_files_recycler_view"
                     android:layout_marginTop="40dp"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
