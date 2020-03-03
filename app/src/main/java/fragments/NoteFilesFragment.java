@@ -1,12 +1,14 @@
 package fragments;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,8 @@ public class NoteFilesFragment extends Fragment {
     private NoteFileRecyclerViewAdapter recyclerViewAdapter;
     private List<NoteFile> noteFiles;
     private ApiInterface apiService;
+    DownloadManager downloadManager;
+    private String imageUrl;
 
     // Constructor
     public NoteFilesFragment() {
@@ -64,6 +68,7 @@ public class NoteFilesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.note_files_fragment, container, false);
         apiService = MainActivity.buildHTTP();
+        downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 
         createFilesList();
 
@@ -77,11 +82,10 @@ public class NoteFilesFragment extends Fragment {
         call.enqueue(new Callback<List<NoteFile>>() {
             @Override
             public void onResponse(Call<List<NoteFile>> call, Response<List<NoteFile>> response) {
-                if(response.errorBody() == null) {
+                if (response.errorBody() == null) {
                     noteFiles = response.body();
                     buildRecyclerView();
-                }
-                else {
+                } else {
                 }
             }
 
@@ -96,7 +100,7 @@ public class NoteFilesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.note_files_recycler);
 
         // Defines the list displaying in recycler view and set layout to linear
-        recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(),noteFiles);
+        recyclerViewAdapter = new NoteFileRecyclerViewAdapter(getActivity(), noteFiles);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Set recycler view to use custom comment adapter
@@ -105,53 +109,71 @@ public class NoteFilesFragment extends Fragment {
         recyclerViewAdapter.setOnItemClickListener(new NoteFileRecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onDownloadClick(int position) {
-                download(getContext(), noteFiles.get(position).getFile());
+                imageUrl = noteFiles.get(position).getFile();
+                verifyStoragePermissions();
             }
         });
     }
 
-    public void download(Context context, String imageUrl) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .into(new Target() {
-                          @Override
-                          public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                              try {
-                                  String root = Environment.getExternalStorageDirectory().toString();
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
-                                  File myDir = new File(root + "/myDirectory");
+    // Checks if the app has permission to write to device storage
+    // If the app does not has permission then the user will be prompted to grant permissions
+    public void verifyStoragePermissions() {
+        // Check if we have write permission
+        int permission = getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-                                  if (!myDir.exists()) {
-                                      myDir.mkdirs();
-                                  }
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            this.requestPermissions(
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        } else {
+            download();
+        }
+    }
 
-                                  String name = new Date().toString() + ".jpg";
-                                  myDir = new File(myDir, name);
-                                  FileOutputStream out = new FileOutputStream(myDir);
-                                  bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty. Permission was granted.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    download();
+                }
+                // permission denied
+                else {
 
-                                  out.flush();
-                                  out.close();
-                              } catch(Exception e){
-                                  // some action
-                              }
-                          }
+                }
+                return;
+            }
+        }
+    }
 
-                          @Override
-                          public void onBitmapFailed(Drawable errorDrawable) {
-                              showAlertMessage("Download failed.", "Done");
-                          }
 
-                          @Override
-                          public void onPrepareLoad(Drawable placeHolderDrawable) {
-                              showAlertMessage("Download successful.", "Done");
-                          }
-                      }
-                );
+    public void download() {
+        Uri imageUri = Uri.parse(imageUrl);
+        String extension = imageUrl.substring(imageUrl.lastIndexOf("."));
+        String name = new Date().toString() + extension;
+        DownloadManager.Request request = new DownloadManager.Request(imageUri);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setTitle("Notehub Download");
+        request.setDescription("Downloading Notehub file: " + name);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+        downloadManager.enqueue(request);
+        showAlertMessage("Download Started.", "Done");
     }
 
     public void clear() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             int size = noteFiles.size();
             noteFiles.clear();
             recyclerViewAdapter.notifyItemRangeRemoved(0, size);
@@ -159,7 +181,7 @@ public class NoteFilesFragment extends Fragment {
     }
 
     public void refresh() {
-        if(recyclerViewAdapter != null) {
+        if (recyclerViewAdapter != null) {
             createFilesList();
         }
     }

@@ -231,9 +231,9 @@ public class UploadActivity extends DialogFragment {
     }
 
     private void openFileChooser() {
-        String[] mimeTypes = {"image/*", "application/pdf"};
+        String[] mimeTypes = {"image/jpeg", "image/png"};
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-                .setType("image/*|application/pdf")
+                .setType("image/jpeg|image/png")
                 .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
 
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
