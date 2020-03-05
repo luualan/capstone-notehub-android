@@ -20,6 +20,7 @@ import models.Token;
 import models.University;
 import models.UpdatePasswordRequest;
 import models.UpdatePasswordResponse;
+import models.UploadAvatarResponse;
 import models.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -52,11 +53,11 @@ public interface ApiInterface {
     @GET("api/user/favorites/")
     Call<List<Note>> getUserFavorites(@Header("Authorization") String authKey);
 
-    @PUT("api/user/change_password/")
+    @PUT("api/user/update_password/")
     Call<UpdatePasswordResponse> updatePassword(@Header("Authorization") String authKey, @Body UpdatePasswordRequest request);
 
-    @POST("api/user/upload_avatar/")
-    Call<Subscription> uploadAvatar(@Header("Authorization") String authKey, @Body RequestBody avatar);
+    @PUT("api/user/upload_avatar/")
+    Call<UploadAvatarResponse> uploadAvatar(@Header("Authorization") String authKey, @Body RequestBody avatar);
 
     @POST("api/user/add_subscription/")
     Call<Subscription> addSubscription(@Header("Authorization") String authKey);

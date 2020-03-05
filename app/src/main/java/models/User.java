@@ -26,6 +26,15 @@ public class User {
     @SerializedName("is_premium")
     @Expose
     private boolean isPremium;
+    @SerializedName("total_uploads")
+    @Expose
+    private int totalUploads;
+    @SerializedName("avg_rating")
+    @Expose
+    private String avgRating;
+    @SerializedName("total_favorite")
+    @Expose
+    private int totalFavorites;
 
     public int getId() {
         return id;
@@ -81,5 +90,29 @@ public class User {
 
     public void setPremium(boolean premium) {
         isPremium = premium;
+    }
+
+    public int getTotalUploads() {
+        return totalUploads;
+    }
+
+    public void setTotalUploads(int totalUploads) {
+        this.totalUploads = totalUploads;
+    }
+
+    public String getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(String avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public int getTotalFavorites() {
+        return totalFavorites;
+    }
+
+    public void setTotalFavorites(int totalFavorites) {
+        this.totalFavorites = totalFavorites;
     }
 }
