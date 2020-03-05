@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -37,6 +39,7 @@ import adapters.CommentRecyclerViewAdapter;
 import models.Comment;
 import models.CommentReport;
 import models.NoteReport;
+import models.User;
 import remote.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,8 +52,10 @@ public class NoteCommentsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Comment> comments;
     private TextInputEditText textBox;
+    private ImageView avatar;
     private MaterialButton button;
     private ApiInterface apiService;
+
 
     // Store data in list
     @Override
@@ -66,6 +71,21 @@ public class NoteCommentsFragment extends Fragment {
         view = inflater.inflate(R.layout.note_comments_fragment, container, false);
 
         apiService = MainActivity.buildHTTP();
+        avatar = view.findViewById(R.id.note_user_img);
+        avatar.setImageResource(R.drawable.blank);
+        Call<User> call = apiService.getUser(MainActivity.getToken(getContext()));
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.errorBody() == null && response.body().getAvatar() != null)
+                    Picasso.with(getContext()).load(MainActivity.getBaseUrl() + response.body().getAvatar()).fit().placeholder(R.drawable.blank).centerCrop().noFade().into(avatar);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
         textBox = view.findViewById(R.id.input_text_comment);
         button = view.findViewById(R.id.add_comment_button);
 

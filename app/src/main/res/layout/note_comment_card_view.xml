@@ -22,7 +22,7 @@
             app:civ_border_color="@color/black"
             app:civ_border_width="2dp"
             app:civ_circle_background_color="@color/light_grey"
-            android:src="@drawable/anime" />
+            android:src="@drawable/blank" />
 
         <TextView
             android:id="@+id/note_username"

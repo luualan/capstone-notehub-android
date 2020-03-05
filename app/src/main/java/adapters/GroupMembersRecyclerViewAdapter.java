@@ -10,7 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notehub.MainActivity;
 import com.example.notehub.R;
+import com.google.android.material.button.MaterialButton;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +22,10 @@ import java.util.List;
 
 import models.Group;
 import models.Membership;
+import models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 // Group Members Recycler View Adapter
 public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupMembersRecyclerViewAdapter.ViewHolder> {
@@ -54,7 +61,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.name.setText(members.get(position).getUsername());
         Date date;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
@@ -66,6 +73,22 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
         }
         holder.joinDate.setText("Joined: " + dateReadableFormat.format(date));
         holder.role.setText("Role: " + members.get(position).getRole());
+        holder.avatar.setImageResource(R.drawable.blank);
+        Call<List<User>> call = MainActivity.buildHTTP().getUsers(members.get(position).getUsername());
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.errorBody() == null && response.body().size() == 1 && response.body().get(0).getAvatar() != null) {
+                    String imageUrl = response.body().get(0).getAvatar();
+                    Picasso.with(context).load(imageUrl).fit().placeholder(R.drawable.blank).centerCrop().noFade().into(holder.avatar);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
        // holder.image.setImageResource(members.get(position).getPhoto());
     }
 
@@ -94,6 +117,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
         private TextView name;
         private TextView joinDate;
         private TextView role;
+        private ImageView avatar;
         private ImageView remove;
 
         // View Constructor
@@ -103,6 +127,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
             name = itemView.findViewById(R.id.group_member_name);
             joinDate = itemView.findViewById(R.id.group_member_join_date);
             role = itemView.findViewById(R.id.group_member_rank);
+            avatar = itemView.findViewById(R.id.group_member_user_img);
             remove = itemView.findViewById(R.id.group_member_remove);
 
             // hide remove button

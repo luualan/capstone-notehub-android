@@ -17,9 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notehub.MainActivity;
 import com.example.notehub.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +32,10 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import models.Comment;
+import models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 // Comment Recycler View Adapter
 public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecyclerViewAdapter.ViewHolder> {
@@ -64,7 +70,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.name.setText(comments.get(position).getUsername());
         holder.description.setText(comments.get(position).getText());
         Date date;
@@ -77,6 +83,23 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         }
         holder.date.setText(dateReadableFormat.format(date));
         holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.image.setImageResource(R.drawable.blank);
+        Call<List<User>> call = MainActivity.buildHTTP().getUsers(comments.get(position).getUsername());
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.errorBody() == null && response.body().size() == 1 && response.body().get(0).getAvatar() != null) {
+                    String imageUrl = response.body().get(0).getAvatar();
+                    Picasso.with(context).load(imageUrl).fit().placeholder(R.drawable.blank).centerCrop().noFade().into(holder.image);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+
         //if(!comments.get(position).isAuthor())
         //  holder.menu.getMenu().findItem(R.id.deleteGroup).setVisible(false);
         // holder.image.setImageResource(comments.get(position).getPhoto());
