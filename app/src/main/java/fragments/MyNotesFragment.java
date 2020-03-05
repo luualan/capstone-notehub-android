@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 public class MyNotesFragment extends Fragment implements UploadActivity.CardHolder {
     private ApiInterface apiService;
-    private ArrayList<CardView> cards = new ArrayList<>();
+    private ArrayList<CardView> cards;
 
     // RecyclerView
     View view;
@@ -52,6 +52,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cards = new ArrayList<>();
         apiService = MainActivity.buildHTTP();
     }
 
@@ -96,6 +97,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     public void createCardsList() {
         // Create Cards
         cards = new ArrayList<>();
+        buildRecyclerView();
         Call<List<Note>> call = apiService.getUserNotes(getToken());
 
         call.enqueue(new Callback<List<Note>>() {
@@ -147,7 +149,6 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                         });
 
                     }
-                    buildRecyclerView();
 
                     // Display empty view when notes is empty
                     emptyView = view.findViewById(R.id.empty_view);

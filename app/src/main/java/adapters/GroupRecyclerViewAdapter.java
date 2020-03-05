@@ -2,9 +2,11 @@ package adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,9 +54,26 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // Animation sliding
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                holder.button.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                holder.button.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        holder.container.setAnimation(animation);
 
         holder.groupName.setText(groups.get(position).getName());
         holder.moderator.setText(groups.get(position).getModeratorUsername());

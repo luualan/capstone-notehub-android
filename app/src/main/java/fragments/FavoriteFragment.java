@@ -101,6 +101,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     public void createCardsList() {
         // Create Cards
         cards = new ArrayList<>();
+        buildRecyclerView();
         Call<List<Note>> call = apiService.getUserFavorites(getToken());
 
         call.enqueue(new Callback<List<Note>>() {
@@ -151,7 +152,6 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                             }
                         });
                     }
-                    buildRecyclerView();
 
                     // Display empty view when notes is empty
                     emptyView = view.findViewById(R.id.empty_view);
