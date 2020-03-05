@@ -13,8 +13,9 @@ public class CardView {
     private String type;
     private float avgRating;
     private boolean isAuthor;
+    private boolean isModerator;
 
-    public CardView(int noteId, String title, String university, String course, String name, float avgRating, boolean isAuthor, int imageFavorite, String type) {
+    public CardView(int noteId, String title, String university, String course, String name, float avgRating, boolean isAuthor, boolean isModerator, int imageFavorite, String type) {
         this.noteId = noteId;
         this.title = title;
         this.university = university;
@@ -23,6 +24,7 @@ public class CardView {
         this.type = type;
         this.avgRating = avgRating;
         this.isAuthor = isAuthor;
+        this.isModerator = isModerator;
         this.imageFavorite = imageFavorite;
     }
 
@@ -94,5 +96,8 @@ public class CardView {
 
     public void setIsAuthor(boolean isAuthor) { this.isAuthor = isAuthor; }
 
+    public boolean getIsModerator() { return this.isModerator; }
+
+    public void setIsModerator(boolean isModerator) { this.isModerator = isModerator; }
 
 }
