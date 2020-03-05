@@ -53,7 +53,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiService = MainActivity.buildHTTP();
-       // SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+        // SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -78,7 +78,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     }
 
     public void clear() {
-        if(adapter != null) {
+        if (adapter != null) {
             int size = cards.size();
             cards.clear();
             adapter.notifyItemRangeRemoved(0, size);
@@ -86,7 +86,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     }
 
     public void refresh() {
-        if(adapter != null) {
+        if (adapter != null) {
             int size = cards.size();
             cards.clear();
             adapter.notifyItemRangeRemoved(0, size);
@@ -101,13 +101,14 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
     public void createCardsList() {
         // Create Cards
         cards = new ArrayList<>();
+        buildRecyclerView();
         Call<List<Note>> call = apiService.getUserFavorites(getToken());
 
         call.enqueue(new Callback<List<Note>>() {
             @Override
             public void onResponse(Call<List<Note>> call, Response<List<Note>> response) {
                 if (response.errorBody() == null) {
-                   final List<Note> notes = response.body();
+                    final List<Note> notes = response.body();
                     for (int i = 0; i < notes.size(); i++) {
                         final int count = i;
                         Call<List<Favorite>> favoriteCall = apiService.getNoteFavorites(getToken(), notes.get(i).getId());
@@ -115,32 +116,20 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                         favoriteCall.enqueue(new Callback<List<Favorite>>() {
                             @Override
                             public void onResponse(Call<List<Favorite>> call, Response<List<Favorite>> response) {
-                                if(response.errorBody() == null) {
+                                if (response.errorBody() == null) {
                                     List<Favorite> favorites = response.body();
-
-                                    if(favorites.size() == 0) {
-                                        if(notes.get(count).getGroup() == null) {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Public"));
-                                        }
-                                        else {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Private"));
-                                        }
+                                    String type = "Type: Public";
+                                    if (notes.get(count).getGroup() != null) {
+                                        type = "Type: Private";
                                     }
-                                    else {
-                                        if(notes.get(count).getGroup() == null) {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Public"));
-                                        }
-                                        else {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Private"));
-                                        }
+                                    if (favorites.size() == 0) {
+                                        adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_star, type));
+                                    } else {
+                                        adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_toggle_on, type));
                                     }
                                 }
                             }
@@ -151,15 +140,13 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                             }
                         });
                     }
-                    buildRecyclerView();
 
                     // Display empty view when notes is empty
                     emptyView = view.findViewById(R.id.empty_view);
-                    if(notes.isEmpty()) {
+                    if (notes.isEmpty()) {
                         recyclerView.setVisibility(View.GONE);
                         emptyView.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyView.setVisibility(View.GONE);
                     }
@@ -181,8 +168,8 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
         layoutManager = new LinearLayoutManager(getActivity());
         adapter = new NoteRecyclerViewAdapter(getActivity(), cards);
 
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new NoteRecyclerViewAdapter.onItemClickListener() {
             // Click on card sends information to another activity
@@ -204,20 +191,19 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                 callGet.enqueue(new Callback<List<Favorite>>() {
                     @Override
                     public void onResponse(Call<List<Favorite>> call, Response<List<Favorite>> response) {
-                        if(response.errorBody() == null) {
+                        if (response.errorBody() == null) {
                             final List<Favorite> favorites = response.body();
 
-                            if(favorites.size() == 0) {
+                            if (favorites.size() == 0) {
                                 Call<Favorite> callUpload = apiService.uploadNoteFavorite(getToken(), cards.get(position).getNoteId(), new Favorite());
 
                                 callUpload.enqueue(new Callback<Favorite>() {
                                     @Override
                                     public void onResponse(Call<Favorite> call, Response<Favorite> response) {
-                                        if(response.errorBody() == null) {
+                                        if (response.errorBody() == null) {
                                             cards.get(position).setImageFavorite(R.drawable.ic_favorite_toggle_on);
                                             adapter.notifyItemChanged(position);
-                                        }
-                                        else {
+                                        } else {
                                             showAlertMessage("Could not favorite note.", "Ok");
                                         }
                                     }
@@ -227,20 +213,18 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 Call<Favorite> callDelete = apiService.deleteNoteFavorite(getToken(), cards.get(position).getNoteId(), favorites.get(0).getId());
                                 callDelete.enqueue(new Callback<Favorite>() {
                                     @Override
                                     public void onResponse(Call<Favorite> call, Response<Favorite> response) {
-                                        if(response.errorBody() == null) {
+                                        if (response.errorBody() == null) {
                                             cards.remove(position);
                                             adapter.notifyItemRemoved(position);
 
-                                            if(cards.isEmpty())
+                                            if (cards.isEmpty())
                                                 refresh();
-                                        }
-                                        else {
+                                        } else {
                                             showAlertMessage("Could not delete favorite note.", "Ok");
                                         }
                                     }
@@ -251,8 +235,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                     }
                                 });
                             }
-                        }
-                        else {
+                        } else {
 
                         }
                     }
@@ -262,7 +245,6 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
                     }
                 });
-
 
 
                 //intent.putExtra("Example item", cards.get(position));
@@ -292,7 +274,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                 call.enqueue(new Callback<NoteReport>() {
                                     @Override
                                     public void onResponse(Call<NoteReport> call, Response<NoteReport> response) {
-                                        if(response.errorBody() == null) {
+                                        if (response.errorBody() == null) {
                                             new MaterialAlertDialogBuilder(context)
                                                     .setMessage("Note successfully reported.")
                                                     .setPositiveButton("Done", null)
@@ -343,7 +325,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                                     .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            if(cards.isEmpty())
+                                                            if (cards.isEmpty())
                                                                 refresh();
                                                         }
                                                     })
@@ -376,19 +358,18 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                 callGet.enqueue(new Callback<List<Rating>>() {
                     @Override
                     public void onResponse(Call<List<Rating>> call, Response<List<Rating>> response) {
-                        if(response.errorBody() == null) {
+                        if (response.errorBody() == null) {
                             List<Rating> ratings = response.body();
 
-                            if(ratings.size() == 0) {
+                            if (ratings.size() == 0) {
                                 Rating rating = new Rating();
                                 rating.setScore(score);
                                 Call<Rating> callUpload = apiService.uploadNoteRating(getToken(), cards.get(position).getNoteId(), rating);
                                 callUpload.enqueue(new Callback<Rating>() {
                                     @Override
                                     public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                        if(response.errorBody() == null) {
-                                        }
-                                        else {
+                                        if (response.errorBody() == null) {
+                                        } else {
                                             showAlertMessage("Could not rating note.", "Ok");
                                         }
                                     }
@@ -398,17 +379,15 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 Rating rating = response.body().get(0);
                                 rating.setScore(score);
                                 Call<Rating> callDelete = apiService.updateNoteRating(getToken(), cards.get(position).getNoteId(), rating.getId(), rating);
                                 callDelete.enqueue(new Callback<Rating>() {
                                     @Override
                                     public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                        if(response.errorBody() == null) {
-                                        }
-                                        else {
+                                        if (response.errorBody() == null) {
+                                        } else {
                                             showAlertMessage("Could not delete rating note.", "Ok");
                                         }
                                     }
@@ -419,8 +398,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
                                     }
                                 });
                             }
-                        }
-                        else {
+                        } else {
 
                         }
                     }
@@ -448,7 +426,7 @@ public class FavoriteFragment extends Fragment implements UploadActivity.CardHol
 
     // Remove item in recycle view
     public void removeItem(final int position) {
-       final SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
+        final SharedPreferences savePreferences = getActivity().getSharedPreferences("NoteHub", Context.MODE_PRIVATE);
 
         Call<Note> call = apiService.deleteNote("Token " + savePreferences.getString("TOKEN", null), cards.get(position).getNoteId());
 

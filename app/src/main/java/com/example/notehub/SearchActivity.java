@@ -168,12 +168,12 @@ public class SearchActivity extends AppCompatActivity implements UploadActivity.
                                     if(favorites.size() == 0) {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
                                                 "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Public"));
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_star, "Type: Public"));
                                     }
                                     else {
                                         adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
                                                 "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Public"));
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_toggle_on, "Type: Public"));
                                     }
                                 }
                             }

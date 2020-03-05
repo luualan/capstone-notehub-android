@@ -44,6 +44,9 @@ public class Note {
     @SerializedName("is_author")
     @Expose
     private boolean isAuthor;
+    @SerializedName("is_moderator")
+    @Expose
+    private boolean isModerator;
     @SerializedName("has_rated")
     @Expose
     private boolean hasRated;
@@ -142,5 +145,13 @@ public class Note {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public boolean isModerator() {
+        return isModerator;
+    }
+
+    public void setIsModerator(boolean moderator) {
+        isModerator = moderator;
     }
 }

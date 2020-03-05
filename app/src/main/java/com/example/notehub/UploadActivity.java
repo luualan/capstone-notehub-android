@@ -386,11 +386,11 @@ public class UploadActivity extends DialogFragment {
 
                                 if(groupID == -1) {
                                     cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
-                                            note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star, "Type: Public");
+                                            note.getAvgRating(), note.isAuthor(), note.isModerator(), R.drawable.ic_favorite_star, "Type: Public");
                                 }
                                 else {
                                     cardView = new CardView(note.getId(), note.getTitle(), note.getUniversityName(), note.getCourse(), note.getAuthorUsername(),
-                                            note.getAvgRating(), note.isAuthor(), R.drawable.ic_favorite_star, "Type: Private");
+                                            note.getAvgRating(), note.isAuthor(), note.isModerator(), R.drawable.ic_favorite_star, "Type: Private");
                                 }
 
                                 if (cardHolder != null)

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/relativeLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
+    android:orientation="vertical"
     tools:context=".GroupMembersActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_members_recycler"
-        android:scrollbars="vertical"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,14 +26,18 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/black"
         app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/group_members_recycler"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/group_members_recycler"
         app:rippleColor="@color/white"
         app:tint="@null" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

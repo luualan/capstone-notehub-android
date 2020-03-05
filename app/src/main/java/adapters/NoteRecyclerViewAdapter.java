@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import models.CardView;
@@ -70,7 +71,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         public RatingBar ratingBar;
 
         // Animation reference
-        public RelativeLayout container;
+        public ConstraintLayout container;
 
         public ViewHolder(final View itemView, final onItemClickListener listener) {
             super(itemView);
@@ -202,6 +203,10 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         holder.type.setText(currentItem.getType());
         holder.ratingBar.setStepSize((float)0.25);
         holder.ratingBar.setRating(currentItem.getAvgRating());
+        if(!currentItem.getIsAuthor() && !currentItem.getIsModerator())
+            holder.deleteImage.setVisibility(View.GONE);
+        if(currentItem.getIsAuthor())
+            holder.report.setVisibility(View.GONE);
     }
 
     @Override

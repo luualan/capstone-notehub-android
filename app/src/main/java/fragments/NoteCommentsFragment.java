@@ -38,6 +38,7 @@ import java.util.List;
 import adapters.CommentRecyclerViewAdapter;
 import models.Comment;
 import models.CommentReport;
+import models.Login;
 import models.NoteReport;
 import models.User;
 import remote.ApiInterface;
@@ -49,6 +50,7 @@ public class NoteCommentsFragment extends Fragment {
 
     View view;
     CommentRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private List<Comment> comments;
     private TextInputEditText textBox;
@@ -68,6 +70,7 @@ public class NoteCommentsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final NoteActivity noteActivity = (NoteActivity) getActivity();
         view = inflater.inflate(R.layout.note_comments_fragment, container, false);
 
         apiService = MainActivity.buildHTTP();
@@ -77,7 +80,7 @@ public class NoteCommentsFragment extends Fragment {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.errorBody() == null && response.body().getAvatar() != null)
+                if (response.errorBody() == null && response.body().getAvatar() != null)
                     Picasso.with(getContext()).load(MainActivity.getBaseUrl() + response.body().getAvatar()).fit().placeholder(R.drawable.blank).centerCrop().noFade().into(avatar);
             }
 
@@ -88,6 +91,42 @@ public class NoteCommentsFragment extends Fragment {
         });
         textBox = view.findViewById(R.id.input_text_comment);
         button = view.findViewById(R.id.add_comment_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Comment comment = new Comment(0, null, textBox.getText().toString());
+
+                Call<Comment> call = apiService.uploadNoteComment(getToken(), noteActivity.getNoteId(), comment);
+                call.enqueue(new Callback<Comment>() {
+                    @Override
+                    public void onResponse(Call<Comment> call, Response<Comment> response) {
+                        if (response.errorBody() == null) {
+                            showAlertMessage("Comment was successfully added!", "Ok");
+                            recyclerViewAdapter.addItem(response.body());
+                        } else {
+                            showAlertMessage("Please add text to your comment.", "Ok");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Comment> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
+        textBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    button.callOnClick();
+                    closeKeyboard();
+                }
+                return true;
+            }
+        });
 
         createCommentsList();
 
@@ -185,97 +224,72 @@ public class NoteCommentsFragment extends Fragment {
                 .show();
     }
 
+    public void buildRecycleView() {
+        recyclerView = view.findViewById(R.id.note_comments_recycler);
+        layoutManager = new LinearLayoutManager(getActivity());
+
+        // Defines the list displaying in recycler view and set layout to linear
+        recyclerViewAdapter = new CommentRecyclerViewAdapter(getContext(), comments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Set recycler view to use custom comment adapter
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        recyclerViewAdapter.setOnItemClickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+            }
+
+            @Override
+            public void onOverflowClick(final int position, final PopupMenu menu) {
+                if (!comments.get(position).isAuthor())
+                    menu.getMenu().findItem(R.id.overflow_delete).setVisible(false);
+                else
+                    menu.getMenu().findItem(R.id.overflow_report).setVisible(false);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.overflow_delete:
+                                onDeleteClick(position, menu);
+                                return true;
+                            case R.id.overflow_report:
+                                onReportClick(position, menu);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                menu.show();
+            }
+        });
+    }
+
     public void createCommentsList() {
         final NoteActivity noteActivity = (NoteActivity) getActivity();
+        comments = new ArrayList<>();
+        buildRecycleView();
         Call<List<Comment>> call = apiService.getNoteComments(getToken(), noteActivity.getNoteId());
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-                if (response.errorBody() == null)
-                    comments = response.body();
-                else {
+                if (response.errorBody() == null) {
+                    for (Comment comment : response.body()) {
+                        recyclerViewAdapter.addItem(comment);
+                    }
+                } else {
                     showAlertMessage("All users comments for this note is unable to load.", "Ok");
                 }
-                recyclerView = view.findViewById(R.id.note_comments_recycler);
-
-                // Defines the list displaying in recycler view and set layout to linear
-                recyclerViewAdapter = new CommentRecyclerViewAdapter(getContext(), comments);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                // Set recycler view to use custom comment adapter
-                recyclerView.setAdapter(recyclerViewAdapter);
-                recyclerViewAdapter.setOnItemClickListener(new CommentRecyclerViewAdapter.onItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                    }
-
-                    @Override
-                    public void onOverflowClick(final int position, final PopupMenu menu) {
-                        if(!comments.get(position).isAuthor())
-                            menu.getMenu().findItem(R.id.overflow_delete).setVisible(false);
-                        else
-                            menu.getMenu().findItem(R.id.overflow_report).setVisible(false);
-                        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.overflow_delete:
-                                        onDeleteClick(position, menu);
-                                        return true;
-                                    case R.id.overflow_report:
-                                        onReportClick(position, menu);
-                                        return true;
-                                    default:
-                                        return false;
-                                }
-                            }
-                        });
-                        menu.show();
-                    }
-                });
             }
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-
+                showAlertMessage("All users comments for this note is unable to load.", "Ok");
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Comment comment = new Comment(0, null, textBox.getText().toString());
 
-                Call<Comment> call = apiService.uploadNoteComment(getToken(), noteActivity.getNoteId(), comment);
-                call.enqueue(new Callback<Comment>() {
-                    @Override
-                    public void onResponse(Call<Comment> call, Response<Comment> response) {
-                        if (response.errorBody() == null) {
-                            showAlertMessage("Comment was successfully added!", "Ok");
-                            recyclerViewAdapter.addItem(response.body());
-                        } else {
-                            showAlertMessage("Please add text to your comment.", "Ok");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Comment> call, Throwable t) {
-
-                    }
-                });
-            }
-        });
-
-        textBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE) {
-                    button.callOnClick();
-                    closeKeyboard();
-                }
-                return true;
-            }
-        });
     }
 
     void insertItem(Comment comment) {
@@ -299,8 +313,8 @@ public class NoteCommentsFragment extends Fragment {
     // Close keyboard when open
     private void closeKeyboard() {
         View view = getActivity().getCurrentFocus();
-        if(view != null) {
-            InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }

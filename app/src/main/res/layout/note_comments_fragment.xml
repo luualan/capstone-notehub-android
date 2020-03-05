@@ -37,7 +37,7 @@
 
     <TextView
         android:id="@+id/comment_text"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="Comment"
@@ -55,12 +55,14 @@
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="12dp"
         android:hint="Add a public comment..."
+        app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
-        app:boxBackgroundColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/add_comment_button"
         app:layout_constraintStart_toEndOf="@+id/note_user_img"
         app:layout_constraintTop_toBottomOf="@+id/comment_text">
 
@@ -89,8 +91,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/input_layout_comment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67"
+        app:layout_constraintTop_toBottomOf="@id/comment_text"
+        app:layout_constraintVertical_bias="0.3"
         app:rippleColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView

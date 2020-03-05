@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 public class MyNotesFragment extends Fragment implements UploadActivity.CardHolder {
     private ApiInterface apiService;
-    private ArrayList<CardView> cards = new ArrayList<>();
+    private ArrayList<CardView> cards;
 
     // RecyclerView
     View view;
@@ -52,6 +52,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cards = new ArrayList<>();
         apiService = MainActivity.buildHTTP();
     }
 
@@ -76,7 +77,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     }
 
     public void clear() {
-        if(adapter != null) {
+        if (adapter != null) {
             int size = cards.size();
             cards.clear();
             adapter.notifyItemRangeRemoved(0, size);
@@ -84,7 +85,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     }
 
     public void refresh() {
-        if(adapter != null) {
+        if (adapter != null) {
             createCardsList();
         }
     }
@@ -96,6 +97,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
     public void createCardsList() {
         // Create Cards
         cards = new ArrayList<>();
+        buildRecyclerView();
         Call<List<Note>> call = apiService.getUserNotes(getToken());
 
         call.enqueue(new Callback<List<Note>>() {
@@ -113,29 +115,18 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                                 if (response.errorBody() == null) {
                                     List<Favorite> favorites = response.body();
 
-                                    if(favorites.size() == 0) {
-                                        if(notes.get(count).getGroup() == null) {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Public"));
-                                        }
-                                        else {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_star, "Type: Private"));
-                                        }
+                                    String type = "Type: Public";
+                                    if (notes.get(count).getGroup() != null) {
+                                        type = "Type: Private";
                                     }
-                                    else {
-                                        if(notes.get(count).getGroup() == null) {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Public"));
-                                        }
-                                        else {
-                                            adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
-                                                    "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
-                                                    notes.get(count).isAuthor(), R.drawable.ic_favorite_toggle_on, "Type: Private"));
-                                        }
+                                    if (favorites.size() == 0) {
+                                        adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_star, type));
+                                    } else {
+                                        adapter.addItem(new CardView(notes.get(count).getId(), notes.get(count).getTitle(), "School: " + notes.get(count).getUniversityName(),
+                                                "Course: " + notes.get(count).getCourse(), "Name: " + notes.get(count).getAuthorUsername(), notes.get(count).getAvgRating(),
+                                                notes.get(count).isAuthor(), notes.get(count).isModerator(), R.drawable.ic_favorite_toggle_on, type));
                                     }
                                 }
                             }
@@ -147,15 +138,13 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                         });
 
                     }
-                    buildRecyclerView();
 
                     // Display empty view when notes is empty
                     emptyView = view.findViewById(R.id.empty_view);
-                    if(notes.isEmpty()) {
+                    if (notes.isEmpty()) {
                         recyclerView.setVisibility(View.GONE);
                         emptyView.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyView.setVisibility(View.GONE);
                     }
@@ -336,7 +325,7 @@ public class MyNotesFragment extends Fragment implements UploadActivity.CardHold
                                                     .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            if(cards.isEmpty())
+                                                            if (cards.isEmpty())
                                                                 refresh();
                                                         }
                                                     })

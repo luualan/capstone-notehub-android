@@ -15,26 +15,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SettingsActivity" android:theme="@style/noAnimation"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimation"></activity>
         <activity
             android:name=".GroupMembersActivity"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".GroupActivity" android:theme="@style/noAnimation"/>
+        <activity
+            android:name=".GroupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimation" />
         <activity
             android:name=".InnerGroupActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".NoteActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".SearchActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".LoginActivity"  android:theme="@style/noAnimation" />
-        <activity android:name=".HomeActivity" android:theme="@style/noAnimation"/>
-        <activity android:name=".AccountActivity" android:theme="@style/noAnimation"/>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimation" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimation" />
+        <activity
+            android:name=".AccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimation" />
         <activity
             android:name=".MainActivity"
             android:label="NoteHub"
+            android:screenOrientation="portrait"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
