@@ -15,11 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" android:theme="@style/noAnimation"></activity>
         <activity
             android:name=".GroupMembersActivity"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".GroupActivity" />
+        <activity android:name=".GroupActivity" android:theme="@style/noAnimation"/>
         <activity
             android:name=".InnerGroupActivity"
             android:theme="@style/AppTheme.ActionBar" />
@@ -29,9 +29,9 @@
         <activity
             android:name=".SearchActivity"
             android:theme="@style/AppTheme.ActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".LoginActivity"  android:theme="@style/noAnimation" />
+        <activity android:name=".HomeActivity" android:theme="@style/noAnimation"/>
+        <activity android:name=".AccountActivity" android:theme="@style/noAnimation"/>
         <activity
             android:name=".MainActivity"
             android:label="NoteHub"
