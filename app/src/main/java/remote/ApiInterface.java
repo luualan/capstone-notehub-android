@@ -66,7 +66,7 @@ public interface ApiInterface {
     Call<List<User>> getUsers(@Query("username") String username);
 
     @POST("api/users/")
-    Call<User> createUser(@Body CreateUser user);
+    Call<User> createUser(@Body RequestBody user);
 
     @POST("api/login/")
     Call<Token> loginUser(@Body Login login);
