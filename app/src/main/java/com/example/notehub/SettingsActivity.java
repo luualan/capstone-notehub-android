@@ -70,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
     private View alertDialog;
     private BottomNavigationView bottomNavigationBar;
     private DialogFragment dialog;
+    private
     // Bottom Navigation Select Item
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -258,6 +259,12 @@ public class SettingsActivity extends AppCompatActivity {
             else
                 Picasso.with(SettingsActivity.this).load(MainActivity.getBaseUrl() + user.getAvatar()).fit().placeholder(R.drawable.blank).centerCrop().noFade().into(avatar);
         }
+        username.setVisibility(View.VISIBLE);
+        premium.setVisibility(View.VISIBLE);
+        totalNotes.setVisibility(View.VISIBLE);
+        avgRating.setVisibility(View.VISIBLE);
+        totalFavorite.setVisibility(View.VISIBLE);
+        avatar.setVisibility(View.VISIBLE);
     }
 
     // Add Group

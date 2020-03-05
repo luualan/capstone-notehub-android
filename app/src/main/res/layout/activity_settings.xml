@@ -23,6 +23,7 @@
             android:id="@+id/settings_card"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:animateLayoutChanges="true"
             android:background="@drawable/animation_background">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -33,6 +34,7 @@
                 android:layout_marginBottom="9dp"
                 android:padding="2dp"
                 android:src="@drawable/blank"
+                android:visibility="visible"
                 app:civ_border_color="@color/black"
                 app:civ_border_width="3dp"
                 app:civ_circle_background_color="@color/light_grey"
@@ -50,10 +52,12 @@
                 android:text="Username"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_avatar" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_avatar"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/settings_title"
@@ -92,10 +96,12 @@
                 android:text="Free Member"
                 android:textColor="#ECE6E6"
                 android:textSize="18sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_username" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_username"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/settings_uploads_value"
@@ -105,10 +111,12 @@
                 android:text="53"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/settings_uploads_label"
                 app:layout_constraintEnd_toStartOf="@+id/settings_uploads_label"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/settings_uploads_label" />
+                app:layout_constraintStart_toEndOf="@+id/settings_uploads_label"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/settings_rating_value"
@@ -118,10 +126,12 @@
                 android:text="4.2"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/settings_rating_label"
                 app:layout_constraintEnd_toStartOf="@+id/settings_rating_label"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/settings_rating_label" />
+                app:layout_constraintStart_toEndOf="@+id/settings_rating_label"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/settings_rating_label"
@@ -160,10 +170,12 @@
                 android:text="23"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/settings_favorite_label"
                 app:layout_constraintEnd_toStartOf="@+id/settings_favorite_label"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/settings_favorite_label" />
+                app:layout_constraintStart_toEndOf="@+id/settings_favorite_label"
+                tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -254,7 +266,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"
-        android:text="Signout"
+        android:text="Sign Out"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="@color/holo_red"
