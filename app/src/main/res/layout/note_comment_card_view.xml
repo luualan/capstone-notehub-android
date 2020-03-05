@@ -9,7 +9,8 @@
 
     <!--app:cardCornerRadius="4dp"-->
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
@@ -19,63 +20,67 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:padding="2dp"
+            android:src="@drawable/blank"
             app:civ_border_color="@color/black"
             app:civ_border_width="2dp"
             app:civ_circle_background_color="@color/light_grey"
-            android:src="@drawable/blank" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/note_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="1dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
             android:ellipsize="end"
             android:maxEms="28"
             android:maxLines="1"
             android:text="Username"
-            android:layout_toEndOf="@id/note_user_img"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/note_user_img"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/note_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@id/note_user_img"
-            android:layout_below="@id/note_username"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxEms="28"
             android:maxLines="1"
             android:text="Nov 17"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/note_user_img"
+            app:layout_constraintTop_toBottomOf="@id/note_username" />
 
         <TextView
             android:id="@+id/note_user_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/note_overflow"
-            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxEms="28"
             android:maxLines="5"
             android:text="Lorem ipsum dolor sit amet, vix elitr munere feugiat ea, ei qui causae delenit placerat. Ne eos odio feugiat utroque, eruditi inimicus sit in, possim mollis est eu. Ut sed lorem doming recteque. Liber dicam in quo. Ei eos eripuit splendide, his an autem oblique maiestatis."
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/note_overflow" />
 
         <ImageView
             android:id="@+id/note_overflow"
+            style="?android:attr/actionOverflowButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            style="?android:attr/actionOverflowButtonStyle"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

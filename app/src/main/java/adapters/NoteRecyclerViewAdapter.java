@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import models.CardView;
@@ -70,7 +71,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         public RatingBar ratingBar;
 
         // Animation reference
-        public RelativeLayout container;
+        public ConstraintLayout container;
 
         public ViewHolder(final View itemView, final onItemClickListener listener) {
             super(itemView);
