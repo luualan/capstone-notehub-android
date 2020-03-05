@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,265 +8,258 @@
     tools:context=".SettingsActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/settings_top"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:cardBackgroundColor="@color/black"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        app:cardBackgroundColor="#00FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/settings_tool_bar_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:background="@drawable/animation_background">
 
-            <ImageButton
-                android:id="@+id/fullscreen_dialog_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:visibility="invisible"
-                android:src="@drawable/ic_close_black_24dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/settings_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="9dp"
+                android:padding="2dp"
+                android:src="@drawable/blank"
+                app:layout_constraintBottom_toTopOf="@+id/settings_username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_title" />
 
             <TextView
+                android:id="@+id/settings_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:text="Username"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_avatar" />
+
+            <TextView
+                android:id="@+id/settings_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/permanentmarker"
                 android:text="Settings"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/fullscreen_dialog_refresh"
+            <TextView
+                android:id="@+id/settings_favorite_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp"
-                android:visibility="invisible"
-                android:src="@drawable/ic_refresh"
-                android:textColor="@android:color/white" />
-        </RelativeLayout>
+                android:layout_marginBottom="16dp"
+                android:text="Notes Favorite"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settings_rating_label" />
+
+            <TextView
+                android:id="@+id/settings_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Free Member"
+                android:textColor="#ECE6E6"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_username" />
+
+            <TextView
+                android:id="@+id/settings_uploads_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="53"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/settings_uploads_label"
+                app:layout_constraintEnd_toStartOf="@+id/settings_uploads_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settings_uploads_label" />
+
+            <TextView
+                android:id="@+id/settings_rating_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="4.2"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/settings_rating_label"
+                app:layout_constraintEnd_toStartOf="@+id/settings_rating_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settings_rating_label" />
+
+            <TextView
+                android:id="@+id/settings_rating_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Average Rating"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/settings_favorite_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settings_uploads_label" />
+
+            <TextView
+                android:id="@+id/settings_uploads_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="16dp"
+                android:text="Note Uploads"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/settings_rating_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/settings_favorite_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="23"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/settings_favorite_label"
+                app:layout_constraintEnd_toStartOf="@+id/settings_favorite_label"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settings_favorite_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="55dp"
-        android:orientation="vertical">
-
-
-        <ImageView
-            android:id="@+id/settings_profile_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:src="@drawable/user_photo" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_gravity="center"
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            app:boxBackgroundColor="@color/white"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            android:layout_marginBottom="5dp"
-            app:startIconDrawable="@drawable/ic_looks_one"
-            app:startIconTint="@color/black"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/settings_first_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="First Name"
-                android:selectAllOnFocus="true"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_gravity="center"
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/ic_looks_two"
-            app:startIconTint="@color/black"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/settings_last_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Last Name"
-                android:selectAllOnFocus="true"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_gravity="center"
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/ic_email"
-            app:startIconTint="@color/black"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/settings_email"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email Address"
-                android:selectAllOnFocus="true"
-                android:inputType="textEmailAddress"
-                android:imeOptions="actionNext"
-                android:maxLines="1"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/settings_txtInLayoutRegPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_gravity="center"
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/ic_lock_outline"
-            app:startIconTint="@color/black"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/settings_current_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Current Password"
-                android:selectAllOnFocus="true"
-                android:inputType="textPassword"
-                android:imeOptions="actionNext"
-                android:maxLines="1"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_gravity="center"
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:boxBackgroundColor="@color/white"
-            app:startIconDrawable="@drawable/ic_lock"
-            app:startIconTint="@color/black"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/settings_new_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="New Password"
-                android:selectAllOnFocus="true"
-                android:inputType="textPassword"
-                android:imeOptions="actionDone"
-                android:maxLines="1"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RelativeLayout
-            android:layout_width="310dp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/settings_sign_out"
-                android:layout_width="150dp"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:fontFamily="@font/permanentmarker"
-                android:text="Sign Out"
-                android:backgroundTint="@color/holo_red"
-                app:cornerRadius="8dp"
-                app:rippleColor="@color/white" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/settings_subscription"
-                android:layout_width="150dp"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/permanentmarker"
-                android:text="Subscription"
-                android:backgroundTint="@color/dusk_yellow"
-                app:cornerRadius="8dp"
-                app:rippleColor="@color/white" />
-
-            <!--   <com.google.android.material.switchmaterial.SwitchMaterial
-                   android:id="@+id/settings_subscription"
-                   android:layout_width="120dp"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentTop="true"
-                   android:layout_alignParentEnd="true"
-                   android:layout_marginTop="10dp"
-                   android:layout_marginEnd="250dp"
-                   app:showText="true"
-                   app:track="@drawable/switch_on"
-                   app:useMaterialThemeColors="false" />-->
-        </RelativeLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="310dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/permanentmarker"
-            android:text="Update"
-            android:layout_alignParentTop="true"
-            android:backgroundTint="@color/green"
-            app:cornerRadius="8dp"
-            app:rippleColor="@color/white" />
-
-    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <include
             android:id="@+id/nav_bar"
             layout="@layout/bottom_navigation_bar" />
+
     </FrameLayout>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/settings_button_profile"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:text="Update Profile"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_assignment_black_24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_top" />
+
+    <Button
+        android:id="@+id/settings_button_upload"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:text="Change Profile Picture"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_account_circle"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_button_profile" />
+
+    <Button
+        android:id="@+id/settings_button_password"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:text="Change Password"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_vpn_key_black_24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_button_upload" />
+
+    <Button
+        android:id="@+id/settings_button_subscription"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:text="Add Subscription"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_redeem_black_24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_button_password" />
+
+    <Button
+        android:id="@+id/settings_button_signout"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:text="Signout"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/holo_red"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_exit_to_app_black_24dp"
+        app:iconTint="@color/holo_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_button_subscription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

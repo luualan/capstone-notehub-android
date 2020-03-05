@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    tools:context=".SettingsActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/settings_tool_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/animation_background">
+
+            <ImageButton
+                android:id="@+id/fullscreen_dialog_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_close_black_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/permanentmarker"
+                android:text="Settings"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/fullscreen_dialog_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:padding="8dp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_refresh"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="55dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/settings_profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/user_photo" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_gravity="center"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            android:layout_marginBottom="5dp"
+            app:startIconDrawable="@drawable/ic_looks_one"
+            app:startIconTint="@color/black"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/settings_first_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="First Name"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_gravity="center"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/ic_looks_two"
+            app:startIconTint="@color/black"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/settings_last_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_gravity="center"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/ic_email"
+            app:startIconTint="@color/black"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/settings_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email Address"
+                android:selectAllOnFocus="true"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/settings_txtInLayoutRegPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_gravity="center"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/ic_lock_outline"
+            app:startIconTint="@color/black"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/settings_current_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Current Password"
+                android:selectAllOnFocus="true"
+                android:inputType="textPassword"
+                android:imeOptions="actionNext"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_gravity="center"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:boxBackgroundColor="@color/white"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/black"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/settings_new_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="New Password"
+                android:selectAllOnFocus="true"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="310dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_sign_out"
+                android:layout_width="150dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/permanentmarker"
+                android:text="Sign Out"
+                android:backgroundTint="@color/holo_red"
+                app:cornerRadius="8dp"
+                app:rippleColor="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_subscription"
+                android:layout_width="150dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/permanentmarker"
+                android:text="Subscription"
+                android:backgroundTint="@color/dusk_yellow"
+                app:cornerRadius="8dp"
+                app:rippleColor="@color/white" />
+
+            <!--   <com.google.android.material.switchmaterial.SwitchMaterial
+                   android:id="@+id/settings_subscription"
+                   android:layout_width="120dp"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentTop="true"
+                   android:layout_alignParentEnd="true"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginEnd="250dp"
+                   app:showText="true"
+                   app:track="@drawable/switch_on"
+                   app:useMaterialThemeColors="false" />-->
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="310dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/permanentmarker"
+            android:text="Update"
+            android:layout_alignParentTop="true"
+            android:backgroundTint="@color/green"
+            app:cornerRadius="8dp"
+            app:rippleColor="@color/white" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom">
+
+        <include
+            android:id="@+id/nav_bar"
+            layout="@layout/bottom_navigation_bar" />
+    </FrameLayout>
+
+</RelativeLayout>

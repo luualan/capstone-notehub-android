@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
         return "Token " + key;
     }
 
+    static public String getBaseUrl() {
+        return "http://ec2-18-144-155-4.us-west-1.compute.amazonaws.com/";
+    }
+
     static public ApiInterface buildHTTP() {
         String url = "http://ec2-18-144-155-4.us-west-1.compute.amazonaws.com/";
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
