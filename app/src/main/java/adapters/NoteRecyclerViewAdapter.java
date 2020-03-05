@@ -203,6 +203,10 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         holder.type.setText(currentItem.getType());
         holder.ratingBar.setStepSize((float)0.25);
         holder.ratingBar.setRating(currentItem.getAvgRating());
+        if(!currentItem.getIsAuthor() && !currentItem.getIsModerator())
+            holder.deleteImage.setVisibility(View.GONE);
+        if(currentItem.getIsAuthor())
+            holder.report.setVisibility(View.GONE);
     }
 
     @Override
