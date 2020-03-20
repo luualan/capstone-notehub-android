@@ -72,7 +72,8 @@ public interface ApiInterface {
     Call<Token> loginUser(@Body Login login);
 
     @GET("api/notes/")
-    Call<List<Note>> getNotes(@Header("Authorization") String authKey, @Query("username") String username, @Query("title") String title, @Query("university") String university,
+    Call<List<Note>> getNotes(@Header("Authorization") String authKey, @Query("username") String username,
+                              @Query("title") String title, @Query("university") String university,
                               @Query("course") String course, @Query("order_by") String order_by);
 
     @POST("api/notes/")
