@@ -15,7 +15,7 @@ To create a user-friendly android app that provides a platform for users to shar
 ![image](https://user-images.githubusercontent.com/59902126/130347511-adf5af50-b7fc-4adc-b917-1e2965240325.png)
 
 ## Tools and Technology 
-![image](https://user-images.githubusercontent.com/59902126/130347547-87311745-fdd3-42b7-9fbd-fbc296e0a6f9.png)
+![image](https://user-images.githubusercontent.com/59902126/130347554-352d0528-d4fe-49de-b7f8-b2f21070c067.png)
 
 
 
