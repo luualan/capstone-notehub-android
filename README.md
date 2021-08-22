@@ -10,5 +10,12 @@ To create a user-friendly android app that provides a platform for users to shar
 * Rate other users notes
 * Comment on uploaded notes
 * Download notes for offline use
-![image](https://user-images.githubusercontent.com/59902126/130347478-ac7db1b6-da5e-4617-9549-eb678225d399.png)
+
+## Rapid Application Development (RAD)
+![image](https://user-images.githubusercontent.com/59902126/130347511-adf5af50-b7fc-4adc-b917-1e2965240325.png)
+
+## Tools and Technology 
+![image](https://user-images.githubusercontent.com/59902126/130347523-136115e6-7fcc-4e60-8ff4-6c56574f2f66.png)
+
+
 
