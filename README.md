@@ -1,5 +1,5 @@
-## NoteHub Android Development
-To create a user-friendly android app that provides a platform for users to share notes from the courses they have taken in college and a backend server to support the app. The app should have the following features:
+## NoteHub Android Application
+A user-friendly android app that provides a platform for users to share notes from the courses they have taken in college and a backend server to support the app. The app should have the following features:
 
 * Upload notes
 * Search notes by title, author, university, and course
