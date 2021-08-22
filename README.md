@@ -18,15 +18,8 @@ To create a user-friendly android app that provides a platform for users to shar
 ## Types of Users
 ![image](https://user-images.githubusercontent.com/59902126/130347575-ea631935-db3f-41fb-a6b7-f646b5028548.png)
 
-## Testing
-<details>
-  <summary>Frontend Result</summary><details>
-  <img src="https://user-images.githubusercontent.com/59902126/130347719-296d094b-3e2a-4ad5-8974-abae1999d06a.png" name="sign in">
-  <img src="https://user-images.githubusercontent.com/59902126/130347766-83642439-6837-4358-ae3e-9a726a6b62e8.png" name="upload">
-  <img src="https://user-images.githubusercontent.com/59902126/130347585-2cc9f664-d59e-46a8-9f20-4291c308d7c0.png" name="upload2">
-</details>
-
-
+## PDF
+[Notehub_ Android & Django Development.pdf](https://github.com/luualan/notehub-android/files/7026808/Notehub_.Android.Django.Development.pdf)
 
 ## Frontend Result
 ![image](https://user-images.githubusercontent.com/59902126/130347719-296d094b-3e2a-4ad5-8974-abae1999d06a.png)
