@@ -19,7 +19,7 @@ To create a user-friendly android app that provides a platform for users to shar
 ![image](https://user-images.githubusercontent.com/59902126/130347575-ea631935-db3f-41fb-a6b7-f646b5028548.png)
 
 ## Frontend Result
-<img src="https://user-images.githubusercontent.com/59902126/130347581-ba8a083d-3ad2-4b8d-8eb7-513e19b1cd65.png" width="400" height="790">
+<img src="https://user-images.githubusercontent.com/59902126/130347581-ba8a083d-3ad2-4b8d-8eb7-513e19b1cd65.png" width="1000" height="400">
 
 ![image](https://user-images.githubusercontent.com/59902126/130347583-1e95b1f3-b9c3-440d-beee-e7b7e8a6ad13.png)
 
