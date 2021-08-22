@@ -14,7 +14,7 @@ A user-friendly android app that provides a platform for users to share notes fr
 
 ## Presentation
 The following is a presentation of NoteHub: 
-
+https://github.com/luualan/notehub-android/blob/master/Notehub_%20Android%20%26%20Django%20Development.pdf
 
 
 
