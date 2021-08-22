@@ -9,7 +9,7 @@ To create a user-friendly android app that provides a platform for users to shar
 * Comment on uploaded notes
 * Download notes for offline use
 
-## Result
+## Results
 ![image](https://user-images.githubusercontent.com/59902126/130348303-57e0dc7f-a5bc-4a45-81c6-9965e72cabb2.png)
 
 ## Presentation
