@@ -1,5 +1,5 @@
 ## NoteHub Android 
-A user-friendly android app that lets users share notes from the courses they have taken in college. The app has the following features:
+A user-friendly Android app that lets users share notes from the courses they have taken in college. The app has the following features:
 
 * Upload notes
 * Search notes by title, author, university, and course
